@@ -4,12 +4,16 @@ Introduction
 This is an EXPERIMENTAL git repository for use by anybody that would
 like to contribute to the HTML5 specification via the HTML Working
 Group. You can clone and modify the repository without permission 
-from anybody. For commit rights, you must be a member of the
-HTML Working Group and agree to the W3C Patent and Copyright policy. 
-This repository is backed up regularly but is 
-*INTENDED FOR SANDBOX/EXPERIMENTATION PURPOSES ONLY* and is NOT 
-SUPPORTED in any way by the W3C officially nor by the W3C systems 
-team in particular.
+from anybody. 
+
+For commit rights, you must be a member of the HTML Working Group and 
+agree to the W3C Patent and Copyright policy. Once you have agreed to
+the W3C policies, contact Manu Sporny and he can give you commit
+access to the repository.
+
+This repository is backed up regularly but is *INTENDED FOR 
+SANDBOX/EXPERIMENTATION PURPOSES ONLY* and is NOT SUPPORTED in any way 
+by the W3C officially nor by the W3C systems team in particular.
 
 If you have any problems with it, contact me directly.
 
@@ -50,7 +54,6 @@ To build the HTML5 specification, run the following commands:
 
 autoconf
 ./configure
-make whatwg-pull
 make spec
 
 Contributing to the HTML5 Specification
