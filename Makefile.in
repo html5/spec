@@ -1,24 +1,55 @@
 # The top-level Makefile that is used to build the HTML5 specification
 #
 # Author: Manu Sporny
-.PHONY: help all whatwg-pull
+.PHONY: help all spec-rdfa-module spec-rdfa-complete
+
+BUILD_DIR := build
+DIST_DIR := dist
 
 help:
 	@echo "Commands that you can use to build the HTML5 specification."
 	@echo ""
 	@echo " make - Builds the entire HTML5 specification"
 	@echo " make whatwg-pull - Pull the latest updates from the WHAT WG repository"
+	@echo " make spec-rdfa-module - Build the RDFa specification module"
+	@echo " make spec-rdfa-complete - Build the HTML5+RDFa specification"
 	@echo " make clean - Cleans all of the build files"
 
 whatwg-pull:
 	@echo "Pulling latest changes from WHAT Working Group repository"
-	@SVN@ co http://svn.whatwg.org/webapps html5-hixie
+	@@SVN@ co http://svn.whatwg.org/webapps html5-hixie
 
 spec:
 	@echo "Not implemented yet..."
 
+spec-rdfa-module: ${DIST_DIR}/rdfa-module.html
+
+${DIST_DIR}/rdfa-module.html: headers/header-w3c-rdfa microsections/rdfa
+	@echo "Building modularized RDFa specification..."
+	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
+	@echo "Concatenating W3C header to RDFa microsection..."
+	@cat headers/header-w3c-rdfa microsections/rdfa > $(BUILD_DIR)/spec-rdfa-module.html
+	@echo "Generating final HTML via Anolis..."
+	@@ANOLIS@ --allow-duplicate-dfns --w3c-compat ${BUILD_DIR}/spec-rdfa-module.html ${DIST_DIR}/rdfa-module.html
+	@echo "RDFa module spec written to: ${DIST_DIR}/rdfa-module.html"
+
+spec-rdfa-complete: ${DIST_DIR}/html5rdfa.html
+
+html5-hixie/source: whatwg-pull
+
+${DIST_DIR}/html5rdfa.html: headers/header-w3c-html5 html5-hixie/source microsections/rdfa
+	@echo "Building HTML5+RDFa specification..."
+	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
+	@echo "Concatenating W3C Header to HTML5 document..."
+	@cat headers/header-w3c-html5 html5-hixie/source > $(BUILD_DIR)/spec-html5.html
+	@./bin/rdfa-insert.py $(BUILD_DIR)/spec-html5.html microsections/rdfa ${BUILD_DIR}/spec-html5rdfa.html
+	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
+	@@ANOLIS@ --allow-duplicate-dfns --w3c-compat ${BUILD_DIR}/spec-html5rdfa.html ${DIST_DIR}/html5rdfa.html
+	@echo "RDFa module spec written to: ${DIST_DIR}/html5rdfa.html"
+
 clean:
-	@echo "Cleaning all build directories..."
-	rm -rf html5-hixie
-	rm -f *~
-	rm -rf configure config.status config.log Makefile autom4te.cache
+	@echo "Cleaning all build files and directories..."
+	@rm -rf html5-hixie
+	@rm -f *~
+	@rm -rf configure config.status config.log Makefile autom4te.cache
+	@rm -rf ${BUILD_DIR} ${DIST_DIR}

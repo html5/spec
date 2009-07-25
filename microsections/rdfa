@@ -1,0 +1,472 @@
+  <h2>
+   <dfn>RDFa</dfn>
+  </h2>
+  <h3>
+   Issues
+  </h3>
+  <p class="XXX">
+    This section outlines a number of editorial issues with the RDFa 
+    section of the HTML5 specification.
+  </p>
+  <p class="XXX">
+   In order to provide a module that can be authored, inserted and moved
+   easily within the HTML5 specification, the RDFa specification section is 
+   being edited separately from the main HTML5 specification source file.
+   There are two documents that are generated from the RDFa specification 
+   source. The first is the full HTML5 specification, which includes the 
+   RDFa specification section. The second is the stand-alone HTML5+RDFa 
+   document.
+  </p>
+  <p class="XXX">
+   The upside to having two documents generated from the same source mainly
+   has to do with load-times for the HTML5 specification in web browsers.
+   Loading the 4MB HTML5 specification can be very slow, even in Firefox 
+   3.5 or Chrome. So for those that want to just look at the RDFa specification
+   text, there is a much smaller, separate document for that purpose.
+  </p>
+  <p class="XXX">
+   Unfortunately, there are a number of down-sides with this approach. The
+   first is that the specification language becomes more verbose. The second
+   is that cross-references within the HTML5 document are impossible due to
+   a bug/feature in the Anolis specification processor. 
+  <p class="XXX">
+   These down-sides are not ideal and will eventually be remedied as we find
+   a way to either fix Anolis or no longer support the smaller, standalone 
+   HTML5+RDFa document.
+  </p>
+  <h3>
+   Introduction
+  </h3>
+  <p>
+   <em>This section is informative.</em>
+  </p>
+  <p>
+   In early 2004, Mark Birbeck published a document named
+   [<a href="http://www.w3.org/MarkUp/2004/02/xhtml-rdf.html">XHTML and RDF</a>]
+   via the XHTML2 Working Group wherein he laid the groundwork for what 
+   would eventually become RDFa (The Resource Description Framework in 
+   Attributes).
+  <p>
+   In 2006, the work was co-sponsored by the Semantic Web Deployment Work Group,
+   which began to formalize a technology to express semantic data in 
+   XHTML. This technology was successfully developed and reached consensus
+   at the W3C, later published as an official W3C Recommendation.
+   While HTML provides a mechanism to express the structure of a 
+   document (title, paragraphs, links), RDFa provides a mechanism to express 
+   the meaning in a document (people, places, events).
+  <p>
+  <p>
+   The document, titled "RDF in XHTML: Syntax and Processing" 
+   [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>], defined
+   a set of attributes and rules for processing those attributes that
+   resulted in the output of machine-readable semantic data. While the
+   document applied to XHTML, the attributes and rules were always 
+   intended to operate across any tree-based structure containing attributes 
+   on tree nodes (such as HTML4, SVG and ODF).
+  </p>
+  <p>
+   While RDFa was initially specified for use in XHTML, adoption by
+   a number of large organizations on the Web spurred RDFa's use in non-XHTML
+   languages. Its use in HTML4, before an official specification 
+   was developed for those languages, caused concern regarding document
+   conformance.
+  </p>
+  <p>
+   Over the years, the members of the RDFa Task Force 
+   [<a href="http://rdfa.info/">RDFaTF</a>] had discussed the possibility 
+   of applying the same attributes and processing rules outlined in the 
+   XHTML+RDFa specification to all HTML family documents. By design, the 
+   possibility of a unified semantic data expression mechanism between all 
+   HTML and XHTML family documents was squarely in the realm of possibility.
+  </p>
+  <p>
+   This section describes the modifications to the original XHTML+RDFa
+   specification that permit the use of RDFa in all HTML family documents.
+   By using the attributes and processing rules described in the 
+   XHTML+RDFa specification and heeding the minor changes in this 
+   section, authors can expect to generate markup that produces the same
+   semantic data output in HTML4, HTML5 and XHTML5.
+  </p>
+  <p>
+   This section has been prepared by Manu Sporny (President/CEO of Digital
+   Bazaar, Inc.) in consultation with key members of the 
+   RDFa in XHTML Task Force, the HTML WG, the WHAT WG, and other 
+   interested parties.
+  </p>
+  <h3>
+   Parsing Model
+  </h3>
+  <p>
+   Section 5 of the
+   [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>] specification
+   defines a generic processing model for extracting RDF from a
+   tree-based model. The method of transforming an input document into a
+   model suited for the RDFa processing rules is intentionally not defined
+   in the XHTML+RDFa specification. The method of transformation was intended
+   to be defined in the implementation language, in this case, this section of
+   the HTML5 specification.
+  </p>
+  <p>
+   In the context of the HTML5 specification, the parsing rules for an input 
+   document in HTML4 and HTML5 are clearly defined. The processing model 
+   defined in Section 5 of the XHTML+RDFa specification should be executed 
+   on the HTML5 DOM. While the HTML5 DOM is not currently stable, a parsing 
+   mechanism built on top of the html5lib library should provide a 
+   mechanism that is guaranteed to eventually provide a stable, tree-based 
+   model for the RDFa processing rules.
+  </p>
+  <p>
+   RDFa's tree-based processing rules enable an input document to be 
+   automatically corrected, cleaned-up, re-arranged, or modified in any
+   way that is approved by the host language. For example, element nesting 
+   issues in HTML documents may be corrected before the input document is 
+   serialized into the tree-based model on which the RDFa processing rules 
+   will operate.
+  </p>
+  <h3>
+   Conformance Requirements
+  </h3>
+  <p>
+   <em>This section is normative.</em>
+  </p>
+  <p>
+   The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+   interpreted as described in [<a class="nref"
+      href="#ref_RFC2119">RFC2119</a>].
+  </p>
+  <p>
+   Note that all examples in this document are informative, and are not meant
+   to be interpreted as normative requirements.
+  </p>
+  <h4>
+   Document Conformance
+  </h4>
+  <p>
+   In order for a document to claim that it is a conforming HTML+RDFa document,
+   it must provide the facilities described as mandatory in this section.
+   The document conformance criteria are listed below, of which only a subset
+   are mandatory:
+  </p>
+
+  <ol>
+   <li>
+    There should be a DOCTYPE declaration specified prior to the root element
+    in the document that follows the conventions outlined in the
+    "The DOCTYPE section" of the HTML5 specification.
+    <div class="XXX">
+     This item may be removed once this document is integrated with the
+     HTML5 specification. It is currently included for the purposes of
+     clarifying the full set of Document Conformance requirements for 
+     an HTML5+RDFa document.
+    </div>
+   </li>
+   <li>
+    The root element of the document must follow the conventions outlined
+    in "The root element" section of the HTML5 specification.
+    <div class="XXX">
+     This item may be removed once this document is integrated with the
+     HTML5 specification. It is currently included for the purposes of
+     clarifying the full set of Document Conformance requirements for 
+     an HTML5+RDFa document.
+    </div>
+   </li>
+   <li>
+    There may be a <code>link</code> element contained in the 
+    <code>head</code> element that contains <code>profile</code> for
+    the the <code>rel</code> attribute and 
+    <code>http://www.w3.org/1999/xhtml/vocab</code> for the <code>href</code>
+    attribute.
+    <div class="XXX">
+     This requires the HTML5 spec to add <code>profile</code> to the list of
+     allow-able <code>rel</code>-values. This is used as the signalling 
+     mechansim for an RDFa document because the <code>profile</code> 
+     attribute is deprecated in HTML5.
+    </div>
+    <div class="XXX">
+     There has also been strong support from the RDFa Task Force that the 
+     <code>profile</code> attribute should be retained in HTML5, as it
+     provides an "out-of-band" mechanism for signaling that the document
+     contains RDFa. The <code>profile</code> attribute may also be used 
+     extensively to provide 
+     [<a href="http://rdfa.info/wiki/RDFa_Profiles">RDFa Profiles</a>] support.
+     Adding <code>profile</code> to the list of <code>rel</code> values
+     and using it to signal that the document contains RDFa places document
+     processing instructions into the RDF graph, which is problematic.
+    </div>
+   </li>
+  </ol>
+  <h4>
+   User Agent Conformance
+  </h4>
+  <p>
+   A conforming RDFa user agent must:
+   <ul>
+   <li>
+    Conform to all conformance requirements listed in the 
+    "Conformance requirements" section of the HTML5 specification.
+   </li>
+   <li>
+    Implement all of the features required in the RDFa section of the 
+    HTML5 specification.
+   </li>
+   <li>
+    Implement all of the features specified in the XHTML+RDFa specification, 
+    excluding those features which are specifically overridden by the RDFa 
+    section of the HTML5 specification.
+   </li>
+   </ul>
+  </p>
+  <h4>
+   RDFa Processor Conformance
+  </h4>
+  <p>
+   A conforming RDFa Processor must implement all of the mandatory features 
+   specified in the XHTML+RDFa specification. It must also support any
+   mandatory features specified in the RDFa section of the HTML5 specification.
+  </p>
+  <h3>
+   Modifications to XHTML+RDFa
+  </h3>
+  <p>
+   <em>This section is normative.</em>
+  </p>
+  <p>
+   The [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>]
+   Recommendation is the base document on which this section builds. That
+   document specifies the attributes and processing rules for extracting
+   RDF from an XHTML document. This section specifies changes to the
+   attributes and processing rules defined in XHTML+RDFa in order to
+   support extracting RDF from HTML documents.
+  </p>
+
+  <h4>Specifying the language for a literal</h4>
+  <p>
+   The <code>lang</code> attribute must be supported in the same manner 
+   as the <code>xml:lang</code> attribute is in the XHTML+RDFa specification.
+   The precedence rules for selecting which value overrides the other is
+   outlined in the section titled "The lang and xml:lang attributes" in
+   the HTML5 specification.
+  </p>
+  <p>
+   If an author is unsure of the final encapsulating DOCTYPE for their
+   markup, such as HTML5 vs. XHTML5, it is suggested that the author specify
+   both <code>lang</code> and <code>xml:lang</code> where the value in
+   both attributes is exactly the same.
+  </p>
+
+  <h4>Invalid XMLLiteral values</h4>
+  <p>
+   When generating literals of type XMLLiteral, the processor must ensure that
+   the output XMLLiteral is 
+   <a href="http://www.w3.org/TR/xml/#dt-wellformed">well-formed XML</a>. 
+   If the input is not well-formed XML</a>, the processor must transform
+   the input text in a way that generates well-formed XML.
+   <div class="XXX">
+    Since the HTML5 specification already has an algorithm for 
+    serializing a DOM subtree into XHTML5, the RDFa Task Force is considering
+    re-using that algorithm.
+   </div>
+  </p>
+  <p>
+   Transformation to well-formed XML is required because an application
+   that consumes XMLLiteral data expects that data to be well-formed.
+  </p>
+  <p>
+   The transformation requirement does not apply to input data that are
+   text-only, such as literals that contain a <code>datatype</code> attribute
+   with an empty value (<code>""</code>), or input data that that contain
+   only text nodes.
+  </p>
+
+  <h4>The <code>xmlns:</code> attribute</h4>
+  <p>
+   <div class="XXX">
+    There have been various objections to the usage of the <code>xmlns</code>: 
+    attribute across all HTML family languages. It is currently unknown 
+    whether or not the <code>xmlns</code>: attribute will be supported in 
+    HTML5 as it is defined in the 
+    [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>]
+    specification. The RDFa Task Force is exploring alternatives 
+    to xmlns: that may be used in non-XML languages.
+   </div>
+   <div class="XXX">
+    While deprecation of the xmlns: attribute is attempted in HTML5, it
+    must still be available to ensure backwards-compatability for existing
+    XHTML code snippets on the web. Which raises the question, if HTML5 
+    subsumes XHTML 1.0 documents, and it is going to be long-lived, and 
+    xmlns: is required to ensure backwards with XHTML documents, then there
+    is no choice but to support xmlns: as it is defined in 
+    [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>].
+   </div>
+  </p>
+  <p>
+   CURIE prefix mappings specified using <code>xmlns:</code>
+   must be processed using the rules specified in the
+   [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>]
+   Recommendation.
+  </p>
+  <p>
+   Since CURIE prefix mappings have been specified using <code>xmlns:</code>, 
+   and since HTML attribute names are case-insensitive, CURIE prefix names 
+   declared using the <code>xmlns:</code>attribute-name pattern 
+   <code>xmlns:&lt;PREFIX&gt;="&lt;URI&gt;"</code> should be specified
+   using only lower-case characters. For example, the text "xmlns:" and the
+   text in "&lt;PREFIX&gt;" should be lower-case only. This is to ensure that 
+   prefix mappings are interpreted in the same way between HTML 
+   (case-insensitive attribute names) and XHTML (case-sensitive attribute
+   names) document types.
+  </p>
+
+<!-- experimental new RDFa features
+  <h4>The <code>token</code> attribute</h4>
+  <p>
+   <div class="XXX">
+    Warning: All statements regarding the <code>token</code> attribute 
+    do not enjoy consensus in the RDFa Task Force and could be removed at
+    any point without notice.
+   </div>
+   If authors would like to ensure that their prefix mappings are supported 
+   across all XHTML and HTML documents, they should use the <code>token</code> 
+   attribute to specify CURIE prefix mappings.
+  </p>
+  <p>
+   The syntax for the <code>token</code> attribute value is as follows:
+   <pre>
+    prefix_mappings := 1*(token_mapping *whitespace)
+    token_mapping   := token *whitespace '=' *whitespace mapping
+    token           := NCName        ; as defined in [<a href="http://www.w3.org/TR/REC-xml-names/#NT-NCName">Namespaces in XML</a>]
+    mapping         := irelative-ref ; as defined in [<a href="http://www.ietf.org/rfc/rfc3987">IRI</a>]
+    whitespace      := White_Space   ; as defined in the HTML5 Specification under '"White_Space" characters'
+   </pre>
+   For example, the following markup:
+   <pre>
+    &lt;body token="ex=http://example.org/"&gt;
+   </pre>
+   when applied to the following HTML snippet:
+   <pre>
+    &lt;a rel="ex:bar"&gt;
+   </pre>
+   would expand the CURIE value in <code>rel</code> as 
+   <code>http://example.org/bar</code>. Similarly, for the following markup:
+   <pre>
+    &lt;body token="author=http://example.org/author publisher=http://example.org/publisher"&gt;
+   </pre>
+   when applied to the following HTML snippet:
+   <pre>
+    &lt;a rel="author"&gt;
+   </pre>
+   would expand the CURIE value in <code>rel</code> as <code>http://example.org/author</code>.
+  </p>
+  <h4>Use of URIs in CURIE-only attribute values</h4>
+  <p>
+   <div class="XXX">
+    Warning: All statements regarding the use of URIs in attribute value's
+    intended to receive reserved_words, CURIEs or Safe CURIEs, per the 
+    XHTML+RDFa specification do not enjoy consensus in the RDFa Task Force 
+    and could be removed at any point without notice.
+   </div>
+  <p>
+  <p>
+   Document authors should not create CURIE token mappings for well-known
+   URI schemes such as http, ftp, urn and a number of other well-known schemes 
+   specified in 
+   [<a href="http://www.iana.org/assignments/uri-schemes.html">The IANA URI Schemes Registry</a>], 
+   as well as other URI schemes that are 
+   commonly used on the Internet. If common URI schemes are used as CURIE
+   tokens, then they may affect triple generation via modifications to the 
+   CURIE processing algorithm (described below). The use of common URI schemes
+   as CURIE tokens may result in unexpected substitutions in certain
+   markup scenarios.
+  </p>
+  <p>
+   CURIE processing must follow the processing definition specified in 
+   the XHTML+RDFa Recommendation with the following modification:
+  </p>
+  <p>
+   If a token mapping is not found for text that is given to the CURIE 
+   processing algorithm, and the text is an Internationalized Resource 
+   Identifier as defined in 
+   [<a href="http://www.ietf.org/rfc/rfc3987">IRI</a>], and the scheme is
+   one of the allowable scheme values in the section below, then the expanded 
+   value of the potential CURIE should be the IRI. 
+  </p>
+  <h5>Allowable CURIE Scheme values</h5>
+  <p>
+   <em>This section is informative.</em>
+  </p>
+  <p>
+   Each of these listed values is a 
+   [<a href="http://www.iana.org/assignments/uri-schemes.html">registered IANA Scheme</a>] 
+   with a corresponding RFC:
+  </p>
+  <p>
+aaa
+aaas
+acap
+cap
+cid
+crid
+data
+dav
+dict
+dns
+fax
+file
+ftp
+go
+gopher
+h323
+http
+https
+iax
+icap
+im
+imap
+info
+ipp
+iris
+iris.beep
+iris.xpc
+iris.xpcs
+iris.lwz
+ldap
+mailto
+mid
+modem
+msrp
+msrps
+mtqp
+mupdate
+news
+nfs
+nntp
+opaquelocktoken
+pop
+pres
+rtsp
+service
+shttp
+sieve
+sip
+sips
+snmp
+soap.beep
+soap.beeps
+tag
+tel
+telnet
+tftp
+thismessage
+tip
+tv
+urn
+vemmi
+xmlrpc.beep
+xmlrpc.beeps
+xmpp
+z39.50r
+z39.50s
+  </p>
+
+end experimental RDFa features -->
