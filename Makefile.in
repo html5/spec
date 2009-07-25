@@ -1,0 +1,20 @@
+# The top-level Makefile that is used to build the HTML5 specification
+#
+# Author: Manu Sporny
+.PHONY: help all whatwg-pull
+
+help:
+	@echo "Commands that you can use to build the HTML5 specification."
+	@echo ""
+	@echo " make - Builds the entire HTML5 specification"
+	@echo " make whatwg-pull - Pull the latest updates from the WHAT WG repository"
+
+whatwg-pull:
+	@echo "Pulling latest changes from WHAT Working Group repository"
+	@SVN@ co http://svn.whatwg.org/webapps html5-hixie
+
+clean:
+	@echo "Cleaning all build directories..."
+	rm -rf html5-hixie
+	rm -f *~
+	rm -rf configure config.status config.log Makefile autom4te.cache
