@@ -79,8 +79,9 @@ use proper source control etiquette:
 
       git checkout master
       git pull
-      git checkout YOUR_GITHUB_USERNAME
-      git merge master
+      git merge YOUR_GITHUB_USERNAME
+      *** MAKE SURE EVERYTHING MERGED CLEANLY BEFORE THE NEXT STEP ***
+      git push
 
 3. Be fairly verbose with your check-in messages as other people will be 
    reading them to understand the gist of your changes. Your comments may also
