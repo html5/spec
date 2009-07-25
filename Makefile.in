@@ -8,10 +8,14 @@ help:
 	@echo ""
 	@echo " make - Builds the entire HTML5 specification"
 	@echo " make whatwg-pull - Pull the latest updates from the WHAT WG repository"
+	@echo " make clean - Cleans all of the build files"
 
 whatwg-pull:
 	@echo "Pulling latest changes from WHAT Working Group repository"
 	@SVN@ co http://svn.whatwg.org/webapps html5-hixie
+
+spec:
+	@echo "Not implemented yet..."
 
 clean:
 	@echo "Cleaning all build directories..."

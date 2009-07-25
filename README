@@ -1,7 +1,77 @@
-This is an EXPERIMENTAL git repository for use by members of the
-HTML Working Group. It is backed up regularly but is *INTENDED FOR
-SANDBOX/EXPERIMENTATION PURPOSES ONLY* and is NOT SUPPORTED in any
-way by the W3C officially nor by the W3C systems team in particular.
-So if you have any problems with it, contact me directly.
+Introduction
+------------
+
+This is an EXPERIMENTAL git repository for use by anybody that would
+like to contribute to the HTML5 specification via the HTML Working
+Group. You can clone and modify the repository without permission 
+from anybody. For commit rights, you must be a member of the
+HTML Working Group and agree to the W3C Patent and Copyright policy. 
+This repository is backed up regularly but is 
+*INTENDED FOR SANDBOX/EXPERIMENTATION PURPOSES ONLY* and is NOT 
+SUPPORTED in any way by the W3C officially nor by the W3C systems 
+team in particular.
+
+If you have any problems with it, contact me directly.
 
 2009-07-25 Manu Sporny <msporny@digitalbazaar.com>
+
+Prerequisites for Building the HTML5 Specification
+--------------------------------------------------
+
+To build the HTML5 Specification, you will need the following tools, which
+are available for Windows, Mac OS X and Linux:
+
+GNU Autoconf 2.61, GNU Make 3.79, Subversion 1.5, Git 1.6, and Anolis 1.0
+
+Retrieving the GIT Repository
+-----------------------------
+
+If you would like to eventually perform commits to the HTML 5 Specification,
+you should sign up for a free github account by going to the following
+website: http://github.com/
+
+You can then clone the repository by running the following commands:
+
+mkdir -p html5
+cd html5
+git clone git@github.com:html5/spec.git
+
+If you don't want to get a github account, you can clone the repository
+by running the following commands:
+
+mkdir -p html5
+cd html5
+git clone git://github.com/html5/spec.git
+
+Building the HTML5 Specification
+---------------------------------
+
+To build the HTML5 specification, run the following commands:
+
+autoconf
+./configure
+make whatwg-pull
+make spec
+
+Contributing to the HTML5 Specification
+---------------------------------------
+
+If you would like to contribute to the HTML5 specification, please 
+use proper source control etiquette:
+
+1. Always create a branch for your changes - never work directly in
+   the master branch. The master branch should always be in a 
+   release-ready state. To create a branch for yourself on github,
+   do the following:
+
+      git push origin HEAD:refs/heads/YOUR_GITHUB_USERNAME
+
+   For example:
+
+      git push origin HEAD:refs/heads/msporny
+
+2. Unless you know what you are doing, always ask before merging your
+   branch into master. If you don't know how to do git merges, ask somebody
+   else to do the merge for you. 
+
+
