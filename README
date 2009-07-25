@@ -65,10 +65,12 @@ use proper source control etiquette:
    do the following:
 
       git push origin HEAD:refs/heads/YOUR_GITHUB_USERNAME
+      git checkout --track -b YOUR_GITHUB_USERNAME origin/YOUR_GITHUB_USERNAME
 
    For example:
 
       git push origin HEAD:refs/heads/msporny
+      git checkout --track -b msporny origin/msporny
 
 2. Unless you know what you are doing, always ask before merging your
    branch into master. If you don't know how to do git merges, ask somebody
