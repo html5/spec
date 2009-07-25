@@ -73,7 +73,18 @@ use proper source control etiquette:
       git checkout --track -b msporny origin/msporny
 
 2. Unless you know what you are doing, always ask before merging your
-   branch into master. If you don't know how to do git merges, ask somebody
-   else to do the merge for you. 
+   branch into master. If you're afraid of messing something up, ask somebody
+   else to do the merge for you. You can perform a merge yourself by doing
+   the following:
 
+      git checkout master
+      git pull
+      git checkout YOUR_GITHUB_USERNAME
+      git merge master
 
+3. Be fairly verbose with your check-in messages as other people will be 
+   reading them to understand the gist of your changes. Your comments may also
+   eventually be merged into the master branch. Checkin messages like
+   "Fixed typo." are awful because they require the person that is viewing
+   the log to go into the source changes to see what you fixed. Comments
+   like "Fixed a typo in the <object> element to address bug# 1234" are better.
