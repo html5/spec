@@ -7,8 +7,8 @@ AC_INIT([html],[5.0],[msporny@digitalbazaar.com])
 AC_CONFIG_AUX_DIR(setup)
 
 # Check for the existence of Anolis and Subversion
-AC_CHECK_PROGS(ANOLIS, anolis /usr/bin/anolis /usr/local/bin/anolis, "not found", $PATH)
-AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, "not found", $PATH)
+AC_CHECK_PROGS(ANOLIS, anolis /usr/bin/anolis /usr/local/bin/anolis, [not found], $PATH)
+AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, [not found], $PATH)
 
 # Setup the flags needed for Anolis
 ANOLIS_FLAGS="--w3c-compat-xref-a-placement --parser=lxml.html --output-encoding=us-ascii --allow-duplicate-dfns"
