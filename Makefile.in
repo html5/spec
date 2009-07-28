@@ -28,7 +28,7 @@ ${DIST_DIR}/html5.html: headers/header-w3c-html5 html5-hixie/source
 	@echo "Concatenating W3C Header to HTML5 document..."
 	@cat headers/header-w3c-html5 html5-hixie/source > $(BUILD_DIR)/spec-html5.html
 	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
-	@@ANOLIS@ --allow-duplicate-dfns --w3c-compat ${BUILD_DIR}/spec-html5.html ${DIST_DIR}/html5.html
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-html5.html ${DIST_DIR}/html5.html
 	@echo "HTML5 spec written to: ${DIST_DIR}/html5.html"
 
 spec-rdfa-module: ${DIST_DIR}/rdfa-module.html
@@ -39,7 +39,7 @@ ${DIST_DIR}/rdfa-module.html: headers/header-w3c-rdfa microsections/rdfa
 	@echo "Concatenating W3C header to RDFa microsection..."
 	@cat headers/header-w3c-rdfa microsections/rdfa > $(BUILD_DIR)/spec-rdfa-module.html
 	@echo "Generating final HTML via Anolis..."
-	@@ANOLIS@ --allow-duplicate-dfns --w3c-compat ${BUILD_DIR}/spec-rdfa-module.html ${DIST_DIR}/rdfa-module.html
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-rdfa-module.html ${DIST_DIR}/rdfa-module.html
 	@echo "RDFa module spec written to: ${DIST_DIR}/rdfa-module.html"
 
 spec-rdfa-complete: ${DIST_DIR}/html5rdfa.html
@@ -53,7 +53,7 @@ ${DIST_DIR}/html5rdfa.html: headers/header-w3c-html5 html5-hixie/source microsec
 	@cat headers/header-w3c-html5 html5-hixie/source > $(BUILD_DIR)/spec-html5.html
 	@./bin/rdfa-insert.py $(BUILD_DIR)/spec-html5.html microsections/rdfa ${BUILD_DIR}/spec-html5rdfa.html
 	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
-	@@ANOLIS@ --allow-duplicate-dfns --w3c-compat ${BUILD_DIR}/spec-html5rdfa.html ${DIST_DIR}/html5rdfa.html
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-html5rdfa.html ${DIST_DIR}/html5rdfa.html
 	@echo "RDFa module spec written to: ${DIST_DIR}/html5rdfa.html"
 
 clean:

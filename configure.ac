@@ -10,6 +10,10 @@ AC_CONFIG_AUX_DIR(setup)
 AC_CHECK_PROGS(ANOLIS, anolis /usr/bin/anolis /usr/local/bin/anolis, "not found", $PATH)
 AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, "not found", $PATH)
 
+# Setup the flags needed for Anolis
+ANOLIS_FLAGS="--w3c-compat-xref-a-placement --parser=lxml.html --output-encoding=us-ascii --allow-duplicate-dfns"
+AC_SUBST(ANOLIS_FLAGS)
+
 # Ensure that Anolis and Subversion were found
 if test "x$ANOLIS" == "xnot found"; then
    echo "The configuration process was unable to find the anolis program on"
