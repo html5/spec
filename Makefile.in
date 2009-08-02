@@ -20,41 +20,43 @@ whatwg-pull:
 	@echo "Pulling latest changes from WHAT Working Group repository"
 	@@SVN@ co http://svn.whatwg.org/webapps html5-hixie
 
-spec: ${DIST_DIR}/html5.html
+spec: ${DIST_DIR}/html5-hixie.html
 
-${DIST_DIR}/html5.html: headers/header-w3c-html5 html5-hixie/source
-	@echo "Building HTML5 specification..."
-	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
-	@echo "Concatenating W3C Header to HTML5 document..."
-	@cat headers/header-w3c-html5 html5-hixie/source > $(BUILD_DIR)/spec-html5.html
-	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
-	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-html5.html ${DIST_DIR}/html5.html
-	@echo "HTML5 spec written to: ${DIST_DIR}/html5.html"
+${DIST_DIR}/html5-hixie.html: headers/header-w3c-html5 html5-hixie/source
+	@echo "Building HTML5-hixie specification..."
+	@echo "Splitting html5-hixie into microsections..."
+	@./bin/microsplit.py html5-hixie/source
+	@echo "Joining microsections into HTML5-hixie specification..."
+	@echo "include headers/header-w3c-html5" > build/html5-hixie.conf
+	@cat build/source.conf >> build/html5-hixie.conf
+	@./bin/microjoin.py build/html5-hixie.conf
+	@echo "Generating final document via Anolis (this may take 2-3 minutes)..."
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-hixie.html
+	@echo "HTML5-hixie spec written to: ${DIST_DIR}/html5-hixie.html"
 
 spec-rdfa-module: ${DIST_DIR}/rdfa-module.html
 
-${DIST_DIR}/rdfa-module.html: headers/header-w3c-rdfa microsections/rdfa
+${DIST_DIR}/rdfa-module.html: headers/header-w3c-rdfa $(wildcard microsections/rdfa/*)
 	@echo "Building modularized RDFa specification..."
 	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
-	@echo "Concatenating W3C header to RDFa microsection..."
-	@cat headers/header-w3c-rdfa microsections/rdfa > $(BUILD_DIR)/spec-rdfa-module.html
+	@echo "Joining RDFa microsections into RDFa module specification..."
+	@./bin/microjoin.py configs/rdfa-module.conf
 	@echo "Generating final HTML via Anolis..."
-	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-rdfa-module.html ${DIST_DIR}/rdfa-module.html
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/rdfa-module.html
 	@echo "RDFa module spec written to: ${DIST_DIR}/rdfa-module.html"
 
-spec-rdfa-complete: ${DIST_DIR}/html5rdfa.html
+spec-rdfa-complete: ${DIST_DIR}/html5-rdfa.html
 
 html5-hixie/source: whatwg-pull
 
-${DIST_DIR}/html5rdfa.html: headers/header-w3c-html5 html5-hixie/source microsections/rdfa
+${DIST_DIR}/html5-rdfa.html: headers/header-w3c-html5 html5-hixie/source $(wildcard microsections/rdfa/*)
 	@echo "Building HTML5+RDFa specification..."
 	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
-	@echo "Concatenating W3C Header to HTML5 document..."
-	@cat headers/header-w3c-html5 html5-hixie/source > $(BUILD_DIR)/spec-html5.html
-	@./bin/rdfa-insert.py $(BUILD_DIR)/spec-html5.html microsections/rdfa ${BUILD_DIR}/spec-html5rdfa.html
+	@echo "Joining RDFa microsections into RDFa module specification..."
+	@./bin/microjoin.py configs/html5-rdfa.conf
 	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
-	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/spec-html5rdfa.html ${DIST_DIR}/html5rdfa.html
-	@echo "RDFa module spec written to: ${DIST_DIR}/html5rdfa.html"
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-rdfa.html
+	@echo "HTM5-RDFa spec written to: ${DIST_DIR}/html5-rdfa.html"
 
 clean:
 	@echo "Cleaning all build files and directories..."
