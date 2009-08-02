@@ -54,7 +54,7 @@ To build the HTML5 specification, run the following commands:
 
 autoconf
 ./configure
-make spec
+make html5-hixie
 
 Contributing to the HTML5 Specification
 ---------------------------------------
