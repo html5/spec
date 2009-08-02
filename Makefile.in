@@ -1,7 +1,7 @@
 # The top-level Makefile that is used to build the HTML5 specification
 #
 # Author: Manu Sporny
-.PHONY: help all spec-rdfa-module spec-rdfa-complete
+.PHONY: help all spec-rdfa-module spec-rdfa-complete directories
 
 BUILD_DIR := build
 DIST_DIR := dist
@@ -9,18 +9,20 @@ DIST_DIR := dist
 help:
 	@echo "Commands that you can use to build the HTML5 specification."
 	@echo ""
-	@echo " make - Builds the entire HTML5 specification"
 	@echo " make whatwg-pull - Pull the latest updates from the WHAT WG repository"
-	@echo " make spec - Build the HTML5 specification"
-	@echo " make spec-rdfa-module - Build the RDFa specification module"
-	@echo " make spec-rdfa-complete - Build the HTML5+RDFa specification"
+	@echo " make html5-hixie - Build the HTML5 specification"
+	@echo " make html5-rdfa - Build the RDFa specification module"
+	@echo " make rdfa-module - Build the HTML5+RDFa specification"
 	@echo " make clean - Cleans all of the build files"
 
 whatwg-pull:
 	@echo "Pulling latest changes from WHAT Working Group repository"
 	@@SVN@ co http://svn.whatwg.org/webapps html5-hixie
 
-spec: ${DIST_DIR}/html5-hixie.html
+directories:
+	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
+
+html5-hixie: directories ${DIST_DIR}/html5-hixie.html
 
 ${DIST_DIR}/html5-hixie.html: headers/header-w3c-html5 html5-hixie/source
 	@echo "Building HTML5-hixie specification..."
@@ -34,18 +36,17 @@ ${DIST_DIR}/html5-hixie.html: headers/header-w3c-html5 html5-hixie/source
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-hixie.html
 	@echo "HTML5-hixie spec written to: ${DIST_DIR}/html5-hixie.html"
 
-spec-rdfa-module: ${DIST_DIR}/rdfa-module.html
+rdfa-module: directories ${DIST_DIR}/rdfa-module.html
 
 ${DIST_DIR}/rdfa-module.html: headers/header-w3c-rdfa $(wildcard microsections/rdfa/*)
 	@echo "Building modularized RDFa specification..."
-	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
 	@echo "Joining RDFa microsections into RDFa module specification..."
 	@./bin/microjoin.py configs/rdfa-module.conf
 	@echo "Generating final HTML via Anolis..."
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/rdfa-module.html
 	@echo "RDFa module spec written to: ${DIST_DIR}/rdfa-module.html"
 
-spec-rdfa-complete: ${DIST_DIR}/html5-rdfa.html
+html5-rdfa: directories ${DIST_DIR}/html5-rdfa.html
 
 html5-hixie/source: whatwg-pull
 
