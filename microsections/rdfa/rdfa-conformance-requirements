@@ -1,0 +1,102 @@
+  <h3>
+   Conformance Requirements
+  </h3>
+  <p>
+   <em>This section is normative.</em>
+  </p>
+  <p>
+   The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+   interpreted as described in [<a class="nref"
+      href="#ref_RFC2119">RFC2119</a>].
+  </p>
+  <p>
+   Note that all examples in this document are informative, and are not meant
+   to be interpreted as normative requirements.
+  </p>
+  <h4>
+   Document Conformance
+  </h4>
+  <p>
+   In order for a document to claim that it is a conforming HTML+RDFa document,
+   it must provide the facilities described as mandatory in this section.
+   The document conformance criteria are listed below, of which only a subset
+   are mandatory:
+  </p>
+
+  <ol>
+   <li>
+    There should be a DOCTYPE declaration specified prior to the root element
+    in the document that follows the conventions outlined in the
+    "The DOCTYPE section" of the HTML5 specification.
+    <div class="XXX">
+     This item may be removed once this document is integrated with the
+     HTML5 specification. It is currently included for the purposes of
+     clarifying the full set of Document Conformance requirements for 
+     an HTML5+RDFa document.
+    </div>
+   </li>
+   <li>
+    The root element of the document must follow the conventions outlined
+    in "The root element" section of the HTML5 specification.
+    <div class="XXX">
+     This item may be removed once this document is integrated with the
+     HTML5 specification. It is currently included for the purposes of
+     clarifying the full set of Document Conformance requirements for 
+     an HTML5+RDFa document.
+    </div>
+   </li>
+   <li>
+    There may be a <code>link</code> element contained in the 
+    <code>head</code> element that contains <code>profile</code> for
+    the the <code>rel</code> attribute and 
+    <code>http://www.w3.org/1999/xhtml/vocab</code> for the <code>href</code>
+    attribute.
+    <div class="XXX">
+     This requires the HTML5 spec to add <code>profile</code> to the list of
+     allow-able <code>rel</code>-values. This is used as the signalling 
+     mechansim for an RDFa document because the <code>profile</code> 
+     attribute is deprecated in HTML5.
+    </div>
+    <div class="XXX">
+     There has also been strong support from the RDFa Task Force that the 
+     <code>profile</code> attribute should be retained in HTML5, as it
+     provides an "out-of-band" mechanism for signaling that the document
+     contains RDFa. The <code>profile</code> attribute may also be used 
+     extensively to provide 
+     [<a href="http://rdfa.info/wiki/RDFa_Profiles">RDFa Profiles</a>] support.
+     Adding <code>profile</code> to the list of <code>rel</code> values
+     and using it to signal that the document contains RDFa places document
+     processing instructions into the RDF graph, which is problematic.
+    </div>
+   </li>
+  </ol>
+  <h4>
+   User Agent Conformance
+  </h4>
+  <p>
+   A conforming RDFa user agent must:
+   <ul>
+   <li>
+    Conform to all conformance requirements listed in the 
+    "Conformance requirements" section of the HTML5 specification.
+   </li>
+   <li>
+    Implement all of the features required in the RDFa section of the 
+    HTML5 specification.
+   </li>
+   <li>
+    Implement all of the features specified in the XHTML+RDFa specification, 
+    excluding those features which are specifically overridden by the RDFa 
+    section of the HTML5 specification.
+   </li>
+   </ul>
+  </p>
+  <h4>
+   RDFa Processor Conformance
+  </h4>
+  <p>
+   A conforming RDFa Processor must implement all of the mandatory features 
+   specified in the XHTML+RDFa specification. It must also support any
+   mandatory features specified in the RDFa section of the HTML5 specification.
+  </p>

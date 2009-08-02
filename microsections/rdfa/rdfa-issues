@@ -1,0 +1,33 @@
+  <h3>
+   Issues
+  </h3>
+  <p class="XXX">
+    This section outlines a number of editorial issues with the RDFa 
+    section of the HTML5 specification.
+  </p>
+  <p class="XXX">
+   In order to provide a module that can be authored, inserted and moved
+   easily within the HTML5 specification, the RDFa specification section is 
+   being edited separately from the main HTML5 specification source file.
+   There are two documents that are generated from the RDFa specification 
+   source. The first is the full HTML5 specification, which includes the 
+   RDFa specification section. The second is the stand-alone HTML5+RDFa 
+   document.
+  </p>
+  <p class="XXX">
+   The upside to having two documents generated from the same source mainly
+   has to do with load-times for the HTML5 specification in web browsers.
+   Loading the 4MB HTML5 specification can be very slow, even in Firefox 
+   3.5 or Chrome. So for those that want to just look at the RDFa specification
+   text, there is a much smaller, separate document for that purpose.
+  </p>
+  <p class="XXX">
+   Unfortunately, there are a number of down-sides with this approach. The
+   first is that the specification language becomes more verbose. The second
+   is that cross-references within the HTML5 document are impossible due to
+   a bug/feature in the Anolis specification processor. 
+  <p class="XXX">
+   These down-sides are not ideal and will eventually be remedied as we find
+   a way to either fix Anolis or no longer support the smaller, standalone 
+   HTML5+RDFa document.
+  </p>

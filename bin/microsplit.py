@@ -16,7 +16,7 @@ options = object()
 def log(str):
     global logging
     if(logToFile):
-        lfile = open("microsection.log", "a")
+        lfile = open("microsplit.log", "a")
         lfile.write(str + '\n')
         lfile.close()
     else:
@@ -34,10 +34,26 @@ def dashifyText(text):
     rval = rval.replace("(", "-").replace(")", "-").replace("/", "-")
     rval = rval.replace("'", "").replace('"', "").replace(",", "")
     rval = rval.replace(" ", "-")
+    rval = rval.replace("+", "-")
     rval = re.sub(r'-[-]+', '-', rval)
     rval = re.sub(r'-$', '', rval)
+    rval = re.sub(r'^-', '', rval)
 
     return rval
+
+##
+# Writes a given Table of Contents item to a file specified via tocItem and
+# placed into options.outputDir.
+#
+# @param options the options object that contains the output directory.
+# @param tocItem the table of contents file name to write to.
+# @param text the text to write to the file.
+def writeTocItem(options, tocItem, text):
+    # Dump the text buffer to the given TOC item
+    tocItemFilename = os.path.join(options.outputDir, tocItem)
+    tocItemFile = open(tocItemFilename, "w")
+    tocItemFile.write(text)
+    tocItemFile.close()
 
 ##
 # Processes a specification file and splits the file into microsections.
@@ -48,11 +64,34 @@ def processSpecification(options):
 
     # The table of contents stack tracks where we are in the current document
     tocStack = ["", "", "html5", "", ""]
-    toc = []
+    toc = ["header",]
     textBuffer = ""
 
     for line in specfile:
-        m = re.match(r"^.*\<h(?P<header>.).*?\>(?P<content>.*)\<\/h.\>$", line)
+        # Get the entire contents of each header element if a header element
+        # is detected
+        hm = re.match(r"^.*\<h(?P<header>[0-9]).*?\>.*$", line)
+        if(hm):
+            maxLines = 0
+            # While the ending tag has not been found for the header tag,
+            # keep searching for it
+            while(not re.match( \
+                r"^.*\<h(?P<header>[0-9]).*?\>(?P<content>.*)\<\/h[0-9]\>.*$", 
+                line.replace("\n", "")) and maxLines < 10):
+                #print "LINE:", line
+                line += specfile.next()
+                maxLines += 1
+
+            # Issue a warning if there was some sort of parse error
+            #if(maxLines == 10):
+                #log("WARNING: Closing header tag not found for:\n%s" % (line,))
+
+        # Check to see if we have a header line
+        m = re.match(
+            r"^.*\<h(?P<header>[0-9]).*?\>(?P<content>.*)\<\/h[0-9]\>$", 
+            line.replace("\n", ""))
+
+        # If a complete header element is detected, process the header contents
         if(m):
             headerLevel = int(m.group('header'))
             # Strip the tags from the content
@@ -64,30 +103,62 @@ def processSpecification(options):
             # dump the text buffer to the previous TOC item.
             if(headerLevel < 4):
                 tocStack[headerLevel] = dashHeader
-                tocItem = "-".join(tocStack[2:headerLevel+1])
+                tocItem = dashifyText("-".join(tocStack[2:headerLevel+1]))
+                
+                # Write the TOC item to a file
+                if(len(textBuffer) > 1):
+                    writeTocItem(options, toc[-1], textBuffer)
+                else:
+                    del toc[-1]
 
-                # Dump the text buffer to the previous TOC item
-                if(len(toc) > 1):
-                   tocItemFilename = os.path.join(options.outputDir, toc[-1])
-                   tocItemFile = open(tocItemFilename, "w")
-                   tocItemFile.write(textBuffer)
-                   tocItemFile.close()
-
-                # Append the tocItem to the TOC
+                # Append the tocItem to the TOC after checking to see that
+                # duplicates do not exist.
+                counter = 1
+                while(tocItem in toc):
+                    tokens = tocItem.split("-")[0:-1]
+                    tokens.append("%i" % (counter,))
+                    tocItem = "-".join(tokens)
+                    counter += 1
                 toc.append(tocItem)
 
                 # Reset the text buffer with the new item
                 textBuffer = line
+            else:
+                textBuffer += line
         else:
             textBuffer += line
+
+    # Write the last TOC item to the file
+    if(len(textBuffer) > 1):
+        writeTocItem(options, toc[-1], textBuffer)
 
     # Generate the configuration file for the microjoin script
     ujFilename = os.path.join(options.outputDir, 
         options.specFile.split(os.sep)[-1]+".conf")
     ujFile = open(ujFilename, "w")
-    ujFile.write("\n".join(toc))
+
+    # Write out the usage information for the file
+    ujFile.write("""# This file was auto-generated using the microsplit.py tool.
+#
+# You may edit this file in a number of ways and process it using the 
+# microjoin.py tool to create an entirely new specification. To create a new
+# specification, copy this file to the "configs" directory in your repository
+# and start modifying it.
+#
+# * To delete a section, delete any line from the list below. 
+# * To add a section, insert a line like the folowing:
+#      include YOUR_MICROSECTION_FILE
+# * To apply a patch to the final, combined file, do the following:
+#      (NOT IMPLEMENTED YET)
+# * To construct a new source document, run the following command:
+#      ./bin/microjoin.py THIS_CONFIGURATION_FILE THE_OUTPUT_FILE
+#
+""")
+
+    for ti in toc:
+        ujFile.write("include %s\n" % (os.path.join(options.outputDir,ti),))
     ujFile.close()
-            
+
 ##
 # Sets up the option string parser for this daemon.
 #
@@ -97,9 +168,10 @@ def setup_parser(argv):
     parser = OptionParser(usage)
 
     parser.add_option('-o', '--output-dir',
-                      action='store', type='string', dest='outputDir',
-                      default="microsections.cache",
-                      help='the directory in which to store the output files')
+        action='store', type='string', dest='outputDir',
+        default="build",
+        help='the directory in which to store the output files ' + \
+            '[Default: build]')
 
     options, args = parser.parse_args(argv)
     largs = parser.largs

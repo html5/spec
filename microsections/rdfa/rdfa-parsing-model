@@ -1,0 +1,30 @@
+  <h3>
+   Parsing Model
+  </h3>
+  <p>
+   Section 5 of the
+   [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>] specification
+   defines a generic processing model for extracting RDF from a
+   tree-based model. The method of transforming an input document into a
+   model suited for the RDFa processing rules is intentionally not defined
+   in the XHTML+RDFa specification. The method of transformation was intended
+   to be defined in the implementation language, in this case, this section of
+   the HTML5 specification.
+  </p>
+  <p>
+   In the context of the HTML5 specification, the parsing rules for an input 
+   document in HTML4 and HTML5 are clearly defined. The processing model 
+   defined in Section 5 of the XHTML+RDFa specification should be executed 
+   on the HTML5 DOM. While the HTML5 DOM is not currently stable, a parsing 
+   mechanism built on top of the html5lib library should provide a 
+   mechanism that is guaranteed to eventually provide a stable, tree-based 
+   model for the RDFa processing rules.
+  </p>
+  <p>
+   RDFa's tree-based processing rules enable an input document to be 
+   automatically corrected, cleaned-up, re-arranged, or modified in any
+   way that is approved by the host language. For example, element nesting 
+   issues in HTML documents may be corrected before the input document is 
+   serialized into the tree-based model on which the RDFa processing rules 
+   will operate.
+  </p>

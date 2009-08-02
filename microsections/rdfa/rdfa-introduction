@@ -1,0 +1,59 @@
+  <h3>
+   Introduction
+  </h3>
+  <p>
+   <em>This section is informative.</em>
+  </p>
+  <p>
+   In early 2004, Mark Birbeck published a document named
+   [<a href="http://www.w3.org/MarkUp/2004/02/xhtml-rdf.html">XHTML and RDF</a>]
+   via the XHTML2 Working Group wherein he laid the groundwork for what 
+   would eventually become RDFa (The Resource Description Framework in 
+   Attributes).
+  <p>
+   In 2006, the work was co-sponsored by the Semantic Web Deployment Work Group,
+   which began to formalize a technology to express semantic data in 
+   XHTML. This technology was successfully developed and reached consensus
+   at the W3C, later published as an official W3C Recommendation.
+   While HTML provides a mechanism to express the structure of a 
+   document (title, paragraphs, links), RDFa provides a mechanism to express 
+   the meaning in a document (people, places, events).
+  <p>
+  <p>
+   The document, titled "RDF in XHTML: Syntax and Processing" 
+   [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>], defined
+   a set of attributes and rules for processing those attributes that
+   resulted in the output of machine-readable semantic data. While the
+   document applied to XHTML, the attributes and rules were always 
+   intended to operate across any tree-based structure containing attributes 
+   on tree nodes (such as HTML4, SVG and ODF).
+  </p>
+  <p>
+   While RDFa was initially specified for use in XHTML, adoption by
+   a number of large organizations on the Web spurred RDFa's use in non-XHTML
+   languages. Its use in HTML4, before an official specification 
+   was developed for those languages, caused concern regarding document
+   conformance.
+  </p>
+  <p>
+   Over the years, the members of the RDFa Task Force 
+   [<a href="http://rdfa.info/">RDFaTF</a>] had discussed the possibility 
+   of applying the same attributes and processing rules outlined in the 
+   XHTML+RDFa specification to all HTML family documents. By design, the 
+   possibility of a unified semantic data expression mechanism between all 
+   HTML and XHTML family documents was squarely in the realm of possibility.
+  </p>
+  <p>
+   This section describes the modifications to the original XHTML+RDFa
+   specification that permit the use of RDFa in all HTML family documents.
+   By using the attributes and processing rules described in the 
+   XHTML+RDFa specification and heeding the minor changes in this 
+   section, authors can expect to generate markup that produces the same
+   semantic data output in HTML4, HTML5 and XHTML5.
+  </p>
+  <p>
+   This section has been prepared by Manu Sporny (President/CEO of Digital
+   Bazaar, Inc.) in consultation with key members of the 
+   RDFa in XHTML Task Force, the HTML WG, the WHAT WG, and other 
+   interested parties.
+  </p>
