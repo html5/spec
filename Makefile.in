@@ -59,6 +59,31 @@ ${DIST_DIR}/html5-rdfa.html: headers/header-w3c-html5 html5-hixie/source $(wildc
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-rdfa.html
 	@echo "HTM5-RDFa spec written to: ${DIST_DIR}/html5-rdfa.html"
 
+html5-warnings: directories ${DIST_DIR}/html5-warnings.html
+
+${DIST_DIR}/html5-warnings.html: headers/header-w3c-msporny html5-hixie/source $(wildcard microsections/warnings/*)
+	@echo "Building HTML5-warnings specification..."
+	@mkdir -p ${BUILD_DIR} ${DIST_DIR}
+	@echo "Joining HTML5-warnings microsections into HTML5 specification..."
+	@./bin/microjoin.py configs/html5-warnings.conf
+	@echo "Replacing specification name links"
+	@sed -i "s/@SPEC_NAME@/html5-warnings/g" ${BUILD_DIR}/specification.html
+	@echo "Generating final HTML via Anolis (this may take 2-3 minutes)..."
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-warnings.html
+	@echo "HTM5-warnings spec written to: ${DIST_DIR}/html5-warnings.html"
+
+html5-warnings-module: directories ${DIST_DIR}/html5-warnings-module.html
+
+${DIST_DIR}/html5-warnings-module.html: headers/header-w3c-msporny $(wildcard microsections/warnings/*)
+	@echo "Building modularized HTML5-warnings specification..."
+	@echo "Joining HTML5-warnings microsections into HTML5-warnings module specification..."
+	@./bin/microjoin.py configs/html5-warnings-module.conf
+	@echo "Replacing specification name links"
+	@sed -i "s/@SPEC_NAME@/html5-warnings/g" ${BUILD_DIR}/specification.html 
+	@echo "Generating final HTML via Anolis..."
+	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-warnings-module.html
+	@echo "HTML5-warnings module spec written to: ${DIST_DIR}/html5-warnings-module.html"
+
 clean:
 	@echo "Cleaning all build files and directories..."
 	@rm -rf html5-hixie

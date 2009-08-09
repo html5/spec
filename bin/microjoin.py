@@ -41,13 +41,14 @@ def processConfiguration(options):
             elif(tokens[0] == "include"):
                 sfile = tokens[1]
                 if(os.path.exists(sfile)):
-                    log("INFO: Including %s" % (sfile,))
+                    #log("INFO: Including %s" % (sfile,))
                     source = open(sfile, "r")
                     outputFile.write(source.read())
                     source.close()
                 else:
                     log("ERROR: Could not include the file named: %s" % \
                         (sfile))
+                    sys.exit(1)
             
 ##
 # Sets up the option string parser for this daemon.
@@ -88,7 +89,7 @@ def main(argv, stdout, environ):
     # Check to make sure a spec file was specified
     if((len(largs) < 2) or not os.path.exists(options.configFile)):
         log("ERROR: A configuration file was not specified.")
-        log("EXAMPLE: %s configs/html5rdfa.conf" % (argv[0],))
+        log("EXAMPLE: %s configs/html5-rdfa.conf" % (argv[0],))
         sys.exit(1)
     
     # Create the output directory if it doesn't already exist.

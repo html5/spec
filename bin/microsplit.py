@@ -101,7 +101,7 @@ def processSpecification(options):
 
             # Build the proper header hierarchy, save it to the TOC and
             # dump the text buffer to the previous TOC item.
-            if(headerLevel < 4):
+            if(headerLevel < 5):
                 tocStack[headerLevel] = dashHeader
                 tocItem = dashifyText("-".join(tocStack[2:headerLevel+1]))
                 

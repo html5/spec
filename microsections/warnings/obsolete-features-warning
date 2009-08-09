@@ -1,0 +1,14 @@
+<p class="XXX">
+Statements regarding the summary attribute are controversial and 
+do not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+There is concern that making the summary attribute obsolete conflicts
+with current guidance given via the
+<abbr title="Web Accessibility Initiative">WAI</abbr> and the 
+<abbr title="Protocols and Formats Working Group">PFWG</abbr>. Alternate
+language for the summary attribute is currently being authored and may
+replace some of the language related to summary in this specification.
+</p>
+

@@ -1,0 +1,9 @@
+<p class="XXX">
+There are a number of new elements in this section that are controversial and 
+that do not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+Microsoft and others have asserted that there are a 
+<a href="http://lists.w3.org/Archives/Public/public-html/2009Aug/0389.html">number of language design issues</a> with the <code>section</code>, <code>nav</code>, <code>article</code>, <code>aside</code>, and <code>hgroup</code>. It has been suggested that either the <code>class</code> attribute may perform the same functionality, or the <code>role</code> attribute could be adopted from the XHTML2 work.
+</p>

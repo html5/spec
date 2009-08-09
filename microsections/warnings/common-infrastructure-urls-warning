@@ -1,0 +1,12 @@
+<p class="XXX">
+This section is unstable, violates existing RFCs and may be updated in 
+future versions of this specification. 
+</p>
+
+<p class="XXX">
+There is a forthcoming IRI specification that would challenge the normative
+nature of this section. The terminology used in this section is a willful
+violation of 
+<a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>
+and is expected to be challenged by members of the IETF.
+</p>

@@ -1,0 +1,24 @@
+<p class="XXX">
+This section is controversial and does not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+The issue surrounding the controversial nature of embedding complex semantic
+vocabularies into any HTML specification is that there will always be 
+many more vocabularies that are not included in the specification. Which
+vocabularies should be included in the HTML5 specification? If semantic 
+vocabularies are successful, one side-effect could be that the HTML5 
+specification will grow to encompass twenty or more mainstream vocabularies. 
+It can be argued that these vocabularies don't need to be included in the 
+HTML5 specification to enjoy widespread usage. Why not place the vocabularies
+in separate specifications?
+</p>
+
+<p class="XXX">
+One of
+the counter-arguments to this line of reasoning is that HTML already provides
+simple semantic vocabularies such as rel="stylesheet", rel="next" and other
+keywords to express semantic information. Why not include more complex semantic
+vocabularies? Discussions on including semantic vocabularies into the HTML5 
+specification are ongoing.
+</p>

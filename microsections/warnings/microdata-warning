@@ -1,0 +1,16 @@
+<p class="XXX">
+This section is controversial and does not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+There will be a forthcoming HTML5+RDFa proposal that may either
+be published along-side the Microdata specification or in place of the
+Microdata specification. RDFa is a alternate technology that is 
+currently published as a 
+<a href="http://www.w3.org/TR/rdfa-syntax/">Recommendation via the W3C</a>. 
+An additional alternative that is being proposed
+is the removal of Microdata and RDFa from the HTML5 specification and
+the placement of each section into a separate specification that is
+implemented on top of the HTML5 standard.
+</p>
+

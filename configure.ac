@@ -14,6 +14,21 @@ AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, [not found], $PATH)
 ANOLIS_FLAGS="--w3c-compat-xref-a-placement --parser=lxml.html --output-encoding=us-ascii --allow-duplicate-dfns"
 AC_SUBST(ANOLIS_FLAGS)
 
+# Generate the printable date string
+DAY=`date +%d`
+MONTH=`date +%B`
+MONTH_NUMBER=`date +%m`
+YEAR=`date +%Y`
+DATE_STRING="$DAY $MONTH $YEAR"
+CONDENSED_DATE_STRING="$DAY$MONTH_NUMBER$YEAR"
+
+AC_SUBST(DAY)
+AC_SUBST(MONTH)
+AC_SUBST(MONTH_NUMBER)
+AC_SUBST(YEAR)
+AC_SUBST(DATE_STRING)
+AC_SUBST(CONDENSED_DATE_STRING)
+
 # Ensure that Anolis and Subversion were found
 if test "x$ANOLIS" == "xnot found"; then
    echo "The configuration process was unable to find the anolis program on"
@@ -36,6 +51,7 @@ fi
 # Generating files
 AC_CONFIG_FILES([
 	Makefile
+	headers/header-w3c-msporny
 ])
 
 AC_OUTPUT

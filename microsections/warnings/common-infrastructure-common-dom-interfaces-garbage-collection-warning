@@ -1,0 +1,10 @@
+<p class="XXX">
+This section is controversial and does not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+It is arguable that implementation advice for the DOM regarding garbage
+collection techniques should be in the HTML5 specification as normative
+language. The purpose of section is also vague and should either be
+removed, or clarified.
+</p>

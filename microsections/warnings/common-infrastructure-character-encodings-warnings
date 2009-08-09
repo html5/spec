@@ -1,0 +1,19 @@
+<p class="XXX">
+This section is controversial and does not enjoy broad consensus. 
+</p>
+
+<p class="XXX">
+This section seems to be providing normative language requiring 
+<abbr title="User Agent">UA</abbr> manufacturers to not support certain
+character encodings. The section also provides implementation advice,
+as normative language, which would require a conforming HTML5 UA to 
+violate currently published specifications.
+</p>
+
+<p class="XXX">
+While these "willful violations" of current W3C and IETF specifications 
+are performed to ensure backward compatability for legacy content, the
+act of violating known specifications is controversial and must be
+discussed with both the W3C and IETF. There may be a possibility to
+harmonize this specification with the specifications that are violated.
+</p>
