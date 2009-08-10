@@ -1,0 +1,468 @@
+  <h4>Navigating across documents</h4>
+
+  <p class="XXX">
+  The <code title="http-origin">Origin</code> header is currently
+  controversial and may possibly duplicate work being performed at 
+  the IETF. Since 
+  <a href="http://www.w3.org/html/wg/tracker/issues/63">it is 
+  still uncertain</a> where the 
+  <code title="http-origin">Origin</code> header specification
+  will be defined, readers should note that the language in this
+  section concerning the <code title="http-origin">Origin</code> header
+  may be removed. 
+  </p>
+
+  <p>Certain actions cause the <span>browsing context</span> to
+  <i>navigate</i> to a new resource. Navigation always involves
+  <dfn>source browsing context</dfn>, which is the browsing context
+  which was responsible for starting the navigation.</p>
+
+  <p class="example">For example, <span title="following
+  hyperlinks">following a hyperlink</span>, <span
+  title="concept-form-submit">form submission</span>, and the <code
+  title="dom-open">window.open()</code> and <code
+  title="dom-location-assign">location.assign()</code> methods can all
+  cause a browsing context to navigate.</p>
+
+  <p>A user agent may provide various ways for the user to explicitly
+  cause a browsing context to navigate, in addition to those defined
+  in this specification.</p>
+
+  <p>When a browsing context is <dfn title="navigate">navigated</dfn>
+  to a new resource, the user agent must run the following steps:</p>
+
+  <ol>
+
+   <li id="sandboxLinks"><p>If the <span>source browsing
+   context</span> is not the same as the <span>browsing context</span>
+   being navigated, and the <span>source browsing context</span> is
+   not one of the <span title="ancestor browsing context">ancestor
+   browsing contexts</span> of the <span>browsing context</span> being
+   navigated, and the <span>source browsing context</span> has its
+   <span>sandboxed navigation browsing context flag</span> set, then
+   abort these steps. The user agent may offer to open the new
+   resource in a new <span>top-level browsing context</span> or in the
+   <span>top-level browsing context</span> of the <span>source
+   browsing context</span>, at the user's option, in which case the
+   user agent must <span>navigate</span> that designated
+   <span>top-level browsing context</span> to the new resource as if
+   the user had requested it independently.</p></li>
+
+   <li id="seamlessLinks"><p>If the <span>source browsing
+   context</span> is the same as the <span>browsing context</span>
+   being navigated, and this browsing context has its <span>seamless
+   browsing context flag</span> set, then find the nearest
+   <span>ancestor browsing context</span> that does not have its
+   <span>seamless browsing context flag</span> set, and continue these
+   steps as if <em>that</em> <span>browsing context</span> was the one
+   that was going to be <span title="navigate">navigated</span>
+   instead.</p></li>
+
+   <li><p>Cancel any preexisting attempt to navigate the
+   <span>browsing context</span>.</p></li>
+
+   <li id="navigate-fragid-step"><p><i>Fragment identifiers</i>: If
+   the <span>absolute URL</span> of the new resource is the same as
+   the <span title="the document's address">address</span> of the
+   <span>active document</span> of the <span>browsing context</span>
+   being navigated, ignoring any <span
+   title="url-fragment">&lt;fragment&gt;</span> components of those
+   <span title="URL">URLs</span>, and the new resource is to be
+   fetched using HTTP GET <span title="concept-http-equivalent-get">or
+   equivalent</span>, and the <span>absolute URL</span> of the new
+   resource has a <span title="url-fragment">&lt;fragment&gt;</span>
+   component (even if it is empty), then <span
+   title="navigate-fragid">navigate to that fragment identifier</span>
+   and abort these steps.</p></li>
+
+   <li>
+
+    <p>If the new resource is to be handled by displaying some sort of
+    inline content, e.g. an error message because the specified scheme
+    is not one of the supported protocols, or an inline prompt to
+    allow the user to select <span
+    title="dom-navigator-registerProtocolHandler">a registered
+    handler</span> for the given scheme, then <span
+    title="navigate-ua-inline">display the inline content</span> and
+    abort these steps.</p>
+
+    <p class="note">In the case of a registered handler being used,
+    the algorithm will be reinvoked with a new URL to handle the
+    request.</p>
+
+   </li>
+
+   <li><p>If the new resource is to be handled using a mechanism that
+   does not affect the browsing context, e.g. ignoring the navigation
+   request altogether because the specified scheme is not one of the
+   supported protocols, then abort these steps and proceed with that
+   mechanism instead.</p></li>
+
+   <li>
+
+    <p>If the new resource is to be fetched using HTTP GET <span
+    title="concept-http-equivalent-get">or equivalent</span>, then
+    check if there are any <span title="relevant application
+    cache">relevant application caches</span> that are identified by a
+    URL with the <span>same origin</span> as the URL in question, and
+    that have this URL as one of their entries, excluding entries
+    marked as <span
+    title="concept-appcache-foreign">foreign</span>. If so, then the
+    user agent must then get the resource from the <span
+    title="concept-appcache-selection">most appropriate application
+    cache</span> of those that match.</p>
+
+    <p class="example">For example, imagine an HTML page with an
+    associated application cache displaying an image and a form, where
+    the image is also used by several other application caches. If the
+    user right-clicks on the image and chooses "View Image", then the
+    user agent could decide to show the image from any of those
+    caches, but it is likely that the most useful cache for the user
+    would be the one that was used for the aforementioned HTML
+    page. On the other hand, if the user submits the form, and the
+    form does a POST submission, then the user agent will not use an
+    application cache at all; the submission will be made to the
+    network.</p>
+
+    <p>Otherwise, <span>fetch</span> the new resource, if it has not
+    already been obtained<!-- it's obtained by <object>, for instance
+    -->. If the resource is being fetched using HTTP, and the method
+    is not GET<!-- or HEAD (but that can't happen) -->, then the user
+    agent must include an <code title="http-origin">Origin</code>
+    header whose value is determined as follows:</p>
+
+    <dl class="switch">
+
+     <dt>If the <span title="navigate">navigation</span> algorithm has
+     so far contacted more than one <span>origin</span></dt>
+     <dt>If there is no <span>source browsing context</span></dt>
+
+     <dd>The value must be the string "<code title="">null</code>".</dd>
+
+     <dt>Otherwise</dt>
+
+     <dd>The value must be the <span title="ASCII serialization of an
+     origin">ASCII serialization</span> of the <span>origin</span> of
+     the <span>active document</span> of the <span>source browsing
+     context</span> at the time the navigation was started.</dd>
+
+    </dl>
+
+   </li>
+
+   <li>
+
+    <p>If fetching the resource is synchronous (i.e. for <span
+    title="javascript protocol"><code title="">javascript:</code>
+    URLs</span> and <code>about:blank</code>), then this must be
+    synchronous, but if fetching the resource depends on external
+    resources, as it usually does for URLs that use HTTP or other
+    networking protocols, then at this point the user agents must
+    yield to whatever <span title="concept-script">script</span> invoked the navigation steps, if they
+    were invoked by script.</p>
+
+   </li>
+
+   <li>
+
+    <p>If fetching the resource results in a redirect, return to <a
+    href="#navigate-fragid-step">the step labeled "fragment
+    identifiers"</a> with the new resource.</p>
+
+   </li>
+
+   <li><p>Wait for one or more bytes to be available or for the user
+   agent to establish that the resource in question is empty. During
+   this time, the user agent may allow the user to cancel this
+   navigation attempt or start other navigation attempts.</p></li>
+
+   <li>
+
+    <p>If the resource was not fetched from an <span>application
+    cache</span>, and was to be fetched using HTTP GET <span
+    title="concept-http-equivalent-get">or equivalent</span>, and its
+    URL <span title="concept-appcache-matches-fallback">matches the
+    fallback namespace</span> of one or more <span title="relevant
+    application cache">relevant application caches</span>, and the
+    user didn't cancel the navigation attempt during the previous
+    step, and the navigation attempt failed (e.g. the server returned
+    a 4xx or 5xx status code <span
+    title="concept-http-equivalent-codes">or equivalent</span>, or
+    there was a DNS error), then:</p> <!-- note that a redirect can
+    never reach this point as it is handled earlier, meaning that a
+    captive portal captures URLs in fallback namespaces and you can't
+    ever get to the fallback file of a resource if you have a captive
+    portal -->
+
+    <p>Let <var title="">candidate</var> be the <span
+    title="concept-appcache-fallback">fallback resource</span>
+    specified for the <span
+    title="concept-appcache-fallback-ns">fallback namespace</span> in
+    question. If multiple application caches match, the user agent
+    must use the fallback of the <span
+    title="concept-appcache-selection">most appropriate application
+    cache</span> of those that match.</p>
+
+    <p>If <var title="">candidate</var> is not marked as <span
+    title="concept-appcache-foreign">foreign</span>, then the user
+    agent must discard the failed load and instead continue along
+    these steps using <var title="">candidate</var> as the
+    resource. <span>The document's address</span>, if appropriate,
+    will still be the originally requested URL, not the fallback URL,
+    but the user agent may indicate to the user that the original page
+    load failed, that the page used was a fallback resource, and what
+    the URL of the fallback resource actually is.</p>
+
+   </li>
+
+   <li><p>If the document's out-of-band metadata (e.g. HTTP headers),
+   not counting any <span title="Content-Type">type information</span>
+   (such as the Content-Type HTTP header), requires some sort of
+   processing that will not affect the browsing context, then perform
+   that processing and abort these steps.</p>
+
+   <div class="note">
+    <p>Such processing might be triggered by, amongst other things, the
+    following:</p>
+    <ul class="brief">
+     <li>HTTP status codes (e.g. 204 No Content or 205 Reset Content)</li>
+     <li>HTTP Content-Disposition headers</li>
+     <li>Network errors</li>
+    </ul>
+   </div>
+
+    <!-- theorectically, HTTP 205 processing would occur here,
+    resetting all forms with no other effect. However, it seems nobody
+    actually wants to use this ability, so requiring it here seems
+    like unnecessary work. -->
+
+    <p>HTTP 401 responses that do not include a challenge recognized
+    by the user agent must be processed as if they had no challenge,
+    e.g. rendering the entity body as if the response had been 200
+    OK.</p>
+
+    <p>User agents may show the entity body of an HTTP 401 response
+    even when the response do include a recognized challenge, with the
+    option to login being included in a non-modal fashion, to enable
+    the information provided by the server to be used by the user
+    before authenticating. Similarly, user agents should allow the
+    user to authenticate (in a non-modal fashion) against
+    authentication challenges included in other responses such as HTTP
+    200 OK responses, effectively allowing resources to present HTTP
+    login forms without requiring their use.</p>
+
+   </li>
+
+   <li><p>Let <var title="">type</var> be <span title="Content-Type
+   sniffing">the sniffed type of the resource</span>.</p></li>
+
+   <li><p>If the user agent has been configured to process resources
+   of the given <var title="">type</var> using some mechanism other
+   than rendering the content in a <span>browsing context</span>, then
+   skip this step. Otherwise, if the <var title="">type</var> is one
+   of the following types, jump to the appropriate entry in the
+   following list, and process the resource as described there:</p>
+
+    <dl class="switch">
+
+     <dt>"<code>text/html</code>"</dt>
+     <dd>Follow the steps given in the <span
+     title="navigate-html">HTML document</span> section, and abort
+     these steps.</dd>
+
+     <!-- an <span>XML MIME type</span> -->
+     <dt>Any type ending in "<code title="">+xml</code>"</dt>
+     <dt>"<code>application/xml</code>"</dt>
+     <dt>"<code>text/xml</code>"</dt>
+     <dd>Follow the steps given in the <span title="navigate-xml">XML
+     document</span> section. If that section determines that the
+     content is <em>not</em> to be displayed as a generic XML
+     document, then proceed to the next step in this overall set of
+     steps. Otherwise, abort these steps.</dd>
+
+     <dt>"<code>text/plain</code>"</dt>
+     <dd>Follow the steps given in the <span
+     title="navigate-text">plain text file</span> section, and abort
+     these steps.</dd>
+
+     <dt>A supported image type</dt>
+     <dd>Follow the steps given in the <span
+     title="navigate-image">image</span> section, and abort these
+     steps.</dd>
+
+     <dt>A type that will use an external application to render the
+     content in the <span>browsing context</span></dt>
+     <dd>Follow the steps given in the <span
+     title="navigate-plugin">plugin</span> section, and abort these
+     steps.</dd>
+
+    </dl>
+
+    <p><dfn title="set the document's address">Setting the document's
+    address</dfn>: If there is no <dfn>override URL</dfn>, then any
+    <code>Document</code> created by these steps must have its <span
+    title="the document's address">address</span> set to the
+    <span>URL</span> that was originally to be <span
+    title="fetch">fetched</span>, ignoring any other data that was
+    used to obtain the resource (e.g. the entity body in the case of a
+    POST submission is not part of <span>the document's
+    address</span>, nor is the URL of the fallback resource in the
+    case of the original load having failed and that URL having been
+    found to match a <span
+    title="concept-appcache-fallback-ns">fallback
+    namespace</span>). However, if there <em>is</em> an <span>override
+    URL</span>, then any <code>Document</code> created by these steps
+    must have its <span title="the document's address">address</span>
+    set to that <span>URL</span> instead.</p>
+
+    <p class="note">An <span title="override URL">override URL</span>
+    is set when <span title="concept-js-deref">dereferencing a
+    <code>javascript:</code> URL</span>.</p>
+
+    <p><dfn title="create a Document object">Creating a new
+    <code>Document</code> object</dfn>: When a <code>Document</code>
+    is created as part of the above steps, a new set of <span
+    title="view">views</span> along with the associated
+    <code>Window</code> object must be created and associated with the
+    <code>Document</code>, with one exception: if the <span>browsing
+    context</span>'s only entry in its <span>session history</span> is
+    the <code>about:blank</code> <code>Document</code> that was added
+    when the <span>browsing context</span> was created, and navigation
+    is occurring with <span>replacement enabled</span>, and that
+    <code>Document</code> has the <span>same origin</span> as the new
+    <code>Document</code>, then the <code>Window</code> object and
+    associated <span title="view">views</span> of that
+    <code>Document</code> must be used instead, and the <code
+    title="dom-document">document</code> attribute of the
+    <code>AbstractView</code> objects of those <span
+    title="view">views</span> must be changed to point to the new
+    <code>Document</code> instead.</p>
+
+   </li>
+
+   <li id="navigate-non-Document">
+
+    <p><i>Non-document content</i>: If, given <var
+    title="">type</var>, the new resource is to be handled by
+    displaying some sort of inline content, e.g. a native rendering of
+    the content, an error message because the specified type is not
+    supported, or an inline prompt to allow the user to select <span
+    title="dom-navigator-registerContentHandler">a registered
+    handler</span> for the given type, then <span
+    title="navigate-ua-inline">display the inline content</span> and
+    abort these steps.</p>
+
+    <p class="note">In the case of a registered handler being used,
+    the algorithm will be reinvoked with a new URL to handle the
+    request.</p>
+
+   </li>
+
+   <li><p>Otherwise, the document's <var title="">type</var> is such
+   that the resource will not affect the browsing context,
+   e.g. because the resource is to be handed to an external
+   application. Process the resource appropriately.</p>
+
+  </ol>
+
+  <p>Some of the sections below, to which the above algorithm defers
+  in certain cases, require the user agent to <dfn>update the session
+  history with the new page</dfn>. When a user agent is required to do
+  this, it must <span>queue a task</span> to run the following
+  steps:</p>
+
+  <ol>
+
+   <li><p><span title="unload a document">Unload</span> the
+   <code>Document</code> object of the <span>current entry</span>,
+   with the <var title="">recycle</var> parameter set to
+   false.</p></li>
+
+   <li>
+
+    <dl>
+
+     <dt>If the navigation was initiated for <dfn>entry update</dfn> of
+     an entry</dt>
+
+     <dd>
+
+      <ol>
+
+       <li><p>Replace the entry being updated with a new entry
+       representing the new resource and its <code>Document</code>
+       object and related state. The user agent may propagate state from
+       the old entry to the new entry (e.g. scroll position).</p></li>
+
+       <li><p><span>Traverse the history</span> to the new
+       entry.</p></li>
+
+      </ol>
+
+     </dd>
+
+
+     <dt>Otherwise</dt>
+
+     <dd>
+
+      <ol>
+
+       <li><p>Remove all the entries after the <span>current
+       entry</span> in the <span>browsing context</span>'s
+       <code>Document</code> object's <code>History</code> object.</p>
+       <p class="note">This <a href="#history-notes">doesn't
+       necessarily have to affect</a> the user agent's user
+       interface.</p> </li>
+
+       <li><p>Append a new entry at the end of the <code>History</code>
+       object representing the new resource and its
+       <code>Document</code> object and related state.</p></li>
+
+       <li><p><span>Traverse the history</span> to the new entry.</p></li>
+
+       <li><p>If the navigation was initiated with <dfn>replacement
+       enabled</dfn>, remove the entry immediately before the new
+       <span>current entry</span> in the session history.</p></li>
+
+      </ol>
+
+     </dd>
+
+    </dl>
+
+   </li>
+
+   <li><p>If <span>the document's address</span> has a fragment
+   identifier, then run these substeps:</p>
+
+    <ol>
+
+     <li><p>Wait for a user-agent defined amount of time, as desired
+     by the user agent implementor. (This is intended to allow the
+     user agent to optimize the user experience in the face of
+     performance concerns.)</p></li>
+
+     <li><p>If the <code>Document</code> object has no parser, or its
+     parser has <span title="stop parsing">stopped parsing</span>, or
+     the user agent has reason to believe the user is no longer
+     interested in scrolling to the fragment identifier, then abort
+     these substeps.</p></li>
+
+     <li><p><span>Scroll to the fragment identifier</span> given in
+     <span>the document's current address</span>. If this fails to
+     find <span title="the indicated part of the document">an
+     indicated part of the document</span>, then return to the first
+     step of these substeps.</p></li>
+
+    </ol>
+
+   </li>
+
+  </ol>
+
+  <p>The <span>task source</span> for this <span
+  title="concept-task">task</span> is the <span>networking task
+  source</span>.</p>
+
+

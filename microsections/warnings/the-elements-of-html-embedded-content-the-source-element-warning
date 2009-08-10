@@ -1,0 +1,183 @@
+  <h4>The <dfn><code>source</code></dfn> element</h4>
+
+  <p class="XXX">
+  There are a 
+  <a href="http://www.w3.org/html/wg/tracker/issues/7">number of issues</a> 
+  related to codec licensing in the following sections. Codecs for audio and 
+  video continue to be controversial in nature due to the vast pool of unknown
+  patents related to online multimedia. There are currently no open-source,
+  license-free video and audio codecs that all of the browser manufacturers 
+  and web authors are willing to implement and distribute as a core part of
+  their browsers.
+  </p>
+  <p class="XXX">
+  Codecs like Ogg Vorbis and Theora
+  or Dirac, while open-source and license-free, could place a large company
+  such as Apple or Microsoft at risk to a submarine patent if they are 
+  shipped with Safari or Internet Explorer. While many codecs are mentioned
+  in the following sections, it is still unknown if there will be a single
+  codec that is guaranteed to be implemented across all browsers.
+  </p>
+
+  <dl class="element">
+   <dt>Categories</dt>
+   <dd>None.</dd>
+   <dt>Contexts in which this element may be used:</dt>
+   <dd>As a child of a <span>media element</span>, before any <span>flow content</span>.</dd>
+   <dt>Content model:</dt>
+   <dd>Empty.</dd>
+   <dt>Content attributes:</dt>
+   <dd><span>Global attributes</span></dd>
+   <dd><code title="attr-source-src">src</code></dd>
+   <dd><code title="attr-source-type">type</code></dd>
+   <dd><code title="attr-source-media">media</code></dd>
+   <dt>DOM interface:</dt>
+   <dd>
+<pre class="idl">interface <dfn>HTMLSourceElement</dfn> : <span>HTMLElement</span> {
+           attribute DOMString <span title="dom-source-src">src</span>;
+           attribute DOMString <span title="dom-source-type">type</span>;
+           attribute DOMString <span title="dom-source-media">media</span>;
+};</pre>
+   </dd>
+  </dl>
+
+  <p>The <code>source</code> element allows authors to specify
+  multiple <span title="media resource">media resources</span> for
+  <span title="media element">media elements</span>. It does not <span
+  title="represents">represent</span> anything on its own.</p>
+
+  <p>The <dfn title="attr-source-src"><code>src</code></dfn> attribute
+  gives the address of the <span>media resource</span>. The value must
+  be a <span>valid URL</span>. This attribute must be present.</p>
+
+  <p>The <dfn title="attr-source-type"><code>type</code></dfn>
+  attribute gives the type of the <span>media resource</span>, to help
+  the user agent determine if it can play this <span>media
+  resource</span> before fetching it. If specified, its value must be
+  a MIME type. The <code title="">codecs</code> parameter may be
+  specified and might be necessary to specify exactly how the resource
+  is encoded. <a href="#refsRFC2046">[RFC2046]</a> <a
+  href="#refsRFC4281">[RFC4281]</a></p>
+
+  <div class="example">
+
+   <p>The following list shows some examples of how to use the <code
+   title="">codecs=</code> MIME parameter in the <code
+   title="attr-source-type">type</code> attribute.</p>
+
+   <dl>
+
+    <dt>H.264 Simple baseline profile video (main and extended video compatible) level 3 and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></pre></dd>
+
+    <dt>H.264 Extended profile video (baseline-compatible) level 3 and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="avc1.58A01E, mp4a.40.2"'></pre></dd>
+
+    <dt>H.264 Main profile video level 3 and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'></pre></dd>
+
+    <dt>H.264 'High' profile video (incompatible with main, baseline, or extended profiles) level 3 and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="avc1.64001E, mp4a.40.2"'></pre></dd>
+
+
+    <dt>MPEG-4 Visual Simple Profile Level 0 video and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="mp4v.20.8, mp4a.40.2"'></pre></dd>
+
+    <dt>MPEG-4 Advanced Simple Profile Level 0 video and Low-Complexity AAC audio in MP4 container</dt>
+    <dd><pre>&lt;source src='video.mp4' type='video/mp4; codecs="mp4v.20.240, mp4a.40.2"'></pre></dd>
+
+    <dt>MPEG-4 Visual Simple Profile Level 0 video and AMR audio in 3GPP container</dt>
+    <dd><pre>&lt;source src='video.3gp' type='video/3gpp; codecs="mp4v.20.8, samr"'></pre></dd>
+
+
+    <dt>Theora video and Vorbis audio in Ogg container</dt>
+    <dd><pre>&lt;source src='video.ogv' type='video/ogg; codecs="theora, vorbis"'></pre></dd>
+
+    <dt>Theora video and Speex audio in Ogg container</dt>
+    <dd><pre>&lt;source src='video.ogv' type='video/ogg; codecs="theora, speex"'></pre></dd>
+
+    <dt>Vorbis audio alone in Ogg container</dt>
+    <dd><pre>&lt;source src='audio.ogg' type='audio/ogg; codecs=vorbis'></pre></dd>
+
+    <dt>Speex audio alone in Ogg container</dt>
+    <dd><pre>&lt;source src='audio.spx' type='audio/ogg; codecs=speex'></pre></dd>
+
+    <dt>FLAC audio alone in Ogg container</dt>
+    <dd><pre>&lt;source src='audio.oga' type='audio/ogg; codecs=flac'></pre></dd>
+
+    <dt>Dirac video and Vorbis audio in Ogg container</dt>
+    <dd><pre>&lt;source src='video.ogv' type='video/ogg; codecs="dirac, vorbis"'></pre></dd>
+
+    <dt>Theora video and Vorbis audio in Matroska container</dt>
+    <dd><pre>&lt;source src='video.mkv' type='video/x-matroska; codecs="theora, vorbis"'></pre></dd>
+
+<!-- awaiting definition by the Ogg or BBC guys:
+    <dt>Dirac video and Vorbis audio in Matroska container</dt>
+    <dd><pre>&lt;source src='video.mkv' type='video/x-matroska; codecs='></pre></dd>
+-->
+
+
+<!-- awaiting definition by the Microsoft guys:
+
+    <dt>WMV9 video and WMA 2 audio in ASF container</dt>
+    <dd><pre>&lt;source src='video.wmv' type='video/x-ms-wmv; codecs='></pre></dd>
+
+    <dt>WMV8 video and WMA 2 audio in ASF container</dt>
+    <dd><pre>&lt;source src='video.wmv' type='video/x-ms-wmv; codecs='></pre></dd>
+
+    <dt>VC-1 video and WMA 10 Pro audio in ASF container</dt>
+    <dd><pre>&lt;source src='video.wmv' type='video/x-ms-wmv; codecs='></pre></dd>
+
+    <dt>XviD video and MP3 audio in AVI container</dt>
+    <dd><pre>&lt;source src='video.avi' type='video/x-msvideo; codecs='></pre></dd>
+
+    <dt>Motion-JPEG video and uncompressed PCM audio in AVI container</dt>
+    <dd><pre>&lt;source src='video.avi' type='video/x-msvideo; codecs='></pre></dd>
+
+-->
+
+
+<!-- awaiting definition by Real:
+    <dt>Real Video 10 video and High-Efficiency AAC audio in Real Media container</dt>
+    <dd><pre>&lt;source src='video.rm' type='application/vnd.rn-realmedia; codecs='></pre></dd>
+-->
+
+
+<!--  undefined:
+    <dt>MPEG-1 video and MPEG-1 Audio Layer II audio in MPEG-1 program stream</dt>
+    <dd><pre>&lt;source src='video.mpg' type='video/mpeg; codecs='></pre></dd>
+-->
+
+   </dl>
+
+  </div>
+
+  <p>The <dfn title="attr-source-media"><code>media</code></dfn>
+  attribute gives the intended media type of the <span>media
+  resource</span>, to help the user agent determine if this
+  <span>media resource</span> is useful to the user before fetching
+  it. Its value must be a valid <a href="#mq">media query</a>. <a
+  href="#refsMQ">[MQ]</a></p>
+
+  <div class="impl">
+
+  <p>If a <code>source</code> element is inserted as a child of a
+  <span>media element</span> that is <span>in a
+  <code>Document</code></span> and whose <code
+  title="dom-media-networkState">networkState</code> has the value
+  <code title="dom-media-NETWORK_EMPTY">NETWORK_EMPTY</code>, the user
+  agent must invoke the <span>media element</span>'s <span
+  title="concept-media-load-algorithm">resource selection
+  algorithm</span>.</p>
+
+  <p>The DOM attributes <dfn
+  title="dom-source-src"><code>src</code></dfn>, <dfn
+  title="dom-source-type"><code>type</code></dfn>, and <dfn
+  title="dom-source-media"><code>media</code></dfn> must
+  <span>reflect</span> the respective content attributes of the same
+  name.</p>
+
+  </div>
+
+
+

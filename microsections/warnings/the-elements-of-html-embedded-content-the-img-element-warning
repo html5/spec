@@ -1,0 +1,1477 @@
+  <h4>The <dfn><code>img</code></dfn> element</h4>
+
+  <dl class="element">
+   <dt>Categories</dt>
+   <dd><span>Flow content</span>.</dd>
+   <dd><span>Phrasing content</span>.</dd>
+   <dd><span>Embedded content</span>.</dd>
+   <dd>If the element has a <code title="attr-hyperlink-usemap">usemap</code> attribute: <span>Interactive content</span>.</dd>
+   <dt>Contexts in which this element may be used:</dt>
+   <dd>Where <span>embedded content</span> is expected.</dd>
+   <dt>Content model:</dt>
+   <dd>Empty.</dd>
+   <dt>Content attributes:</dt>
+   <dd><span>Global attributes</span></dd>
+   <dd><code title="attr-img-alt">alt</code></dd>
+   <dd><code title="attr-img-src">src</code></dd>
+   <dd><code title="attr-hyperlink-usemap">usemap</code></dd>
+   <dd><code title="attr-img-ismap">ismap</code></dd>
+   <dd><code title="attr-dim-width">width</code></dd>
+   <dd><code title="attr-dim-height">height</code></dd>
+   <dt>DOM interface:</dt>
+   <dd>
+<pre class="idl">[NamedConstructor=<span title="dom-image">Image</span>(),
+ NamedConstructor=<span title="dom-image-w">Image</span>(in unsigned long width),
+ NamedConstructor=<span title="dom-image-wh">Image</span>(in unsigned long width, in unsigned long height)]
+interface <dfn>HTMLImageElement</dfn> : <span>HTMLElement</span> {
+           attribute DOMString <span title="dom-img-alt">alt</span>;
+           attribute DOMString <span title="dom-img-src">src</span>;
+           attribute DOMString <span title="dom-img-useMap">useMap</span>;
+           attribute boolean <span title="dom-img-isMap">isMap</span>;
+           attribute unsigned long <span title="dom-img-width">width</span>;
+           attribute unsigned long <span title="dom-img-height">height</span>;
+  readonly attribute boolean <span title="dom-img-complete">complete</span>;
+};</pre>
+   </dd>
+  </dl>
+
+  <p>An <code>img</code> element represents an image.</p>
+
+  <!-- v2 ideas for <img>:
+
+     * Maps sites would like to know which images are already cached,
+       so that they can use images that are vaguely suitable while
+       they wait for the most appropriate image to download.
+
+       Almost like lowsrc="", except that many images might be
+       appropriate.
+
+       Slight hitch: their images are at a different origin, and we
+       don't want to allow arbitrary cross-origin inspection (privacy
+       leak risk).
+
+     * See note at rel=noreferrer.
+
+  -->
+
+  <p>The image given by the <dfn
+  title="attr-img-src"><code>src</code></dfn> attribute is the
+  embedded content, and the value of the <dfn
+  title="attr-img-alt"><code>alt</code></dfn> attribute is the
+  <code>img</code> element's <span>fallback content</span>.</p>
+
+  <p>The <code title="attr-img-src">src</code> attribute must be
+  present, and must contain a <span>valid URL</span> referencing a
+  non-interactive, optionally animated, image resource that is neither
+  paged nor scripted. If the <i>base URI of the element</i> is the
+  same as <span>the document's address</span>, then the <code
+  title="attr-img-src">src</code> attribute's value must not be the
+  empty string.</p>
+
+  <p class="note">Images can thus be static bitmaps (e.g. PNGs, GIFs,
+  JPEGs), single-page vector documents (single-page PDFs, XML files
+  with an SVG root element), animated bitmaps (APNGs, animated GIFs),
+  animated vector graphics (XML files with an SVG root element that
+  use declarative SMIL animation), and so forth. However, this also
+  precludes SVG files with script, multipage PDF files, interactive
+  MNG files, HTML documents, plain text documents, and so forth.</p>
+
+  <p>The requirements on the <code title="attr-img-alt">alt</code>
+  attribute's value are described <a href="#alt">in the next
+  section</a>.</p>
+
+  <p>The <code>img</code> must not be used as a layout tool. In
+  particular, <code>img</code> elements should not be used to display
+  transparent images, as they rarely convey meaning and rarely add
+  anything useful to the document.</p>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>Unless the user agent cannot support images, or its support for
+  images has been disabled, or the user agent only fetches elements on
+  demand, or the element's <code title="attr-img-src">src</code>
+  attribute has a value that is an <i>ignored self-reference</i>,
+  then, when an <code>img</code> is created with a <code
+  title="attr-img-src">src</code> attribute, and whenever the <code
+  title="attr-img-src">src</code> attribute is set subsequently, the
+  user agent must <span title="resolve a url">resolve</span> the value
+  of that attribute, relative to the element, and if that is
+  successful must then <span>fetch</span> that resource.</p> <!-- Note
+  how this does NOT happen when the base URL changes. -->
+
+  <p>The <code title="attr-img-src">src</code> attribute's value is an
+  <i>ignored self-reference</i> if its value is the empty string, and
+  the <i>base URI of the element</i> is the same as <span>the
+  document's address</span>.</p>
+
+  <!-- same text in <input type=image> section and similar text elsewhere -->
+  <p>Fetching the image must <span>delay the load event</span> of the
+  element's document until the <span title="concept-task">task</span>
+  that is <span title="queue a task">queued</span> by the
+  <span>networking task source</span> once the resource has been <span
+  title="fetch">fetched</span> (defined below) has been run.</p>
+
+  <p class="warning">This, unfortunately, can be used to perform a
+  rudimentary port scan of the user's local network (especially in
+  conjunction with scripting, though scripting isn't actually
+  necessary to carry out such an attack). User agents may implement
+  <span title="origin">cross-origin</span> access control policies
+  that mitigate this attack.</p>
+
+  <p>If the image is in a supported image type and its dimensions are
+  known, then the image is said to be <dfn
+  title="img-available"><i>available</i></dfn> (this affects exactly
+  what the element represents, as defined below). This can be true
+  even before the image is completely downloaded, if the user agent
+  supports incremental rendering of images; in such cases, each <span
+  title="concept-task">task</span> that is <span title="queue a
+  task">queued</span> by the <span>networking task source</span> while
+  the image is being <span title="fetch">fetched</span> must update
+  the presentation of the image appropriately. It can also stop being
+  true, e.g. if the user agent finds, after obtaining the image's
+  dimensions, that the image data is actually fatally corrupted.</p>
+
+  <p>If the image was not fetched (e.g. because the UA's image support
+  is disabled, or because the <code title="attr-img-src">src</code>
+  attribute's value is an <i>ignored self-reference</i>), or if the
+  conditions in the previous paragraph are not met, then the image is
+  <em>not</em> <i title="img-available">available</i>.</p>
+
+  <p class="note">An image might be <i
+  title="img-available">available</i> in one <span>view</span> but not
+  another. For instance, a <code>Document</code> could be rendered by
+  a screen reader providing a speech synthesis view of the output of a
+  Web browser using the screen media. In this case, the image would be
+  <i title="img-available">available</i> in the Web browser's screen
+  view, but <em>not</em> <i title="img-available">available</i> in the
+  screen reader's view.</p>
+
+  <p>Whether the image is fetched successfully or not (e.g. whether
+  the response code was a 2xx code <span
+  title="concept-http-equivalent-codes">or equivalent</span>) must be
+  ignored when determining the image's type and whether it is a valid
+  image.</p>
+
+  <p class="note">This allows servers to return images with error
+  responses, and have them displayed.</p>
+
+  <p>The user agents should apply the <span title="Content-Type
+  sniffing: image">image sniffing rules</span> to determine the type
+  of the image, with the image's <span title="Content-Type">associated
+  Content-Type headers</span> giving the <var title="">official
+  type</var>. If these rules are not applied, then the type of the
+  image must be the type given by the image's <span
+  title="Content-Type">associated Content-Type headers</span>.</p>
+
+  <p>User agents must not support non-image resources with the
+  <code>img</code> element (e.g. XML files whose root element is an
+  HTML element). User agents must not run executable code
+  (e.g. scripts) embedded in the image resource. User agents must only
+  display the first page of a multipage resource (e.g. a PDF
+  file). User agents must not allow the resource to act in an
+  interactive fashion, but should honor any animation in the
+  resource.</p>
+
+  <p>This specification does not specify which image types are to be
+  supported.</p>
+
+  <p>The <span title="concept-task">task</span> that is <span
+  title="queue a task">queued</span> by the <span>networking task
+  source</span> once the resource has been <span
+  title="fetch">fetched</span>, must act as appropriate given the
+  following alternatives:</p>
+
+  <dl class="switch">
+
+   <dt>If the download was successful and the image is <i
+   title="img-available">available</i></dt>
+
+   <dd><span>Queue a task</span> to <span>fire a simple event</span>
+   called <code title="event-load">load</code> at the <code>img</code>
+   element (this happens after <code
+   title="dom-img-complete">complete</code> starts returning
+   true).</dd>
+
+   <dt>Otherwise (the fetching process failed without a response from
+   the remote server, or completed but the image is not a supported
+   image)</dt>
+
+   <dd><span>Queue a task</span> to <span>fire a simple event</span>
+   called <code title="event-error">error</code> on the
+   <code>img</code> element.</dd>
+
+  </dl>
+
+  <p>The <span>task source</span> for these tasks is the <span>DOM
+  manipulation task source</span>.</p>
+
+  <hr>
+
+  <p>What an <code>img</code> element represents depends on the <code
+  title="attr-img-src">src</code> attribute and the <code
+  title="attr-img-alt">alt</code> attribute.</p>
+
+  <dl class="switch">
+
+   <dt>If the <code title="attr-img-src">src</code> attribute is set
+   and the <code title="attr-img-alt">alt</code> attribute is set to
+   the empty string</dt>
+
+   <dd>
+
+    <p>The image is either decorative or supplemental to the rest of
+    the content, redundant with some other information in the
+    document.</p>
+
+    <p>If the image is <i title="img-available">available</i> and the
+    user agent is configured to display that image, then the element
+    <span>represents</span> the image specified by the <code
+    title="attr-img-src">src</code> attribute.</p>
+
+    <p>Otherwise, the element <span>represents</span> nothing, and may
+    be omitted completely from the rendering. User agents may provide
+    the user with a notification that an image is present but has been
+    omitted from the rendering.</p>
+
+   </dd>
+
+   <dt>If the <code title="attr-img-src">src</code> attribute is set
+   and the <code title="attr-img-alt">alt</code> attribute is set to a
+   value that isn't empty</dt>
+
+   <dd>
+
+    <p>The image is a key part of the content; the <code
+    title="attr-img-alt">alt</code> attribute gives a textual
+    equivalent or replacement for the image.</p>
+
+    <p>If the image is <i title="img-available">available</i> and the
+    user agent is configured to display that image, then the element
+    <span>represents</span> the image specified by the <code
+    title="attr-img-src">src</code> attribute.</p>
+
+    <p>Otherwise, the element <span>represents</span> the text given
+    by the <code title="attr-img-alt">alt</code> attribute. User
+    agents may provide the user with a notification that an image is
+    present but has been omitted from the rendering.</p>
+
+   </dd>
+
+   <dt>If the <code title="attr-img-src">src</code> attribute is set
+   and the <code title="attr-img-alt">alt</code> attribute is not</dt>
+
+   <dd>
+
+    <p>The image might be a key part of the content, and there is no
+    textual equivalent of the image available.</p>
+
+    <p class="note">In a conforming document, the absence of the <code
+    title="attr-img-alt">alt</code> attribute indicates that the image
+    is a key part of the content but that a textual replacement for
+    the image was not available when the image was generated.</p>
+
+    <p>If the image is <i title="img-available">available</i>, the
+    element <span>represents</span> the image specified by the <code
+    title="attr-img-src">src</code> attribute.</p>
+
+    <p>If the image is not <i title="img-available">available</i> or
+    if the user agent is not configured to display the image, then the
+    user agent should display some sort of indicator that there is an
+    image that is not being rendered, and may, if requested by the
+    user, or if so configured, or when required to provide contextual
+    information in response to navigation, provide caption information
+    for the image, derived as follows:</p>
+
+    <ol>
+
+     <li><p>If the image has a <code title="attr-title">title</code>
+     attribute whose value is not the empty string, then the value of
+     that attribute is the caption information; abort these
+     steps.</p></li>
+
+     <li><p>If the image is the child of a <code>figure</code> element
+     that has a child <code>legend</code> element, then the contents
+     of the first such <code>legend</code> element are the caption
+     information; abort these steps.</p></li>
+
+     <!-- aria processing goes here -->
+
+     <li><p>Run the algorithm to create the <span>outline</span> for
+     the document.</p></li>
+
+     <li><p>If the <code>img</code> element did not end up associated
+     with a heading in the outline, or if there are any other images
+     that are lacking an <code title="attr-img-alt">alt</code>
+     attribute and that are associated with the same heading in the
+     outline as the <code>img</code> element in question, then there
+     is no caption information; abort these steps.</p></li>
+
+     <li><p>The caption information is the heading with which the
+     image is associated according to the outline.</p></li>
+
+    </ol>
+
+   </dd>
+
+   <dt>If the <code title="attr-img-src">src</code> attribute is not
+   set and either the <code title="attr-img-alt">alt</code> attribute
+   is set to the empty string or the <code
+   title="attr-img-alt">alt</code> attribute is not set at all</dt>
+
+   <dd>
+
+    <p>The element <span>represents</span> nothing.</p>
+
+   </dd>
+
+   <dt>Otherwise</dt>
+
+   <dd>
+
+    <p>The element <span>represents</span> the text given by the <code
+    title="attr-img-alt">alt</code> attribute.</p>
+
+   </dd>
+
+  </dl>
+
+  <p>The <code title="attr-img-alt">alt</code> attribute does not
+  represent advisory information. User agents must not present the
+  contents of the <code title="attr-img-alt">alt</code> attribute in
+  the same way as content of the <code title="attr-title">title</code>
+  attribute.</p>
+
+  <p>User agents may always provide the user with the option to
+  display any image, or to prevent any image from being
+  displayed. User agents may also apply image analysis heuristics to
+  help the user make sense of the image when the user is unable to
+  make direct use of the image, e.g. due to a visual disability or
+  because they are using a text terminal with no graphics
+  capabilities.</p>
+
+  <p>The <em>contents</em> of <code>img</code> elements, if any, are
+  ignored for the purposes of rendering.</p>
+
+  </div>
+
+  <hr>
+
+  <p>The <code title="attr-hyperlink-usemap">usemap</code> attribute,
+  if present, can indicate that the image has an associated
+  <span>image map</span>.</p>
+
+  <p>The <dfn title="attr-img-ismap"><code>ismap</code></dfn>
+  attribute, when used on an element that is a descendant of an
+  <code>a</code> element with an <code
+  title="attr-hyperlink-href">href</code> attribute, indicates by its
+  presence that the element provides access to a server-side image
+  map. This affects how events are handled on the corresponding
+  <code>a</code> element.</p>
+
+  <p>The <code title="attr-img-ismap">ismap</code> attribute is a
+  <span>boolean attribute</span>. The attribute must not be specified
+  on an element that does not have an ancestor <code>a</code> element
+  with an <code title="attr-hyperlink-href">href</code> attribute.</p>
+
+  <p>The <code>img</code> element supports <span>dimension
+  attributes</span>.</p>
+
+  <div class="impl">
+
+  <p>The DOM attributes <dfn
+  title="dom-img-alt"><code>alt</code></dfn>, <dfn
+  title="dom-img-src"><code>src</code></dfn>, <dfn
+  title="dom-img-useMap"><code>useMap</code></dfn>, and <dfn
+  title="dom-img-isMap"><code>isMap</code></dfn> each must
+  <span>reflect</span> the respective content attributes of the same
+  name.</p>
+
+  </div>
+
+  <dl class="domintro">
+
+   <dt><var title="">image</var> . <code title="dom-img-width">width</code> [ = <var title="">value</var> ]</dt>
+   <dt><var title="">image</var> . <code title="dom-img-height">height</code> [ = <var title="">value</var> ]</dt>
+
+   <dd>
+
+    <p>These attributes return the actual rendered dimensions of the
+    image, or zero if the dimensions are not known.</p>
+
+    <p>They can be set, to change the corresponding content
+    attributes.</p>
+
+   </dd>
+
+   <dt><var title="">image</var> . <code title="dom-img-complete">complete</code></dt>
+
+   <dd>
+
+    <p>Returns true if the image has been downloaded, decoded, and
+    found to be valid; otherwise, returns false.</p>
+
+   </dd>
+
+   <dt><var title="">image</var> = new <code title="dom-image">Image</code>( [ <var title="">width</var> [, <var title="">height</var> ] ] )</dt>
+
+   <dd>
+
+    <p>Returns a new <code>img</code> element, with the <code
+    title="attr-dim-width">width</code> and <code
+    title="attr-dim-height">height</code> attributes set to the values
+    passed in the relevant arguments, if applicable.</p>
+
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>The DOM attributes <dfn
+  title="dom-img-width"><code>width</code></dfn> and <dfn
+  title="dom-img-height"><code>height</code></dfn> must return the
+  rendered width and height of the image, in CSS pixels, if the image
+  is being rendered, and is being rendered to a visual medium; or else
+  the intrinsic width and height of the image, in CSS pixels, if the
+  image is <i title="img-available">available</i> but not being
+  rendered to a visual medium; or else 0, if the image is not <i
+  title="img-available">available</i> or its dimensions are not
+  known. <a href="#refsCSS">[CSS]</a></p>
+
+  <p>On setting, they must act as if they <span
+  title="reflect">reflected</span> the respective content attributes
+  of the same name.</p>
+
+  <p>The DOM attribute <dfn
+  title="dom-img-complete"><code>complete</code></dfn> must return
+  true if the user agent has fetched the image specified in the <code
+  title="attr-img-src">src</code> attribute, and it is in a supported
+  image type (i.e. it was decoded without fatal errors), even if the
+  final <span title="concept-task">task</span> queued by the
+  <span>networking task source</span> for the <span
+  title="fetch">fetching</span> of the image resource has not yet been
+  processed. Otherwise, the attribute must return false.</p>
+
+  <p class="note">The value of <code
+  title="dom-img-complete">complete</code> can thus change while a
+  <span title="concept-script">script</span> is executing.</p>
+
+  <p>Three constructors are provided for creating
+  <code>HTMLImageElement</code> objects (in addition to the factory
+  methods from DOM Core such as <code
+  title="">createElement()</code>): <dfn
+  title="dom-image"><code>Image()</code></dfn>, <dfn
+  title="dom-image-w"><code>Image(<var
+  title="">width</var>)</code></dfn>, and <dfn
+  title="dom-image-wh"><code>Image(<var title="">width</var>, <var
+  title="">height</var>)</code></dfn>. When invoked as constructors,
+  these must return a new <code>HTMLImageElement</code> object (a new
+  <code>img</code> element). If the <var title="">width</var> argument
+  is present, the new object's <code
+  title="attr-dim-width">width</code> content attribute must be set to
+  <var title="">width</var>. If the <var title="">height</var>
+  argument is also present, the new object's <code
+  title="attr-dim-height">height</code> content attribute must be set
+  to <var title="">height</var>.</p>
+
+  </div>
+
+  <div class="example">
+
+   <p>A single image can have different appropriate alternative text
+   depending on the context.</p>
+
+   <p>In each of the following cases, the same image is used, yet the
+   <code title="attr-img-alt">alt</code> text is different each
+   time. The image is the coat of arms of the Canton Geneva in
+   Switzerland.</p>
+
+   <p>Here it is used as a supplementary icon:</p>
+   <pre>&lt;p>I lived in &lt;img src="carouge.svg" alt=""> Carouge.&lt;/p></pre>
+
+   <p>Here it is used as an icon representing the town:</p>
+   <pre>&lt;p>Home town: &lt;img src="carouge.svg" alt="Carouge">&lt;/p></pre>
+
+   <p>Here it is used as part of a text on the town:</p>
+
+   <pre>&lt;p>Carouge has a coat of arms.&lt;/p>
+&lt;p>&lt;img src="carouge.svg" alt="The coat of arms depicts a lion, sitting in front of a tree.">&lt;/p>
+&lt;p>It is used as decoration all over the town.&lt;/p></pre>
+
+   <p>Here it is used as a way to support a similar text where the
+   description is given as well as, instead of as an alternative to,
+   the image:</p>
+
+   <pre>&lt;p>Carouge has a coat of arms.&lt;/p>
+&lt;p>&lt;img src="carouge.svg" alt="">&lt;/p>
+&lt;p>The coat of arms depicts a lion, sitting in front of a tree.
+It is used as decoration all over the town.&lt;/p></pre>
+
+   <p>Here it is used as part of a story:</p>
+
+   <pre>&lt;p>He picked up the folder and a piece of paper fell out.&lt;/p>
+&lt;p>&lt;img src="carouge.svg" alt="Shaped like a shield, the paper had a
+red background, a green tree, and a yellow lion with its tongue
+hanging out and whose tail was shaped like an S.">&lt;/p>
+&lt;p>He stared at the folder. S! The answer he had been looking for all
+this time was simply the letter S! How had he not seen that before? It all
+came together now. The phone call where Hector had referred to a lion's tail,
+the time Marco had stuck his tongue out...&lt;/p></pre>
+
+   <p>Here it is not known at the time of publication what the image
+   will be, only that it will be a coat of arms of some kind, and thus
+   no replacement text can be provided, and instead only a brief
+   caption for the image is provided, in the <code
+   title="attr-title">title</code> attribute:</p>
+
+   <pre>&lt;p>The last user to have uploaded a coat of arms uploaded this one:&lt;/p>
+&lt;p>&lt;img src="last-uploaded-coat-of-arms.cgi" title="User-uploaded coat of arms.">&lt;/p></pre>
+
+   <p>Ideally, the author would find a way to provide real replacement
+   text even in this case, e.g. by asking the previous user. Not
+   providing replacement text makes the document more difficult to use
+   for people who are unable to view images, e.g. blind users, or
+   users or very low-bandwidth connections or who pay by the byte, or
+   users who are forced to use a text-only Web browser.</p>
+
+  </div>
+
+  <div class="example">
+
+   <p>Here are some more examples showing the same picture used in
+   different contexts, with different appropriate alternate texts each
+   time.</p>
+
+   <pre>&lt;article>
+ &lt;h1>My cats&lt;/h1>
+ &lt;h2>Fluffy&lt;/h2>
+ &lt;p>Fluffy is my favorite.&lt;/p>
+ &lt;img src="fluffy.jpg" alt="She likes playing with a ball of yarn.">
+ &lt;p>She's just too cute.&lt;/p>
+ &lt;h2>Miles&lt;/h2>
+ &lt;p>My other cat, Miles just eats and sleeps.&lt;/p>
+&lt;/article></pre>
+
+   <pre>&lt;article>
+ &lt;h1>Photography&lt;/h1>
+ &lt;h2>Shooting moving targets indoors&lt;/h2>
+ &lt;p>The trick here is to know how to anticipate; to know at what speed and
+ what distance the subject will pass by.&lt;/p>
+ &lt;img src="fluffy.jpg" alt="A cat flying by, chasing a ball of yarn, can be
+ photographed quite nicely using this technique.">
+ &lt;h2>Nature by night&lt;/h2>
+ &lt;p>To achieve this, you'll need either an extremely sensitive film, or
+ immense flash lights.&lt;/p>
+&lt;/article></pre>
+
+   <pre>&lt;article>
+ &lt;h1>About me&lt;/h1>
+ &lt;h2>My pets&lt;/h2>
+ &lt;p>I've got a cat named Fluffy and a dog named Miles.&lt;/p>
+ &lt;img src="fluffy.jpg" alt="Fluffy, my cat, tends to keep itself busy.">
+ &lt;p>My dog Miles and I like go on long walks together.&lt;/p>
+ &lt;h2>music&lt;/h2>
+ &lt;p>After our walks, having emptied my mind, I like listening to Bach.&lt;/p>
+&lt;/article></pre>
+
+   <pre>&lt;article>
+ &lt;h1>Fluffy and the Yarn&lt;/h1>
+ &lt;p>Fluffy was a cat who liked to play with yarn. He also liked to jump.&lt;/p>
+ &lt;aside>&lt;img src="fluffy.jpg" alt="" title="Fluffy">&lt;/aside>
+ &lt;p>He would play in the morning, he would play in the evening.&lt;/p>
+&lt;/article></pre>
+
+  </div>
+
+
+
+  <h5 id="alt">Requirements for providing text to act as an alternative for images</h5>
+
+  <p>The requirements for the <code title="attr-img-alt">alt</code>
+  attribute depend on what the image is intended to represent, as
+  described in the following sections.</p>
+
+  <p class="XXX">
+  Some of the following sections are controversial and do not enjoy 
+  broad consensus.
+  </p>
+  <p class="XXX">
+  The notion that there may be images in the document that contain an
+  <code>alt</code> attribute that is blank may cause a number of usability
+  concerns for <abbr title="Assistive Technologies">AT</abbr>. The 
+  <abbr title="Web Accessibility Initiative">WAI</abbr> 
+  <abbr title="Protocols and Formats Working Group">PFWG</abbr> has 
+  <a href="http://www.w3.org/html/wg/tracker/issues/31">raised an issue</a> 
+  with the <abbr title="Hypertext Markup Language Working Group">
+  HTML WG</abbr> regarding the usability issues created by not making the
+  <code>alt</code> tag mandatory on all <code>img</code> elements.
+  </p>
+
+  <h6>A link or button containing nothing but the image</h6>
+
+  <p>When an <span>a</span> element that is a <span>hyperlink</span>,
+  or a <code>button</code> element, has no textual content but
+  contains one or more images, the <code
+  title="attr-img-alt">alt</code> attributes must contain text that
+  together convey the purpose of the link or button.</p>
+
+  <div class="example">
+
+   <p>In this example, a user is asked to pick his preferred color
+   from a list of three. Each color is given by an image, but for
+   users who have configured their user agent not to display images,
+   the color names are used instead:</p>
+
+   <pre>&lt;h1>Pick your color&lt;/h1>
+&lt;ul>
+ &lt;li>&lt;a href="green.html"><strong>&lt;img src="green.jpeg" alt="Green"></strong>&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="blue.html"><strong>&lt;img src="blue.jpeg" alt="Blue"></strong>&lt;/a>&lt;/li>
+ &lt;li>&lt;a href="red.html"><strong>&lt;img src="red.jpeg" alt="Red"></strong>&lt;/a>&lt;/li>
+&lt;/ul></pre>
+
+  </div>
+
+  <div class="example">
+
+   <p>In this example, each button has a set of images to indicate the
+   kind of color output desired by the user. The first image is used
+   in each case to give the alternative text.</p>
+
+   <pre>&lt;button name="rgb"><strong>&lt;img src="red" alt="RGB">&lt;img src="green" alt="">&lt;img src="blue" alt=""></strong>&lt;/button>
+&lt;button name="cmyk"><strong>&lt;img src="cyan" alt="CMYK">&lt;img src="magenta" alt="">&lt;img src="yellow" alt="">&lt;img src="black" alt=""></strong>&lt;/button></pre>
+
+   <p>Since each image represents one part of the text, it could also
+   be written like this:</p>
+
+   <pre>&lt;button name="rgb"><strong>&lt;img src="red" alt="R">&lt;img src="green" alt="G">&lt;img src="blue" alt="B"></strong>&lt;/button>
+&lt;button name="cmyk"><strong>&lt;img src="cyan" alt="C">&lt;img src="magenta" alt="M">&lt;img src="yellow" alt="Y">&lt;img src="black" alt="K"></strong>&lt;/button></pre>
+
+   <p>However, with other alternative text, this might not work, and
+   putting all the alternative text into one image in each case might
+   make more sense:</p>
+
+   <pre>&lt;button name="rgb"><strong>&lt;img src="red" alt="sRGB profile">&lt;img src="green" alt="">&lt;img src="blue" alt=""></strong>&lt;/button>
+&lt;button name="cmyk"><strong>&lt;img src="cyan" alt="CMYK profile">&lt;img src="magenta" alt="">&lt;img src="yellow" alt="">&lt;img src="black" alt=""></strong>&lt;/button></pre>
+
+  </div>
+
+
+
+  <h6>A phrase or paragraph with an alternative graphical representation: charts, diagrams, graphs, maps, illustrations</h6>
+
+  <p>Sometimes something can be more clearly stated in graphical
+  form, for example as a flowchart, a diagram, a graph, or a simple
+  map showing directions. In such cases, an image can be given using
+  the <code>img</code> element, but the lesser textual version must
+  still be given, so that users who are unable to view the image
+  (e.g. because they have a very slow connection, or because they
+  are using a text-only browser, or because they are listening to
+  the page being read out by a hands-free automobile voice Web
+  browser, or simply because they are blind) are still able to
+  understand the message being conveyed.</p>
+
+  <p>The text must be given in the <code
+  title="attr-img-alt">alt</code> attribute, and must convey the
+  same message as the image specified in the <code
+  title="attr-img-src">src</code> attribute.</p>
+
+  <p>It is important to realize that the alternative text is a
+  <em>replacement</em> for the image, not a description of the
+  image.</p>
+
+  <div class="example">
+
+   <p>In the following example we have <a
+   href="images/parsing-model-overview.png">a flowchart</a> in image
+   form, with text in the <code title="attr-img-alt">alt</code>
+   attribute rephrasing the flowchart in prose form:</p>
+
+   <pre>&lt;p>In the common case, the data handled by the tokenization stage
+comes from the network, but it can also come from script.&lt;/p>
+&lt;p><strong>&lt;img src="images/parsing-model-overview.png" alt="The network
+passes data to the Tokenizer stage, which passes data to the Tree
+Construction stage. From there, data goes to both the DOM and to
+Script Execution. Script Execution is linked to the DOM, and, using
+document.write(), passes data to the Tokenizer."></strong>&lt;/p></pre>
+
+  </div>
+
+  <div class="example">
+
+   <p>Here's another example, showing a good solution and a bad
+   solution to the problem of including an image in a
+   description.</p>
+
+   <p>First, here's the good solution. This sample shows how the
+   alternative text should just be what you would have put in the
+   prose if the image had never existed.</p>
+
+   <pre>&lt;!-- This is the correct way to do things. -->
+&lt;p>
+ You are standing in an open field west of a house.
+ <strong>&lt;img src="house.jpeg" alt="The house is white, with a boarded front door."></strong>
+ There is a small mailbox here.
+&lt;/p></pre>
+
+   <p>Second, here's the bad solution. In this incorrect way of
+   doing things, the alternative text is simply a description of the
+   image, instead of a textual replacement for the image. It's bad
+   because when the image isn't shown, the text doesn't flow as well
+   as in the first example.</p>
+
+   <pre class="bad">&lt;!-- <em>This is the wrong way to do things.</em> -->
+&lt;p>
+ You are standing in an open field west of a house.
+ &lt;img src="house.jpeg" alt="A white house, with a boarded front door.">
+ There is a small mailbox here.
+&lt;/p></pre>
+
+   <p>Text such as "Photo of white house with boarded door" would be
+   equally bad alternative text (though it could be suitable for the
+   <code title="attr-title">title</code> attribute or in the
+   <code>legend</code> element of a <code>figure</code> with this
+   image).</p>
+
+  </div>
+
+
+  <h6>A short phrase or label with an alternative graphical representation: icons, logos</h6>
+
+  <p>A document can contain information in iconic form. The icon is
+  intended to help users of visual browsers to recognize features at
+  a glance.</p>
+
+  <p>In some cases, the icon is supplemental to a text label
+  conveying the same meaning. In those cases, the <code
+  title="attr-img-alt">alt</code> attribute must be present but must
+  be empty.</p>
+
+  <div class="example">
+
+   <p>Here the icons are next to text that conveys the same meaning,
+   so they have an empty <code title="attr-img-alt">alt</code>
+   attribute:</p>
+
+   <pre>&lt;nav>
+ &lt;p>&lt;a href="/help/"><strong>&lt;img src="/icons/help.png" alt=""></strong> Help&lt;/a>&lt;/p>
+ &lt;p>&lt;a href="/configure/"><strong>&lt;img src="/icons/configuration.png" alt=""></strong>
+ Configuration Tools&lt;/a>&lt;/p>
+&lt;/nav></pre>
+
+  </div>
+
+  <p>In other cases, the icon has no text next to it describing what
+  it means; the icon is supposed to be self-explanatory. In those
+  cases, an equivalent textual label must be given in the <code
+  title="attr-img-alt">alt</code> attribute.</p>
+
+  <div class="example">
+
+   <p>Here, posts on a news site are labeled with an icon
+   indicating their topic.</p>
+
+   <pre>&lt;body>
+ &lt;article>
+  &lt;header>
+   &lt;h1>Ratatouille wins &lt;i>Best Movie of the Year&lt;/i> award&lt;/h1>
+   &lt;p><strong>&lt;img src="movies.png" alt="Movies"></strong>&lt;/p>
+  &lt;/header>
+  &lt;p>Pixar has won yet another &lt;i>Best Movie of the Year&lt;/i> award,
+  making this its 8th win in the last 12 years.&lt;/p>
+ &lt;/article>
+ &lt;article>
+  &lt;header>
+   &lt;h1>Latest TWiT episode is online&lt;/h1>
+   &lt;p><strong>&lt;img src="podcasts.png" alt="Podcasts"></strong>&lt;/p>
+  &lt;/header>
+  &lt;p>The latest TWiT episode has been posted, in which we hear
+  several tech news stories as well as learning much more about the
+  iPhone. This week, the panelists compare how reflective their
+  iPhones' Apple logos are.&lt;/p>
+ &lt;/article>
+&lt;/body></pre>
+
+  </div>
+
+  <p>Many pages include logos, insignia, flags, or emblems, which
+  stand for a particular entity such as a company, organization,
+  project, band, software package, country, or some such.</p>
+
+  <p>If the logo is being used to represent the entity, e.g. as a page
+  heading, the <code title="attr-img-alt">alt</code> attribute must
+  contain the name of the entity being represented by the logo. The
+  <code title="attr-img-alt">alt</code> attribute must <em>not</em>
+  contain text like the word "logo", as it is not the fact that it is
+  a logo that is being conveyed, it's the entity itself.</p>
+
+  <p>If the logo is being used next to the name of the entity that
+  it represents, then the logo is supplemental, and its <code
+  title="attr-img-alt">alt</code> attribute must instead be
+  empty.</p>
+
+  <p>If the logo is merely used as decorative material (as branding,
+  or, for example, as a side image in an article that mentions the
+  entity to which the logo belongs), then the entry below on purely
+  decorative images applies. If the logo is actually being
+  discussed, then it is being used as a phrase or paragraph (the
+  description of the logo) with an alternative graphical
+  representation (the logo itself), and the first entry above
+  applies.</p>
+
+  <div class="example">
+
+   <p>In the following snippets, all four of the above cases are
+   present. First, we see a logo used to represent a company:</p>
+
+   <pre>&lt;h1><strong>&lt;img src="XYZ.gif" alt="The XYZ company"></strong>&lt;/h1></pre>
+
+   <p>Next, we see a paragraph which uses a logo right next to the
+   company name, and so doesn't have any alternative text:
+
+   <pre>&lt;article>
+ &lt;h2>News&lt;/h2>
+ &lt;p>We have recently been looking at buying the <strong>&lt;img src="alpha.gif"
+ alt=""> &Alpha;&Beta;&Gamma; company</strong>, a small Greek company
+ specializing in our type of product.&lt;/p></pre>
+
+   <p>In this third snippet, we have a logo being used in an aside,
+   as part of the larger article discussing the acquisition:</p>
+
+<pre> <strong>&lt;aside>&lt;p>&lt;img src="alpha-large.gif" alt="">&lt;/p>&lt;/aside></strong>
+ &lt;p>The &Alpha;&Beta;&Gamma; company has had a good quarter, and our
+ pie chart studies of their accounts suggest a much bigger blue slice
+ than its green and orange slices, which is always a good sign.&lt;/p>
+&lt;/article></pre>
+
+   <p>Finally, we have an opinion piece talking about a logo, and
+   the logo is therefore described in detail in the alternative
+   text.</p>
+
+   <pre>&lt;p>Consider for a moment their logo:&lt;/p>
+
+<strong>&lt;p>&lt;img src="/images/logo" alt="It consists of a green circle with a
+green question mark centered inside it.">&lt;/p></strong>
+
+&lt;p>How unoriginal can you get? I mean, oooooh, a question mark, how
+&lt;em>revolutionary&lt;/em>, how utterly &lt;em>ground-breaking&lt;/em>, I'm
+sure everyone will rush to adopt those specifications now! They could
+at least have tried for some sort of, I don't know, sequence of
+rounded squares with varying shades of green and bold white outlines,
+at least that would look good on the cover of a blue book.&lt;/p></pre>
+
+   <p>This example shows how the alternative text should be written
+   such that if the image isn't <i
+   title="img-available">available</i>, and the text is used instead,
+   the text flows seamlessly into the surrounding text, as if the
+   image had never been there in the first place.</p>
+
+  </div>
+
+
+  <h6>Text that has been rendered to a graphic for typographical effect</h6>
+
+  <p>Sometimes, an image just consists of text, and the purpose of the
+  image is not to highlight the actual typographic effects used to
+  render the text, but just to convey the text itself.</p>
+
+  <p>In such cases, the <code title="attr-img-alt">alt</code>
+  attribute must be present but must consist of the same text as
+  written in the image itself.</p>
+
+  <div class="example">
+
+   <p>Consider a graphic containing the text "Earth Day", but with the
+   letters all decorated with flowers and plants. If the text is
+   merely being used as a heading, to spice up the page for graphical
+   users, then the correct alternative text is just the same text
+   "Earth Day", and no mention need be made of the decorations:</p>
+
+   <pre>&lt;h1><strong>&lt;img src="earthdayheading.png" alt="Earth Day"></strong>&lt;/h1></pre>
+
+  </div>
+
+
+
+  <h6>A graphical representation of some of the surrounding text</h6>
+
+  <p>In many cases, the image is actually just supplementary, and
+  its presence merely reinforces the surrounding text. In these
+  cases, the <code title="attr-img-alt">alt</code> attribute must be
+  present but its value must be the empty string.</p>
+
+  <p>In general, an image falls into this category if removing the
+  image doesn't make the page any less useful, but including the
+  image makes it a lot easier for users of visual browsers to
+  understand the concept.</p>
+
+  <div class="example">
+
+   <p>A flowchart that repeats the previous paragraph in graphical form:</p>
+
+   <pre>&lt;p>The network passes data to the Tokenizer stage, which
+passes data to the Tree Construction stage. From there, data goes
+to both the DOM and to Script Execution. Script Execution is
+linked to the DOM, and, using document.write(), passes data to
+the Tokenizer.&lt;/p>
+<strong>&lt;p>&lt;img src="images/parsing-model-overview.png" alt="">&lt;/p></strong></pre>
+
+   <p>In these cases, it would be wrong to include alternative text
+   that consists of just a caption. If a caption is to be included,
+   then either the <code title="attr-title">title</code> attribute can
+   be used, or the <code>figure</code> and <code>legend</code>
+   elements can be used. In the latter case, the image would in fact
+   be a phrase or paragraph with an alternative graphical
+   representation, and would thus require alternative text.</p>
+
+   <pre>&lt;!-- Using the title="" attribute -->
+&lt;p>The network passes data to the Tokenizer stage, which
+passes data to the Tree Construction stage. From there, data goes
+to both the DOM and to Script Execution. Script Execution is
+linked to the DOM, and, using document.write(), passes data to
+the Tokenizer.&lt;/p>
+&lt;p><strong>&lt;img src="images/parsing-model-overview.png" alt=""
+        title="Flowchart representation of the parsing model."></strong>&lt;/p></pre>
+
+   <pre>&lt;!-- Using &lt;figure> and &lt;legend> -->
+&lt;p>The network passes data to the Tokenizer stage, which
+passes data to the Tree Construction stage. From there, data goes
+to both the DOM and to Script Execution. Script Execution is
+linked to the DOM, and, using document.write(), passes data to
+the Tokenizer.&lt;/p>
+&lt;figure>
+ <strong>&lt;img src="images/parsing-model-overview.png" alt="The Network leads
+ to the Tokenizer, which leads to the Tree Construction. The Tree
+ Construction leads to two items. The first is Script Execution, which
+ leads via document.write() back to the Tokenizer. The second item
+ from which Tree Construction leads is the DOM. The DOM is related to
+ the Script Execution."></strong>
+ &lt;legend>Flowchart representation of the parsing model.&lt;/legend>
+&lt;/figure></pre>
+
+   <pre class="bad">&lt;!-- This is WRONG. Do not do this. Instead, do what the above examples do. -->
+&lt;p>The network passes data to the Tokenizer stage, which
+passes data to the Tree Construction stage. From there, data goes
+to both the DOM and to Script Execution. Script Execution is
+linked to the DOM, and, using document.write(), passes data to
+the Tokenizer.&lt;/p>
+&lt;p>&lt;img src="images/parsing-model-overview.png"
+        alt="Flowchart representation of the parsing model.">&lt;/p>
+&lt;!-- Never put the image's caption in the alt="" attribute! --></pre>
+
+  </div>
+
+  <div class="example">
+
+   <p>A graph that repeats the previous paragraph in graphical form:</p>
+
+   <pre>&lt;p>According to a study covering several billion pages,
+about 62% of documents on the Web in 2007 triggered the Quirks
+rendering mode of Web browsers, about 30% triggered the Almost
+Standards mode, and about 9% triggered the Standards mode.&lt;/p>
+<strong>&lt;p>&lt;img src="rendering-mode-pie-chart.png" alt="">&lt;/p></strong></pre>
+
+  </div>
+
+
+
+  <h6>A purely decorative image that doesn't add any information</h6>
+
+  <p>In general, if an image is decorative but isn't especially
+  page-specific, for example an image that forms part of a site-wide
+  design scheme, the image should be specified in the site's CSS,
+  not in the markup of the document.</p>
+
+  <p>However, a decorative image that isn't discussed by the
+  surrounding text still has some relevance can be included in a page
+  using the <code>img</code> element. Such images are decorative, but
+  still form part of the content. In these cases, the <code
+  title="attr-img-alt">alt</code> attribute must be present but its
+  value must be the empty string.</p>
+
+  <div class="example">
+
+   <p>Examples where the image is purely decorative despite being
+   relevant would include things like a photo of the Black Rock City
+   landscape in a blog post about an event at Burning Man, or an
+   image of a painting inspired by a poem, on a page reciting that
+   poem. The following snippet shows an example of the latter
+   case (only the first verse is included in this snippet):</p>
+
+   <pre>&lt;h1>The Lady of Shalott&lt;/h1>
+<strong>&lt;p>&lt;img src="shalott.jpeg" alt="">&lt;/p></strong>
+&lt;p>On either side the river lie&lt;br>
+Long fields of barley and of rye,&lt;br>
+That clothe the wold and meet the sky;&lt;br>
+And through the field the road run by&lt;br>
+To many-tower'd Camelot;&lt;br>
+And up and down the people go,&lt;br>
+Gazing where the lilies blow&lt;br>
+Round an island there below,&lt;br>
+The island of Shalott.&lt;/p></pre>
+
+  </div>
+
+
+
+  <h6>A group of images that form a single larger picture with no links</h6>
+
+  <p>When a picture has been sliced into smaller image files that are
+  then displayed together to form the complete picture again, one of
+  the images must have its <code title="attr-img-alt">alt</code>
+  attribute set as per the relevant rules that would be appropriate
+  for the picture as a whole, and then all the remaining images must
+  have their <code title="attr-img-alt">alt</code> attribute set to
+  the empty string.</p>
+
+  <div class="example">
+
+   <p>In the following example, a picture representing a company logo
+   for <span title="">XYZ Corp</span> has been split into two pieces,
+   the first containing the letters "XYZ" and the second with the word
+   "Corp". The alternative text ("XYZ Corp") is all in the first
+   image.</p>
+
+   <pre>&lt;h1><strong>&lt;img src="logo1.png" alt="XYZ Corp">&lt;img src="logo2.png" alt=""></strong>&lt;/h1></pre>
+
+  </div>
+
+  <div class="example">
+
+   <p>In the following example, a rating is shown as three filled
+   stars and two empty stars. While the alternative text could have
+   been "&#x2605;&#x2605;&#x2605;&#x2606;&#x2606;", the author has
+   instead decided to more helpfully give the rating in the form "3
+   out of 5". That is the alternative text of the first image, and the
+   rest have blank alternative text.</p>
+
+   <pre>&lt;p>Rating: &lt;meter max=5 value=3><strong>&lt;img src="1" alt="3 out of 5"
+  >&lt;img src="1" alt="">&lt;img src="1" alt="">&lt;img src="0" alt=""
+  >&lt;img src="0" alt=""></strong>&lt;/meter>&lt;/p></pre>
+
+  </div>
+
+
+
+  <h6>A group of images that form a single larger picture with links</h6>
+
+  <p>Generally, <span title="image map">image maps</span> should be
+  used instead of slicing an image for links.</p>
+
+  <p>However, if an image is indeed sliced and any of the components
+  of the sliced picture are the sole contents of links, then one image
+  per link must have alternative text in its <code
+  title="attr-img-alt">alt</code> attribute representing the purpose
+  of the link.</p>
+
+  <div class="example">
+
+   <p>In the following example, a picture representing the flying
+   spaghetti monster emblem, with each of the left noodly appendages
+   and the right noodly appendages in different images, so that the
+   user can pick the left side or the right side in an adventure.</p>
+
+   <pre>&lt;h1>The Church&lt;/h1>
+&lt;p>You come across a flying spaghetti monster. Which side of His
+Noodliness do you wish to reach out for?&lt;/p>
+<strong>&lt;p>&lt;a href="?go=left" >&lt;img src="fsm-left.png"  alt="Left side. ">&lt;/a
+  >&lt;img src="fsm-middle.png" alt=""
+  >&lt;a href="?go=right">&lt;img src="fsm-right.png" alt="Right side.">&lt;/a>&lt;/p></strong></pre>
+
+  </div>
+
+
+
+  <h6>A key part of the content</h6>
+
+  <p>In some cases, the image is a critical part of the
+  content. This could be the case, for instance, on a page that is
+  part of a photo gallery. The image is the whole <em>point</em> of
+  the page containing it.</p>
+
+  <p>How to provide alternative text for an image that is a key part
+  of the content depends on the image's provenance.</p>
+
+  <dl>
+
+   <dt>The general case</dt>
+
+   <dd>
+
+    <p>When it is possible for detailed alternative text to be
+    provided, for example if the image is part of a series of
+    screenshots in a magazine review, or part of a comic strip, or is
+    a photograph in a blog entry about that photograph, text that can
+    serve as a substitute for the image must be given as the contents
+    of the <code title="attr-img-alt">alt</code> attribute.</p>
+
+    <div class="example">
+
+     <p>A screenshot in a gallery of screenshots for a new OS, with
+     some alternative text:</p>
+
+     <pre>&lt;figure>
+ <strong>&lt;img src="KDE%20Light%20desktop.png"
+      alt="The desktop is blue, with icons along the left hand side in
+           two columns, reading System, Home, K-Mail, etc. A window is
+           open showing that menus wrap to a second line if they
+           cannot fit in the window. The window has a list of icons
+           along the top, with an address bar below it, a list of
+           icons for tabs along the left edge, a status bar on the
+           bottom, and two panes in the middle. The desktop has a bar
+           at the bottom of the screen with a few buttons, a pager, a
+           list of open applications, and a clock."></strong>
+ &lt;legend>Screenshot of a KDE desktop.&lt;/legend>
+&lt;/figure></pre>
+
+    </div>
+
+    <div class="example">
+
+     <p>A graph in a financial report:</p>
+
+     <pre><strong>&lt;img src="sales.gif"
+     title="Sales graph"
+     alt="From 1998 to 2005, sales increased by the following percentages
+     with each year: 624%, 75%, 138%, 40%, 35%, 9%, 21%"></strong></pre>
+
+     <p>Note that "sales graph" would be inadequate alternative text
+     for a sales graph. Text that would be a good <em>caption</em> is
+     not generally suitable as replacement text.</p>
+
+    </div>
+
+   </dd>
+
+
+   <dt>Images that defy a complete description</dt>
+
+   <dd>
+
+    <p>In certain cases, the nature of the image might be such that
+    providing thorough alternative text is impractical. For example,
+    the image could be indistinct, or could be a complex fractal, or
+    could be a detailed topographical map.</p>
+
+    <p>In these cases, the <code title="attr-img-alt">alt</code>
+    attribute must contain some suitable alternative text, but it may
+    be somewhat brief.</p>
+
+    <div class="example">
+
+     <p>Sometimes there simply is no text that can do justice to an
+     image. For example, there is little that can be said to usefully
+     describe a Rorschach inkblot test. However, a description, even
+     if brief, is still better than nothing:</p>
+
+     <pre>&lt;figure>
+ <strong>&lt;img src="/commons/a/a7/Rorschach1.jpg" alt="A shape with left-right
+ symmetry with indistinct edges, with a small gap in the center, two
+ larger gaps offset slightly from the center, with two similar gaps
+ under them. The outline is wider in the top half than the bottom
+ half, with the sides extending upwards higher than the center, and
+ the center extending below the sides."></strong>
+ &lt;legend>A black outline of the first of the ten cards
+ in the Rorschach inkblot test.&lt;/legend>
+&lt;/figure></pre>
+
+     <p>Note that the following would be a very bad use of alternative
+     text:</p>
+
+     <pre class="bad">&lt;!-- This example is wrong. Do not copy it. -->
+&lt;figure>
+ &lt;img src="/commons/a/a7/Rorschach1.jpg" alt="A black outline
+ of the first of the ten cards in the Rorschach inkblot test.">
+ &lt;legend>A black outline of the first of the ten cards
+ in the Rorschach inkblot test.&lt;/legend>
+&lt;/figure></pre>
+
+     <p>Including the caption in the alternative text like this isn't
+     useful because it effectively duplicates the caption for users
+     who don't have images, taunting them twice yet not helping them
+     any more than if they had only read or heard the caption
+     once.</p>
+
+    </div>
+
+    <div class="example">
+
+     <p>Another example of an image that defies full description is a
+     fractal, which, by definition, is infinite in complexity.</p>
+
+     <p>The following example shows one possible way of providing
+     alternative text for the full view of an image of the Mandelbrot
+     set.</p>
+
+     <pre><strong>&lt;img src="ms1.jpeg" alt="The Mandelbrot set appears as a cardioid with
+its cusp on the real axis in the positive direction, with a smaller
+bulb aligned along the same center line, touching it in the negative
+direction, and with these two shapes being surrounded by smaller bulbs
+of various sizes."></strong></pre>
+
+    </div>
+
+   </dd>
+
+
+   <dt id="unknown-images">Images whose contents are not known</dt>
+
+   <dd>
+
+    <p>In some unfortunate cases, there might be no alternative text
+    available at all, either because the image is obtained in some
+    automated fashion without any associated alternative text (e.g. a
+    Webcam), or because the page is being generated by a script using
+    user-provided images where the user did not provide suitable or
+    usable alternative text (e.g. photograph sharing sites), or
+    because the author does not himself know what the images represent
+    (e.g. a blind photographer sharing an image on his blog).</p>
+
+    <p>In such cases, the <code title="attr-img-alt">alt</code>
+    attribute's value may be omitted, but one of the following
+    conditions must be met as well:</p>
+
+    <ul>
+
+     <li>The <code title="attr-title">title</code> attribute is
+     present and has a non-empty value.</li>
+
+     <li>The <code>img</code> element is in a <code>figure</code>
+     element that contains a <code>legend</code> element that contains
+     content other than <span>inter-element whitespace</span>.</li>
+
+     <li>The <code>img</code> element is part of the only
+     <span>paragraph</span> directly in its <span
+     title="concept-section">section</span>, and is the only
+     <code>img</code> element without an <code
+     title="attr-img-alt">alt</code> attribute in its section, and its
+     <span title="concept-section">section</span> has an associated
+     heading.</li>
+
+    </ul>
+
+    <p class="note">Such cases are to be kept to an absolute
+    minimum. If there is even the slightest possibility of the author
+    having the ability to provide real alternative text, then it would
+    not be acceptable to omit the <code title="attr-img-alt">alt</code>
+    attribute.</p>
+
+    <div class="example">
+
+     <p>A photo on a photo-sharing site, if the site received the
+     image with no metadata other than the caption:</p>
+
+     <pre>&lt;figure>
+ <strong>&lt;img src="1100670787_6a7c664aef.jpg"></strong>
+ &lt;legend>Bubbles traveled everywhere with us.&lt;/legend>
+&lt;/figure></pre>
+
+     <p>It could also be marked up like this:</p>
+
+     <pre>&lt;article>
+ &lt;h1>Bubbles traveled everywhere with us.&lt;/h1>
+ <strong>&lt;img src="1100670787_6a7c664aef.jpg"></strong>
+&lt;/article></pre>
+
+     <p>In either case, though, it would be better if a detailed
+     description of the important parts of the image obtained from the
+     user and included on the page.</p>
+
+    </div>
+
+    <div class="example">
+
+     <p>A blind user's blog in which a photo taken by the user is
+     shown. Initially, the user might not have any idea what the photo
+     he took shows:</p>
+
+     <pre>&lt;article>
+ &lt;h1>I took a photo&lt;/h1>
+ &lt;p>I went out today and took a photo!&lt;/p>
+ &lt;figure>
+  <strong>&lt;img src="photo2.jpeg"></strong>
+  &lt;legend>A photograph taken blindly from my front porch.&lt;/legend>
+ &lt;/figure>
+&lt;/article></pre>
+
+     <p>Eventually though, the user might obtain a description of the
+     image from his friends and could then include alternative text:</p>
+
+     <pre>&lt;article>
+ &lt;h1>I took a photo&lt;/h1>
+ &lt;p>I went out today and took a photo!&lt;/p>
+ &lt;figure>
+  <strong>&lt;img src="photo2.jpeg" alt="The photograph shows my hummingbird
+  feeder hanging from the edge of my roof. It is half full, but there
+  are no birds around. In the background, out-of-focus trees fill the
+  shot. The feeder is made of wood with a metal grate, and it contains
+  peanuts. The edge of the roof is wooden too, and is painted white
+  with light blue streaks."></strong>
+  &lt;legend>A photograph taken blindly from my front porch.&lt;/legend>
+ &lt;/figure>
+&lt;/article></pre>
+
+    </div>
+
+    <div class="example">
+
+     <p>Sometimes the entire point of the image is that a textual
+     description is not available, and the user is to provide the
+     description. For instance, the point of a CAPTCHA image is to see
+     if the user can literally read the graphic. Here is one way to
+     mark up a CAPTCHA (note the <code title="attr-title">title</code>
+     attribute):</p>
+
+     <pre>&lt;p>&lt;label>What does this image say?
+<strong>&lt;img src="captcha.cgi?id=8934" title="CAPTCHA"></strong>
+&lt;input type=text name=captcha>&lt;/label>
+(If you cannot see the image, you can use an &lt;a
+href="?audio">audio&lt;/a> test instead.)&lt;/p></pre>
+
+     <p>Another example would be software that displays images and
+     asks for alternative text precisely for the purpose of then
+     writing a page with correct alternative text. Such a page could
+     have a table of images, like this:</p>
+
+     <pre>&lt;table>
+ &lt;thead>
+  &lt;tr> &lt;th> Image &lt;th> Description
+ &lt;tbody>
+  &lt;tr>
+   &lt;td> <strong>&lt;img src="2421.png" title="Image 640 by 100, filename 'banner.gif'"></strong>
+   &lt;td> &lt;input name="alt2421">
+  &lt;tr>
+   &lt;td> <strong>&lt;img src="2422.png" title="Image 200 by 480, filename 'ad3.gif'"></strong>
+   &lt;td> &lt;input name="alt2422">
+&lt;/table></pre>
+
+     <p>Notice that even in this example, as much useful information
+     as possible is still included in the <code
+     title="attr-title">title</code> attribute.</p>
+
+    </div>
+
+    <p class="note">Since some users cannot use images at all
+    (e.g. because they have a very slow connection, or because they
+    are using a text-only browser, or because they are listening to
+    the page being read out by a hands-free automobile voice Web
+    browser, or simply because they are blind), the <code
+    title="attr-img-alt">alt</code> attribute is only allowed to be
+    omitted rather than being provided with replacement text when no
+    alternative text is available and none can be made available, as
+    in the above examples. Lack of effort from the part of the author
+    is not an acceptable reason for omitting the <code
+    title="attr-img-alt">alt</code> attribute.</p>
+
+   </dd>
+
+  </dl>
+
+
+
+  <h6>An image not intended for the user</h6>
+
+  <p>Generally authors should avoid using <code>img</code> elements
+  for purposes other than showing images.</p>
+
+  <p>If an <code>img</code> element is being used for purposes other
+  than showing an image, e.g. as part of a service to count page
+  views, then the <code title="attr-img-alt">alt</code> attribute must
+  be the empty string.</p>
+
+  <p>In such cases, the <code title="attr-dim-width">width</code> and
+  <code title="attr-dim-height">height</code> attributes should both
+  be set to zero.</p>
+
+
+
+  <h6>An image in an e-mail or private document intended for a specific person who is known to be able to view images</h6>
+
+  <p><i>This section does not apply to documents that are publicly
+  accessible, or whose target audience is not necessarily personally
+  known to the author, such as documents on a Web site, e-mails sent
+  to public mailing lists, or software documentation.</i></p>
+
+  <p>When an image is included in a private communication (such as an
+  HTML e-mail) aimed at a specific person who is known to be able to
+  view images, the <code title="attr-img-alt">alt</code> attribute may
+  be omitted. However, even in such cases it is strongly recommended
+  that alternative text be included (as appropriate according to the
+  kind of image involved, as described in the above entries), so that
+  the e-mail is still usable should the user use a mail client that
+  does not support images, or should the document be forwarded on to
+  other users whose abilities might not include easily seeing
+  images.</p>
+
+
+
+  <h6>General guidelines</h6>
+
+  <p>The most general rule to consider when writing alternative text
+  is the following: <strong>the intent is that replacing every image
+  with the text of its <code title="attr-img-alt">alt</code> attribute
+  not change the meaning of the page</strong>.</p>
+
+  <p>So, in general, alternative text can be written by considering
+  what one would have written had one not been able to include the
+  image.</p>
+
+  <p>A corollary to this is that the <code
+  title="attr-img-alt">alt</code> attribute's value should never
+  contain text that could be considered the image's <em>caption</em>,
+  <em>title</em>, or <em>legend</em>. It is supposed to contain
+  replacement text that could be used by users <em>instead</em> of the
+  image; it is not meant to supplement the image. The <code
+  title="attr-title">title</code> attribute can be used for
+  supplemental information.</p>
+
+  <p class="note">One way to think of alternative text is to think
+  about how you would read the page containing the image to someone
+  over the phone, without mentioning that there is an image
+  present. Whatever you say instead of the image is typically a good
+  start for writing the alternative text.</p>
+
+
+  <div class="impl">
+
+  <h6>Guidance for markup generators</h6>
+
+  <p>Markup generators (such as WYSIWYG authoring tools) should,
+  wherever possible, obtain alternative text from their
+  users. However, it is recognized that in many cases, this will not
+  be possible.</p>
+
+  <p>For images that are the sole contents of links, markup generators
+  should examine the link target to determine the title of the target,
+  or the URL of the target, and use information obtained in this
+  manner as the alternative text.</p>
+
+  <p>As a last resort, implementors should either set the <code
+  title="attr-img-alt">alt</code> attribute to the empty string, under
+  the assumption that the image is a purely decorative image that
+  doesn't add any information but is still specific to the surrounding
+  content, or omit the <code title="attr-img-alt">alt</code> attribute
+  altogether, under the assumption that the image is a key part of the
+  content.</p>
+
+  <p>Markup generators should generally avoid using the image's own
+  file name as the alternative text.</p>
+
+  </diV>
+
+  <div class="impl">
+
+  <h6>Guidance for conformance checkers</h6>
+
+  <p>Conformance checkers must report the lack of an <code
+  title="attr-img-alt">alt</code> attribute as an error unless the
+  conditions listed above for <a href="#unknown-images">images whose
+  contents are not known</a> or they have been configured to assume
+  that the document is an e-mail or document intended for a specific
+  person who is known to be able to view images.</p>
+
+  </div>
+
+
+
