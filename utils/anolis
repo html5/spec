@@ -1,0 +1,247 @@
+#!/usr/bin/env python
+# coding=UTF-8
+# Copyright (c) 2008 Geoffrey Sneddon
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+"""usage: anolis [options] [input output]
+
+Post-process a document, adding cross-references, table of contents,
+etc. If input and output are not supplied input is read from stdin and
+output written to stdout.
+"""
+
+import sys
+
+sys.path += ("../anolislib",)
+
+from optparse import OptionParser, SUPPRESS_HELP
+
+from lxml import etree
+
+from anolislib import generator, utils
+
+
+def main():
+    # Create the options parser
+    optParser = getOptParser()
+    opts, args = optParser.parse_args()
+
+    # If we have two arguments read/write to files otherwise read/write 
+    # to stdin/stdout
+    if len(args) >= 2:
+        try:
+            input = open(args[0], "rb")        
+            output = open(args[1], "wb")
+        except IOError, e:
+            sys.stderr.write(unicode(e) + u"\n")
+            sys.exit(1)
+    else:
+        input = sys.stdin
+        output = sys.stdout
+    
+    try:
+        # Get options
+        kwargs = vars(opts)
+        
+        # Get input and generate
+
+        tree = generator.fromFile(input, **kwargs)
+        input.close()
+        
+        # Write output
+        generator.toFile(tree, output, **kwargs)
+        output.close()
+    except (utils.AnolisException, IOError, etree.XMLSyntaxError), e:
+        sys.stderr.write(unicode(e) + u"\n")
+        sys.exit(1)
+
+def getOptParser():
+    def enable(option, opt_str, value, parser, *args, **kwargs):
+        parser.values.processes.add(value)
+
+    def disable(option, opt_str, value, parser, *args, **kwargs):
+        parser.values.processes.discard(value)
+
+    parser = OptionParser(usage = __doc__, version="%prog 1.1dev")
+
+    parser.add_option("", "--enable", action="callback", callback=enable,
+                      type="string", dest="processes",
+                      help="Enable the process given as the option value")
+
+    parser.add_option("", "--disable", action="callback", callback=disable,
+                      type="string",
+                      help="Disable the process given as the option value")
+
+    parser.add_option("", "--parser", type="choice",
+                      choices=("html5lib", "lxml.html"),
+                      help="Choose what parser to use. Valid options: html5lib, lxml.html")
+
+    parser.add_option("", "--serializer", type="choice",
+                      choices=("html5lib", "lxml.html"),
+                      help="Choose what serializer to use. Valid options: html5lib, lxml.html")
+
+    parser.add_option("", "--newline-char", action="store", type="string",
+                      dest="newline_char",
+                      help="Set the newline character/string used when creating new newlines. This should match the rest of the newlines in the document.")
+
+    parser.add_option("", "--indent-char", action="store", type="string",
+                      dest="indent_char",
+                      help="Set the character/string used when creating indenting new blocks of (X)HTML. This should match the rest of the indentation in the document.")
+
+    parser.add_option("", "--filter", action="store", dest="filter",
+                      help="CSS selector that matches elements to be removed from the document before processing")
+
+    parser.add_option("", "--annotations", action="store", dest="annotation",
+                      help="Path or URI of an annotations file containing status annotations that should be added to sections")
+
+    parser.add_option("", "--annotate-w3c-issues", action="store_true", 
+                      dest="annotate_w3c_issues",
+                      help="Add links to W3C issue tracker in status annotations")
+
+    parser.add_option("", "--force-html4-id", action="store_true",
+                      dest="force_html4_id",
+                      help="Force the ID generation algorithm to create HTML 4 compliant IDs regardless of the DOCTYPE.")
+
+    parser.add_option("", "--min-depth", action="store", type="int",
+                      dest="min_depth",
+                      help="Highest ranking header to number/insert into TOC.")
+
+    parser.add_option("", "--max-depth", action="store", type="int",
+                      dest="max_depth",
+                      help="Lowest ranking header to number/insert into TOC.")
+
+    parser.add_option("", "--allow-duplicate-dfns", action="store_true",
+                      dest="allow_duplicate_dfns",
+                      help="Allow multiple definitions of terms when cross-referencing (the last instance of the term is used when referencing it).")
+
+    parser.add_option("", "--w3c-compat", action="store_true",
+                      dest="w3c_compat",
+                      help="Behave in a (mostly) compatible way to the W3C CSS WG's Postprocessor (this implies all of the other --w3c-compat options with the exception of --w3c-compat-crazy-substitution, as that is too crazy).")
+
+    parser.add_option("", "--w3c-compat-xref-elements", action="store_true",
+                      dest="w3c_compat_xref_elements",
+                      help="Uses the same list of elements to look for cross-references in as the W3C CSS WG's Postprocessor, even when the elements shouldn't semantically be used for cross-reference terms.")
+
+    parser.add_option("", "--w3c-compat-xref-a-placement", action="store_true",
+                      dest="w3c_compat_xref_a_placement",
+                      help="When cross-referencing elements apart from span, put the a element inside the element instead of outside the element.")
+
+    parser.add_option("", "--w3c-compat-xref-normalization", action="store_true",
+                      dest="w3c_compat_xref_normalization",
+                      help="Only use ASCII letters, numbers, and spaces in comparison of cross-reference terms.")
+
+    parser.add_option("", "--w3c-compat-class-toc", action="store_true",
+                      dest="w3c_compat_class_toc",
+                      help="Add @class='toc' on every ol element in the table of contents (instead of only the root ol element).")
+
+    parser.add_option("", "--w3c-compat-substitutions", action="store_true",
+                      dest="w3c_compat_substitutions",
+                      help="Do W3C specific substitutions.")
+
+    parser.add_option("", "--w3c-compat-crazy-substitutions", action="store_true",
+                      dest="w3c_compat_crazy_substitutions",
+                      help="Do crazy W3C specific substitutions, which may cause unexpected behaviour (i.e., replacing random strings within the document with no special marker).")
+
+    profile = True
+    try:
+        import cProfile
+        import pstats
+    except ImportError:
+        try:
+            import hotshot
+            import hotshot.stats
+        except ImportError:
+            profile = False
+    
+    if profile:
+        parser.add_option("", "--profile", action="store_true",
+            dest="profile", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--inject-meta-charset", action="store_true",
+                      dest="inject_meta_charset", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--strip-whitespace", action="store_true",
+                      dest="strip_whitespace", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--omit-optional-tags", action="store_true",
+                      dest="omit_optional_tags", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--quote-attr-values", action="store_true",
+                      dest="quote_attr_values", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--use-best-quote-char", action="store_true",
+                      dest="use_best_quote_char", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--no-minimize-boolean-attributes",
+                      action="store_false",
+                      dest="minimize_boolean_attributes", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--use-trailing-solidus", action="store_true",
+                      dest="use_trailing_solidus", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--space-before-trailing-solidus",
+                      action="store_true",
+                      dest="space_before_trailing_solidus", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--escape-lt-in-attrs", action="store_true",
+                      dest="escape_lt_in_attrs", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--escape-rcdata", action="store_true",
+                      dest="escape_rcdata", help=SUPPRESS_HELP)
+
+    parser.add_option("", "--output-encoding", action="store", type=str,
+                      dest="output_encoding", help="Output encoding")
+
+    parser.set_defaults(
+        processes=["filter", "sub", "toc", "xref", "annotate"],
+        parser="html5lib",
+        serializer="html5lib",
+        newline_char=u"\n",
+        indent_char=u" ",
+        filter=None,
+        annotation=None,
+        annotate_w3c_issues=False,
+        force_html4_id=False,
+        min_depth=2,
+        max_depth=6,
+        allow_duplicate_dfns=False,
+        w3c_compat=False,
+        w3c_compat_xref_elements=False,
+        w3c_compat_xref_a_placement=False,
+        w3c_compat_xref_normalization=False,
+        w3c_compat_class_toc=False,
+        w3c_compat_substitutions=False,
+        w3c_compat_crazy_substitutions=False,
+        profile=False,
+        inject_meta_charset=False,
+        omit_optional_tags=False,
+        quote_attr_values=False,
+        use_best_quote_char=False,
+        minimize_boolean_attributes=False,
+        use_trailing_solidus=False,
+        space_before_trailing_solidus=False,
+        escape_lt_in_attrs=False,
+        escape_rcdata=False,
+        output_encoding="utf-8"
+    )
+
+    return parser
+
+if __name__ == "__main__":
+    main()
