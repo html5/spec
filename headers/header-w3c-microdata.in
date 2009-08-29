@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- when publishing, change bits marked ZZZ --><html lang="en-US-x-Hixie"><title>Microdata</title><style type="text/css">
+   pre { margin-left: 2em; white-space: pre-wrap; }
+   h2 { margin: 3em 0 1em 0; }
+   h3 { margin: 2.5em 0 1em 0; }
+   h4 { margin: 2.5em 0 0.75em 0; }
+   h5, h6 { margin: 2.5em 0 1em; }
+   h1 + h2, h1 + h2 + h2 { margin: 0.75em 0 0.75em; }
+   h2 + h3, h3 + h4, h4 + h5, h5 + h6 { margin-top: 0.5em; }
+   p { margin: 1em 0; }
+   hr:not(.top) { display: block; background: none; border: none; padding: 0; margin: 2em 0; height: auto; }
+   dl, dd { margin-top: 0; margin-bottom: 0; }
+   dt { margin-top: 0.75em; margin-bottom: 0.25em; clear: left; }
+   dt + dt { margin-top: 0; }
+   dd dt { margin-top: 0.25em; margin-bottom: 0; }
+   dd p { margin-top: 0; }
+   dd dl + p { margin-top: 1em; }
+   dd table + p { margin-top: 1em; }
+   p + * > li, dd li { margin: 1em 0; }
+   dt, dfn { font-weight: bold; font-style: normal; }
+   dt dfn { font-style: italic; }
+   pre, code { font-size: inherit; font-family: monospace; font-variant: normal; }
+   pre strong { color: black; font: inherit; font-weight: bold; background: yellow; }
+   pre em { font-weight: bolder; font-style: normal; }
+   @media screen { code { color: orangered; } code :link, code :visited { color: inherit; } }
+   var sub { vertical-align: bottom; font-size: smaller; position: relative; top: 0.1em; }
+   table { border-collapse: collapse; border-style: hidden hidden none hidden; }
+   table thead { border-bottom: solid; }
+   table tbody th:first-child { border-left: solid; }
+   table td, table th { border-left: solid; border-right: solid; border-bottom: solid thin; vertical-align: top; padding: 0.2em; }
+   blockquote { margin: 0 0 0 2em; border: 0; padding: 0; font-style: italic; }
+
+   .bad, .bad *:not(.XXX) { color: gray; border-color: gray; background: transparent; }
+   .matrix, .matrix td { border: none; text-align: right; }
+   .matrix { margin-left: 2em; }
+   .dice-example { border-collapse: collapse; border-style: hidden solid solid hidden; border-width: thin; margin-left: 3em; }
+   .dice-example caption { width: 30em; font-size: smaller; font-style: italic; padding: 0.75em 0; text-align: left; }
+   .dice-example td, .dice-example th { border: solid thin; width: 1.35em; height: 1.05em; text-align: center; padding: 0; }
+   .applies th > * { display: block; white-space: nowrap; }
+   .applies thead code { display: block; }
+   .applies td { text-align: center; }
+   .applies .yes { background: yellow; }
+
+   .toc dfn, h1 dfn, h2 dfn, h3 dfn, h4 dfn, h5 dfn, h6 dfn { font: inherit; }
+   img.extra { float: right; }
+   pre.idl { border: solid thin; background: #EEEEEE; color: black; padding: 0.5em 1em; }
+   pre.idl :link, pre.idl :visited { color: inherit; background: transparent; }
+   pre.css { border: solid thin; background: #FFFFEE; color: black; padding: 0.5em 1em; }
+   pre.css:first-line { color: #AAAA50; }
+   dl.domintro { color: green; margin: 2em 0 2em 2em; padding: 0.5em 1em; border: none; background: #EEFFEE; }
+   hr + dl.domintro, div.impl + dl.domintro { margin-top: 2.5em; margin-bottom: 1.5em; }
+   dl.domintro dt, dl.domintro dt * { color: black; text-decoration: none; }
+   dl.domintro dd { margin: 0.5em 0 1em 2em; padding: 0; }
+   dl.domintro dd p { margin: 0.5em 0; }
+   dl.switch { padding-left: 2em; }
+   dl.switch > dt { text-indent: -1.5em; }
+   dl.switch > dt:before { content: '\21AA'; padding: 0 0.5em 0 0; display: inline-block; width: 1em; text-align: right; line-height: 0.5em; }
+   dl.triple { padding: 0 0 0 1em; }
+   dl.triple dt, dl.triple dd { margin: 0; display: inline }
+   dl.triple dt:after { content: ':'; }
+   dl.triple dd:after { content: '\A'; white-space: pre; }
+   .diff-old { text-decoration: line-through; color: silver; background: transparent; }
+   .diff-chg, .diff-new { text-decoration: underline; color: green; background: transparent; }
+   a .diff-new { border-bottom: 1px blue solid; }
+
+   h2 { page-break-before: always; }
+   h1 + h2, hr + h2.no-toc { page-break-before: auto; }
+
+   p > span:not([title=""]):not([class="XXX"]):not([class="impl"]), li > span:not([title=""]):not([class="XXX"]):not([class="impl"]) { border-bottom: solid #9999CC; }
+
+   div.head { margin: 0 0 1em; padding: 1em 0 0 0; }
+   div.head p { margin: 0; }
+   div.head h1 { margin: 0; }
+   div.head .logo { float: right; margin: 0 1em; }
+   div.head .logo img { border: none } /* remove border from top image */
+   div.head dl { margin: 1em 0; }
+   p.copyright { font-size: x-small; font-style: oblique; margin: 0; }
+
+   body > .toc > li { margin-top: 1em; margin-bottom: 1em; }
+   body > .toc.brief > li { margin-top: 0.35em; margin-bottom: 0.35em; }
+   body > .toc > li > * { margin-bottom: 0.5em; }
+   body > .toc > li > * > li > * { margin-bottom: 0.25em; }
+   .toc, .toc li { list-style: none; }
+
+   .brief { margin-top: 1em; margin-bottom: 1em; line-height: 1.1; }
+   .brief li { margin: 0; padding: 0; }
+   .brief li p { margin: 0; padding: 0; }
+
+   .category-list { margin-top: -0.75em; margin-bottom: 1em; line-height: 1.5; }
+   .category-list::before { content: '\21D2\A0'; font-size: 1.2em; font-weight: 900; }
+   .category-list li { display: inline; }
+   .category-list li:not(:last-child)::after { content: ', '; }
+   .category-list li > span, .category-list li > a { text-transform: lowercase; }
+   .category-list li * { text-transform: none; } /* don't affect <code> nested in <a> */
+
+   .XXX { color: #E50000; background: white; border: solid red; padding: 0.5em; margin: 1em 0; }
+   .XXX > :first-child { margin-top: 0; }
+   p .XXX { line-height: 3em; }
+   .note { color: green; background: transparent; font-family: sans-serif; }
+   .warning { color: red; background: transparent; }
+   .note, .warning { font-weight: bolder; font-style: italic; }
+   p.note, div.note { padding: 0.5em 2em; }
+   span.note { padding: 0 2em; }
+   .note p:first-child, .warning p:first-child { margin-top: 0; }
+   .note p:last-child, .warning p:last-child { margin-bottom: 0; }
+   .warning:before { font-style: normal; }
+   p.note:before { content: 'Note: '; }
+   p.warning:before { content: '\26A0 Warning! '; }
+
+   .bookkeeping:before { display: block; content: 'Bookkeeping details'; font-weight: bolder; font-style: italic; }
+   .bookkeeping { font-size: 0.8em; margin: 2em 0; }
+   .bookkeeping p { margin: 0.5em 2em; display: list-item; list-style: square; }
+
+   h4 { position: relative; z-index: 3; }
+   h4 + .element, h4 + div + .element { margin-top: -2.5em; padding-top: 2em; }
+   .element {
+     background: #EEEEFF;
+     color: black;
+     margin: 0 0 1em 0.15em;
+     padding: 0 1em 0.25em 0.75em;
+     border-left: solid #9999FF 0.25em;
+     position: relative;
+     z-index: 1;
+   }
+   .element:before {
+     position: absolute;
+     z-index: 2;
+     top: 0;
+     left: -1.15em;
+     height: 2em;
+     width: 0.9em;
+     background: #EEEEFF;
+     content: ' ';
+     border-style: none none solid solid;
+     border-color: #9999FF;
+     border-width: 0.25em;
+   }
+
+   .example {
+     display: block;
+     color: #222222;
+     background: #FCFCFC;
+     border-left: double;
+     margin-left: 2em;
+     padding-left: 1em;
+   }
+
+   .tall-and-narrow {
+     font-size: 0.6em;
+     column-width: 25em;
+     column-gap: 1em;
+     -moz-column-width: 25em;
+     -moz-column-gap: 1em;
+     -webkit-column-width: 25em;
+     -webkit-column-gap: 1em;
+   }
+
+   ul.domTree, ul.domTree ul { padding: 0 0 0 1em; margin: 0; }
+   ul.domTree li { padding: 0; margin: 0; list-style: none; position: relative; }
+   ul.domTree li li { list-style: none; }
+   ul.domTree li:first-child::before { position: absolute; top: 0; height: 0.6em; left: -0.75em; width: 0.5em; border-style: none none solid solid; content: ''; border-width: 0.1em; }
+   ul.domTree li:not(:last-child)::after { position: absolute; top: 0; bottom: -0.6em; left: -0.75em; width: 0.5em; border-style: none none solid solid; content: ''; border-width: 0.1em; }
+   ul.domTree span { font-style: italic; font-family: serif; }
+   ul.domTree .t1 code { color: purple; font-weight: bold; }
+   ul.domTree .t2 { font-style: normal; font-family: monospace; }
+   ul.domTree .t2 .name { color: black; font-weight: bold; }
+   ul.domTree .t2 .value { color: blue; font-weight: normal; }
+   ul.domTree .t3 code, .domTree .t4 code, .domTree .t5 code { color: gray; }
+   ul.domTree .t7 code, .domTree .t8 code { color: green; }
+   ul.domTree .t10 code { color: teal; }
+
+  </style><link href="data:text/css," rel="stylesheet" title="Complete specification"><link href="data:text/css,.impl%20{%20display:%20none;%20}" rel="alternate stylesheet" title="Author documentation only"><link href="data:text/css,.impl%20{%20background:%20%23FFEEEE;%20}" rel="alternate stylesheet" title="Highlight implementation requirements"><link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css"><!-- ZZZ ED vs WD --><div class="head">
+   <p><a href="http://www.w3.org/"><img alt="W3C" height="48" src="http://www.w3.org/Icons/w3c_home" width="72"></a></p>
+   <h1>Microdata</h1>
+   <h2 class="no-num no-toc" id="a-mechanism-for-simple-semantic-markup-in-html">Simple markup and APIs for structured data in HTML5</h2>
+   <!--ZZZ:-->
+   <!--<h2 class="no-num no-toc">W3C Working Draft @DATE_STRING@</h2>-->
+   <h2 class="no-num no-toc" id="editor-s-draft-date-@DAY@-@MONTH@-@YEAR@">Editor's Draft @DATE_STRING@</h2>
+
+   <!--:ZZZ-->
+   <dl><!-- ZZZ: update the month/day (twice), (un)comment out
+    <dt>This Version:</dt>
+    <dd><a href="http://www.w3.org/TR/@YEAR@/WD-html5-@CONDENSED_DATE_STRING@/">http://www.w3.org/TR/@YEAR@/WD-html5-@CONDENSED_DATE_STRING@/</a></dd>
+    <dt>Latest Editor's Draft:</dt>
+    <dd><a href="http://dev.w3.org/html5/msporny/@SPEC_NAME@">http://dev.w3.org/html5/msporny/@SPEC_NAME@</a></dd>
+<!-- ZZZ: add the new version after it has shipped -->
+    <dt>Previous Versions:</dt>
+
+    <!--: PREVIOUS_VERSIONS -->
+
+<!-- :ZZZ -->
+    <dt>Editors:</dt>
+    <dd><a href="mailto:ian@hixie.ch">Ian Hickson</a>, Google, Inc.</dd>
+    <dd><a href="mailto:msporny@digitalbazaar.com">Manu Sporny</a>, Digital Bazaar, Inc.</dd>
+   </dl><p class="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a>
+   &copy; @YEAR@ <a href="http://www.w3.org/"><abbr title="World Wide
+   Web Consortium">W3C</abbr></a><sup>&reg;</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts
+   Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.org/"><abbr title="European Research
+   Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C
+   <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+   <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>
+
+   and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document
+   use</a> rules apply.</p>
+  </div><hr class="top"><h2 class="no-num no-toc" id="abstract">Abstract</h2><p>This specification defines an extension to the HTML5 language that enables the embedding and retrieval of structured data in HTML documents. It is a companion specification to the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML). As the Web grows to include many different data sources and producers, several standardized mechanisms for marking up that data have been proposed. RDF/XML, RDFa, Microformats, and now Microdata, each with their own particular set of benefits and drawbacks, are provided as potential authoring solutions. This document specifies the markup, <abbr title="Application Programming Interfaces">APIs</abbr>, and examples demonstrating how to use Microdata in your HTML documents. </p>
+<h2 class="no-num no-toc" id="status-of-this-document">Status of this document</h2><!-- intro boilerplate (required) --><p><em>This section describes the status of this document at the
+  time of its publication. Other documents may supersede this
+  document. A list of current W3C publications and the most recently
+  formally published revision of this technical report can be found in
+  the <a href="http://www.w3.org/TR/">W3C technical reports index</a>
+  at http://www.w3.org/TR/.</em></p><!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- XXX this section will be moved back to just below the copyright
+  notice in the header by October 2009 unless the spec as a whole has
+  been transitioned to a more permissive license by that time. --><!-- XXX when moving this text, add: class="alt copyright" --><p>The <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/">WHATWG
+  version</a> of this specification is available under a license that
+  permits reuse of the specification text.</p><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- where to send feedback (required) --><p>If you wish to make comments regarding this document, please send
+  them to <a href="mailto:public-html-comments@w3.org">public-html-comments@w3.org</a>
+
+  (<a href="mailto:public-html-comments-request@w3.org?subject=subscribe">subscribe</a>,
+  <a href="http://lists.w3.org/Archives/Public/public-html-comments/">archives</a>)
+
+  <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING SENTENCE TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST -->  
+  or <a href="mailto:whatwg@whatwg.org">whatwg@whatwg.org</a> (<a href="http://lists.whatwg.org/listinfo.cgi/whatwg-whatwg.org">subscribe</a>,
+  <a href="http://lists.whatwg.org/pipermail/whatwg-whatwg.org/">archives</a>),
+  <!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING SENTENCE TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST -->
+
+  or submit them using <a href="http://www.w3.org/Bugs/Public/enter_bug.cgi?product=HTML%20WG">our
+  public bug database</a>.
+
+  All feedback is welcome.</p><!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><p>We maintain <a href="http://www.whatwg.org/issues/">a list of all
+  e-mails that have not yet been considered</a> and <a href="http://www.w3.org/Bugs/Public/buglist.cgi?component=Spec%20bugs&amp;component=Spec%20proposals&amp;product=HTML%20WG&amp;resolution=NEEDSINFO&amp;resolution=LATER&amp;resolution=REMIND&amp;resolution=---&amp;order=bugs.resolution%2Cbugs.priority%2C%20bugs.bug_severity">a
+  list of all bug reports that have not yet been resolved</a>.</p><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- stability (required) --><p>Implementors should be aware that this specification is not
+  stable. <strong>Implementors who are not taking part in the
+  discussions are likely to find the specification changing out from
+  under them in incompatible ways.</strong> Vendors interested in
+  implementing this specification before it eventually reaches the
+  Candidate Recommendation stage should join the aforementioned
+  mailing lists and take part in the discussions.</p><!-- not everyone agrees with html5 (requested before fpwd) --><p>The publication of this document by the W3C as a W3C Working
+  Draft does not imply that all of the participants in the W3C HTML
+  working group endorse the contents of the specification. Indeed, for
+  any section of the specification, one can usually find many members
+  of the working group or of the W3C as a whole who object strongly to
+  the current text, the existence of the section at all, or the idea
+  that the working group should even spend time discussing the concept
+  of that section.</p><!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- version history or list of changes (required) --><p>The latest stable version of the editor's draft of this
+  specification is always available on <a href="http://dev.w3.org/html5/spec/Overview.html">the
+  W3C CVS server</a> and in the <a href="http://svn.whatwg.org/webapps/">WHATWG Subversion
+  repository</a>. The <a href="http://www.whatwg.org/specs/web-apps/current-work/">latest
+  editor's working copy</a> (which may contain unfinished text in
+  the process of being prepared) is also available.</p><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING LIST TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><p>There are various ways to follow the change history for the
+  specification:<dl><dt>E-mail notifications of changes</dt>
+
+   <dd>HTML-Diffs mailing list (diff-marked HTML versions for each change): <a href="http://lists.w3.org/Archives/Public/public-html-diffs/latest">http://lists.w3.org/Archives/Public/public-html-diffs/latest</a></dd>
+   <dd>Commit-Watchers mailing list (complete source diffs): <a href="http://lists.whatwg.org/listinfo.cgi/commit-watchers-whatwg.org">http://lists.whatwg.org/listinfo.cgi/commit-watchers-whatwg.org</a></dd>
+   <dt>Real-time notifications of changes:</dt>
+   <dd>Generated diff-marked HTML versions for each change: <a href="http://twitter.com/HTML5">http://twitter.com/HTML5</a></dd>
+   <dd>All (non-editorial) changes to the spec source: <a href="http://twitter.com/WHATWG">http://twitter.com/WHATWG</a></dd>
+
+   <dt>Browsable version-control record of all changes:</dt>
+   <dd>CVSWeb interface with side-by-side diffs: <a href="http://dev.w3.org/cvsweb/html5/spec/Overview.html">http://dev.w3.org/cvsweb/html5/spec/Overview.html</a></dd>
+   <dd>Annotated summary with unified diffs: <a href="http://html5.org/tools/web-apps-tracker">http://html5.org/tools/web-apps-tracker</a></dd>
+   <dd>Raw Subversion interface: <code>svn checkout http://svn.whatwg.org/webapps/</code></dd>
+  </dl><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING LIST TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- status of document, group responsible (required) --><p>The W3C <a href="http://www.w3.org/html/wg/">HTML Working
+  Group</a> is the W3C working group responsible for this
+  specification's progress along the W3C Recommendation
+  track.
+  <!--ZZZ:-->
+
+  <!--This specification is the @DATE_STRING@ Working Draft.-->
+  This specification is the @DATE_STRING@ Editor's Draft.
+  <!--:ZZZ-->
+  </p><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- relationship to other work (required) --><p>Parts of this specification are also being actively edited by the <a href="http://www.whatwg.org/">WHATWG</a>. 
+  </p><!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST -->
+
+<!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- required patent boilerplate --><p>This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5
+  February 2004 W3C Patent Policy</a>. W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/40318/status" rel="disclosure">public list of
+  any patent disclosures</a> made in connection with the deliverables
+  of the group; that page also includes instructions for disclosing a
+  patent. An individual who has actual knowledge of a patent which the
+  individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+  Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+  6 of the W3C Patent Policy</a>.</p>

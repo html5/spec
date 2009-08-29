@@ -1,0 +1,623 @@
+  <h4>Drag-and-drop processing model</h4>
+
+  <p>When the user attempts to begin a drag operation, the user agent
+  must first determine what is being dragged. If the drag operation
+  was invoked on a selection, then it is the selection that is being
+  dragged. Otherwise, it is the first element, going up the ancestor
+  chain, starting at the node that the user tried to drag, that has
+  the DOM attribute <code title="dom-draggable">draggable</code> set
+  to true. If there is no such element, then nothing is being dragged,
+  the drag-and-drop operation is never started, and the user agent
+  must not continue with this algorithm.</p>
+
+  <p class="note"><code>img</code> elements and <code>a</code>
+  elements with an <code title="attr-hyperlink-href">href</code>
+  attribute have their <code title="dom-draggable">draggable</code>
+  attribute set to true by default.</p>
+
+  <p>If the user agent determines that something can be dragged, a
+  <code title="event-dragstart">dragstart</code> event must then be
+  fired at the <span>source node</span>.</p>
+
+  <p>The <dfn>source node</dfn> depends on the kind of drag and how it
+  was initiated. If it is a selection that is being dragged, then the
+  <span>source node</span> is the node that the user started the drag
+  on (typically the text node that the user originally clicked). If
+  the user did not specify a particular node, for example if the user
+  just told the user agent to begin a drag of "the selection", then
+  the <span>source node</span> is the deepest node that is a common
+  ancestor of all parts of the selection. If it is not a selection
+  that is being dragged, then the <span>source node</span> is the
+  element that is being dragged.</p>
+
+  <p>Multiple events are fired on the <span>source node</span> during
+  the course of the drag-and-drop operation.</p>
+
+  <hr>
+
+  <p>The <dfn>list of dragged nodes</dfn> also depends on the kind of
+  drag. If it is a selection that is being dragged, then the
+  <span>list of dragged nodes</span> contains, in <span>tree
+  order</span>, every node that is partially or completely included in
+  the selection (including all their ancestors). Otherwise, the
+  <span>list of dragged nodes</span> contains only the <span>source
+  node</span>.</p>
+
+  <hr>
+
+  <p>If it is a selection that is being dragged, the <code
+  title="dom-DragEvent-dataTransfer">dataTransfer</code> member of the
+  event must be created with no nodes. Otherwise, it must be created
+  containing just the <span>source node</span>. Script can use the
+  <code title="dom-DataTransfer-addElement">addElement()</code> method
+  to add further elements to the list of what is being dragged. (This
+  list is only used for rendering the drag feedback.)</p>
+
+  <p>The <code title="dom-DragEvent-dataTransfer">dataTransfer</code>
+  member of the event also has data added to it, as follows:</p>
+
+  <ul>
+
+   <li>
+
+    <p>If it is a selection that is being dragged, then the user agent
+    must add the text of the selection to the <code
+    title="dom-DragEvent-dataTransfer">dataTransfer</code> member,
+    associated with the <code title="">text/plain</code> format.</p>
+
+   </li>
+
+   <li>
+
+    <p>If files are being dragged, then the user agent must add the
+    files to the <code
+    title="dom-DragEvent-dataTransfer">dataTransfer</code> member's
+    <code title="dom-datatransfer-files">files</code> attribute's
+    <code>FileList</code> object. (Dragging files can only happen from
+    outside a <span>browsing context</span>, for example from a file
+    system manager application, and thus the <code
+    title="event-dragstart">dragstart</code> event is actually implied
+    in this case.)</p>
+
+   </li>
+
+   <li>
+
+    <p>The user agent must take the <span>list of dragged nodes</span>
+    and <span title="extracting a vCard">extract the vCard data from
+    those nodes</span>, and then must add the resulting string to the
+    <code title="dom-DragEvent-dataTransfer">dataTransfer</code>
+    member, associated with the <code
+    title="">text/directory;profile=vcard</code> format.</p>
+    <!-- v2: deal with multiple vCards -->
+
+   </li>
+
+   <li>
+
+    <p>The user agent must take the <span>list of dragged nodes</span>
+    and <span title="extracting vEvent data">extract the vEvent data
+    from those nodes</span>, and then must add the resulting string to
+    the <code title="dom-DragEvent-dataTransfer">dataTransfer</code>
+    member, associated with the <code
+    title="">text/calendar;component=vevent</code> format.</p>
+
+   </li>
+
+   <li><p class="XXX">text/html fragment</p>
+
+   <li>
+
+    <p>The user agent must run the following steps:</p>
+
+    <ol>
+
+     <li><p>Let <var title="">urls</var> be an empty list of <span
+     title="absolute URL">absolute URLs</span>.</p></li>
+
+     <li>
+
+      <p>For each <var title="">node</var> in <var
+      title="">nodes</var>:</p>
+
+      <dl>
+
+       <dt>If the node is an <code>a</code> element with an <code
+       title="attr-hyperlink-href">href</code></dt>
+
+       <dd>Add to <var title="">urls</var> the result of <span
+       title="resolve a url">resolving</span> the element's <code
+       title="attr-hyperlink-href">href</code> content attribute relative to
+       the element.</dd>
+
+       <dt>If the node is an <code>img</code> element with an <code
+       title="attr-img-src">src</code></dt>
+
+       <dd>Add to <var title="">urls</var> the result of <span
+       title="resolve a url">resolving</span> the element's <code
+       title="attr-img-src">src</code> content attribute relative to the
+       element.</dd>
+
+       <!-- XXX others -->
+
+      </dl>
+
+     </li>
+
+     <li><p>If <var title="">urls</var> is still empty, abort these
+     steps.</p></li>
+
+     <li><p>Let <var title="">url string</var> be the result of
+     concatenating the strings in <var title="">urls</var>, in the
+     order they were added, separated by a U+000D CARRIAGE RETURN
+     U+000A LINE FEED character pair (CRLF).</p></li>
+
+     <li><p>Add <var title="">url string</var> to the <code
+     title="dom-DragEvent-dataTransfer">dataTransfer</code> member,
+     associated with the <code title="">text/uri-list</code>
+     format.</p></li>
+
+    </ol>
+
+   </li>
+
+  </ul>
+
+  <hr>
+
+  <p>If the event is canceled, then the drag-and-drop operation must
+  not occur; the user agent must not continue with this algorithm.</p>
+
+  <p>If it is not canceled, then the drag-and-drop operation must be
+  initiated.</p>
+
+  <p class="note">Since events with no event handlers registered are,
+  almost by definition, never canceled, drag-and-drop is always
+  available to the user if the author does not specifically prevent
+  it.</p>
+
+  <p id="base-dnd-feedback">The drag-and-drop feedback must be
+  generated from the first of the following sources that is
+  available:</p>
+
+  <ol>
+
+   <li>The element specified in the last call to the <code
+   title="dom-DataTransfer-setDragImage">setDragImage()</code> method
+   of the <code title="dom-DragEvent-dataTransfer">dataTransfer</code>
+   object of the <code title="event-dragstart">dragstart</code> event,
+   if the method was called. In visual media, if this is used, the
+   <var title="">x</var> and <var title="">y</var> arguments that were
+   passed to that method should be used as hints for where to put the
+   cursor relative to the resulting image. The values are expressed as
+   distances in CSS pixels from the left side and from the top side of
+   the image respectively. <a href="#refsCSS">[CSS]</a></li>
+
+   <li>The elements that were added to the <code
+   title="dom-DragEvent-dataTransfer">dataTransfer</code> object, both
+   before the event was fired, and during the handling of the event
+   using the <code
+   title="dom-DataTransfer-addElement">addElement()</code>
+   method, if any such elements were indeed added.</li>
+
+   <li>The selection that the user is dragging.</li>
+
+  </ol><!-- XXX xref also link to the section that explains how to
+  render drag-and-drop, :drag, :drop, etc. Safari has a pseudo-class
+  that it uses to render an element off-screen to use as the drag
+  feedback. -->
+
+  <p>The user agent must take a note of <span
+  title="dom-DataTransfer-setData">the data that was placed</span> in
+  the <code title="dom-DragEvent-dataTransfer">dataTransfer</code>
+  object. This data will be made available again when the <code
+  title="event-drop">drop</code> event is fired.</p>
+
+  <p>From this point until the end of the drag-and-drop operation,
+  device input events (e.g. mouse and keyboard events) must be
+  suppressed. In addition, the user agent must track all DOM changes
+  made during the drag-and-drop operation, and add them to its <a
+  href="#undo">undo history</a> as one atomic operation once the
+  drag-and-drop operation has ended.</p>
+
+  <p>During the drag operation, the element directly indicated by the
+  user as the drop target is called the <dfn>immediate user
+  selection</dfn>. (Only elements can be selected by the user; other
+  nodes must not be made available as drop targets.)
+
+  However, the <span>immediate user selection</span> is not
+  necessarily the <dfn>current target element</dfn>, which is the
+  element currently selected for the drop part of the drag-and-drop
+  operation.
+
+  The <span>immediate user selection</span> changes as the user
+  selects different elements (either by pointing at them with a
+  pointing device, or by selecting them in some other way). The
+  <span>current target element</span> changes when the <span>immediate
+  user selection</span> changes, based on the results of event
+  handlers in the document, as described below.</p>
+
+  <p>Both the <span>current target element</span> and the
+  <span>immediate user selection</span> can be null, which means no
+  target element is selected. They can also both be elements in other
+  (DOM-based) documents, or other (non-Web) programs altogether. (For
+  example, a user could drag text to a word-processor.) The
+  <span>current target element</span> is initially null.</p>
+
+  <p>In addition, there is also a <dfn>current drag operation</dfn>,
+  which can take on the values "none", "copy", "link", and "move".
+  Initially, it has the value "none". It is updated by the user agent
+  as described in the steps below.</p>
+
+  <p>User agents must, every 350ms (&#xB1;200ms), perform the
+  following steps in sequence. (If the user agent is still performing
+  the previous iteration of the sequence when the next iteration
+  becomes due, the user agent must not execute the overdue iteration,
+  effectively "skipping missed frames" of the drag-and-drop
+  operation.)</p>
+
+  <ol>
+
+   <li>
+
+    <p>First, the user agent must fire a <code
+    title="event-drag">drag</code> event at the <span>source
+    node</span>. If this event is canceled, the user agent must set
+    the <span>current drag operation</span> to none (no drag
+    operation).</p>
+
+   </li>
+
+   <li>
+
+    <p>Next, if the <code title="event-drag">drag</code> event was not
+    canceled and the user has not ended the drag-and-drop operation,
+    the user agent must check the state of the drag-and-drop
+    operation, as follows:</p>
+
+    <ol>
+
+     <li>
+
+      <p>First, if the user is indicating a different <span>immediate
+      user selection</span> than during the last iteration (or if this
+      is the first iteration), and if this <span>immediate user
+      selection</span> is not the same as the <span>current target
+      element</span>, then the <span>current target element</span> must
+      be updated, as follows:</p>
+
+      <ol>
+
+       <li>
+
+        <p>If the new <span>immediate user selection</span> is null, or
+        is in a non-DOM document or application, then set the
+        <span>current target element</span> to the same value.</p>
+
+       <li>
+
+        <p>Otherwise, the user agent must fire a <code
+        title="event-dragenter">dragenter</code> event at the
+        <span>immediate user selection</span>.</p>
+
+       </li>
+
+       <li>
+
+        <p>If the event is canceled, then the <span>current target
+        element</span> must be set to the <span>immediate user
+        selection</span>.</p>
+
+       </li>
+
+       <li>
+
+        <p>Otherwise, if the <span>current target element</span> is
+        not <span>the body element</span>, the user agent must fire a
+        <code title="event-dragenter">dragenter</code> event at
+        <span>the body element</span>, and the <span>current target
+        element</span> must be set to <span>the body element</span>,
+        regardless of whether that event was canceled or not. (If
+        <span>the body element</span> is null, then the <span>current
+        target element</span> would be set to null too in this case,
+        it wouldn't be set to the <code>Document</code> object.)</p>
+
+       </li>
+
+      </ol>
+
+     </li>
+
+     <li>
+
+      <p>If the previous step caused the <span>current target
+      element</span> to change, and if the previous target element was
+      not null or a part of a non-DOM document, the user agent must fire
+      a <code title="event-dragleave">dragleave</code> event at the
+      previous target element.</p>
+
+     </li>
+
+     <li>
+
+      <p>If the <span>current target element</span> is a DOM element,
+      the user agent must fire a <code
+      title="event-dragover">dragover</code> event at this <span>current
+      target element</span>.</p>
+
+      <p>If the <code title="event-dragover">dragover</code> event is
+      not canceled, the <span>current drag operation</span> must be
+      reset to "none".</p>
+
+      <p>Otherwise, the <span>current drag operation</span> must be
+      set based on the values the <code
+      title="dom-DataTransfer-effectAllowed">effectAllowed</code> and
+      <code title="dom-DataTransfer-dropEffect">dropEffect</code>
+      attributes of the <code
+      title="dom-DragEvent-dataTransfer">dataTransfer</code> object
+      had after the event was handled, as per the following table:</p>
+
+      <table>
+       <thead>
+        <tr>
+         <th><code title="dom-DataTransfer-effectAllowed">effectAllowed</code></th>
+         <th><code title="dom-DataTransfer-dropEffect">dropEffect</code></th>
+         <th>Drag operation</th>
+        </tr>
+       </thead>
+       <tr>
+        <td><code title="">uninitialized</code>, <code title="">copy</code>, <code title="">copyLink</code>, <code title="">copyMove</code>, or <code title="">all</code></td>
+        <td><code title="">copy</code></td>
+        <td>"copy"</td>
+       </tr>
+       <tr>
+        <td><code title="">uninitialized</code>, <code title="">link</code>, <code title="">copyLink</code>, <code title="">linkMove</code>, or <code title="">all</code></td>
+        <td><code title="">link</code></td>
+        <td>"link"</td>
+       </tr>
+       <tr>
+        <td><code title="">uninitialized</code>, <code title="">move</code>, <code title="">copyMove</code>, <code title="">linkMove</code>, or <code title="">all</code></td>
+        <td><code title="">move</code></td>
+        <td>"move"</td>
+       </tr>
+       <tr>
+        <td colspan="2">Any other case</td>
+        <td>"none"</td>
+       </tr>
+      </table>
+
+      <p>Then, regardless of whether the <code
+      title="event-dragover">dragover</code> event was canceled or
+      not, the drag feedback (e.g. the mouse cursor) must be updated
+      to match the <span>current drag operation</span>, as
+      follows:</p>
+
+      <table>
+       <thead>
+        <tr>
+         <th>Drag operation</th>
+         <th>Feedback</th>
+        </tr>
+       </thead>
+       <tr>
+        <td>"copy"</td>
+        <td>Data will be copied if dropped here.</td>
+       </tr>
+       <tr>
+        <td>"link"</td>
+        <td>Data will be linked if dropped here.</td>
+       </tr>
+       <tr>
+        <td>"move"</td>
+        <td>Data will be moved if dropped here.</td>
+       </tr>
+       <tr>
+        <td>"none"</td>
+        <td>No operation allowed, dropping here will cancel the drag-and-drop operation.</td>
+       </tr>
+      </table>
+
+     </li>
+
+     <li>
+
+      <p>Otherwise, if the <span>current target element</span> is not a
+      DOM element, the user agent must use platform-specific mechanisms
+      to determine what drag operation is being performed (none, copy,
+      link, or move). This sets the <em>current drag operation</em>.</p>
+
+     </li>
+
+    </ol>
+
+   </li>
+
+   <li>
+
+    <p>Otherwise, if the user ended the drag-and-drop operation (e.g.
+    by releasing the mouse button in a mouse-driven drag-and-drop
+    interface), or if the <code title="event-drag">drag</code> event
+    was canceled, then this will be the last iteration. The user agent
+    must execute the following steps, then stop looping.</p>
+
+    <ol>
+
+     <li>
+
+      <p>If the <span>current drag operation</span> is none (no drag
+      operation), or, if the user ended the drag-and-drop operation by
+      canceling it (e.g. by hitting the <kbd>Escape</kbd> key), or if
+      the <span>current target element</span> is null, then the drag
+      operation failed. If the <span>current target element</span> is
+      a DOM element, the user agent must fire a <code
+      title="event-dragleave">dragleave</code> event at it; otherwise,
+      if it is not null, it must use platform-specific conventions for
+      drag cancellation.</p>
+
+     </li>
+
+     <li>
+
+      <p>Otherwise, the drag operation was as success. If the
+      <span>current target element</span> is a DOM element, the user
+      agent must fire a <code title="event-drop">drop</code> event at
+      it; otherwise, it must use platform-specific conventions for
+      indicating a drop.</p>
+
+      <p>When the target is a DOM element, the <code
+      title="dom-DataTransfer-dropEffect">dropEffect</code> attribute
+      of the event's <code
+      title="dom-DragEvent-dataTransfer">dataTransfer</code> object
+      must be given the value representing the <span>current drag
+      operation</span> (<code title="">copy</code>, <code
+      title="">link</code>, or <code title="">move</code>), and the
+      object must be set up so that the <code
+      title="dom-DataTransfer-getData">getData()</code> method will
+      return the data that was added during the <code
+      title="event-dragstart">dragstart</code> event, and the <code
+      title="dom-datatransfer-files">files</code> attribute will
+      return a <code>FileList</code> object with any files that were
+      dragged.</p>
+
+      <p>If the event is canceled, the <span>current drag
+      operation</span> must be set to the value of the <code
+      title="dom-DataTransfer-dropEffect">dropEffect</code> attribute
+      of the event's <code
+      title="dom-DragEvent-dataTransfer">dataTransfer</code> object as
+      it stood after the event was handled.</p>
+
+      <p>Otherwise, the event is not canceled, and the user agent must
+      perform the event's default action, which depends on the exact
+      target as follows:</p>
+
+      <dl class="switch">
+
+       <dt>If the <span>current target element</span> is a text field
+       (e.g. <code>textarea</code>, or an <code>input</code> element
+       whose <code title="attr-input-type">type</code> attribute is in
+       the <span title="attr-input-type-text">Text</span> state)</dt>
+
+       <dd>The user agent must insert the data associated with the
+       <code>text/plain</code> format, if any, into the text field in
+       a manner consistent with platform-specific conventions
+       (e.g. inserting it at the current mouse cursor position, or
+       inserting it at the end of the field).</dd>
+
+       <dt>Otherwise</dt>
+
+       <dd>Reset the <span>current drag operation</span> to
+       "none".</dd>
+
+      </dl>
+
+     </li>
+
+     <li>
+
+      <p>Finally, the user agent must fire a <code
+      title="event-dragend">dragend</code> event at the <span>source
+      node</span>, with the <code
+      title="dom-DataTransfer-dropEffect">dropEffect</code> attribute
+      of the event's <code
+      title="dom-DragEvent-dataTransfer">dataTransfer</code> object
+      being set to the value corresponding to the <span>current drag
+      operation</span>.</p>
+
+      <p class="note">The <span>current drag operation</span> can
+      change during the processing of the <code
+      title="event-drop">drop</code> event, if one was fired.</p>
+
+      <p>The event is not cancelable. After the event has been
+      handled, the user agent must act as follows:</p>
+
+      <dl class="switch">
+
+       <dt>If the <span>current target element</span> is a text field
+       (e.g. <code>textarea</code>, or an <code>input</code> element
+       whose <code title="attr-input-type">type</code> attribute is in
+       the <span title="attr-input-type-text">Text</span> state), and
+       a <code title="event-drop">drop</code> event was fired in the
+       previous step, and the <span>current drag operation</span> is
+       "move", and the source of the drag-and-drop operation is a
+       selection in the DOM</dt>
+
+       <dd>The user agent should delete the range representing the
+       dragged selection from the DOM.</dd>
+
+       <dt>If the <span>current target element</span> is a text field
+       (e.g. <code>textarea</code>, or an <code>input</code> element
+       whose <code title="attr-input-type">type</code> attribute is in
+       the <span title="attr-input-type-text">Text</span> state), and
+       a <code title="event-drop">drop</code> event was fired in the
+       previous step, and the <span>current drag operation</span> is
+       "move", and the source of the drag-and-drop operation is a
+       selection in a text field</dt>
+
+       <dd>The user agent should delete the dragged selection from the
+       relevant text field.</dd>
+
+       <dt>Otherwise</dt>
+
+       <dd>The event has no default action.</dd>
+
+      </dl>
+
+     </li>
+
+    </ol>
+
+   </li>
+
+  </ol>
+
+  </div>
+
+
+  <div class="impl">
+
+  <h5>When the drag-and-drop operation starts or ends in another
+  document</h5>
+
+  <p>The model described above is independent of which
+  <code>Document</code> object the nodes involved are from; the events
+  must be fired as described above and the rest of the processing
+  model must be followed as described above, irrespective of how many
+  documents are involved in the operation.</p>
+
+  <!-- should we mention that you shouldn't include the view from the
+  source in the events to the target, or is that obvious enough from
+  the requirements in the event section above? -->
+
+  </div>
+
+
+
+  <div class="impl">
+
+  <h5>When the drag-and-drop operation starts or ends in another
+  application</h5>
+
+  <p>If the drag is initiated in another application, the <span>source
+  node</span> is not a DOM node, and the user agent must use
+  platform-specific conventions instead when the requirements above
+  involve the source node. User agents in this situation must act as
+  if the dragged data had been added to the <code>DataTransfer</code>
+  object when the drag started, even though no <code
+  title="event-dragstart">dragstart</code> event was actually fired;
+  user agents must similarly use platform-specific conventions when
+  deciding on what drag feedback to use.</p>
+
+  <p>If a drag is started in a document but ends in another
+  application, then the user agent must instead replace the parts of
+  the processing model relating to handling the <em>target</em>
+  according to platform-specific conventions.</p>
+
+  <p>In any case, scripts running in the context of the document must
+  not be able to distinguish the case of a drag-and-drop operation
+  being started or ended in another application from the case of a
+  drag-and-drop operation being started or ended in another document
+  from another domain.</p>
+
+  </div>
+
+

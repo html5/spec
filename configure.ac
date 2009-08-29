@@ -7,7 +7,7 @@ AC_INIT([html],[5.0],[msporny@digitalbazaar.com])
 AC_CONFIG_AUX_DIR(setup)
 
 # Check for the existence of Anolis and Subversion
-AC_CHECK_PROGS(ANOLIS, anolis /usr/bin/anolis /usr/local/bin/anolis, [not found], $PATH)
+ANOLIS=`pwd`/utils/anolis
 AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, [not found], $PATH)
 
 # Setup the flags needed for Anolis
@@ -28,6 +28,7 @@ AC_SUBST(MONTH_NUMBER)
 AC_SUBST(YEAR)
 AC_SUBST(DATE_STRING)
 AC_SUBST(CONDENSED_DATE_STRING)
+AC_SUBST(ANOLIS)
 
 # Ensure that Anolis and Subversion were found
 if test "x$ANOLIS" == "xnot found"; then
@@ -52,6 +53,7 @@ fi
 AC_CONFIG_FILES([
 	Makefile
 	headers/header-w3c-msporny
+	headers/header-w3c-microdata
 ])
 
 AC_OUTPUT

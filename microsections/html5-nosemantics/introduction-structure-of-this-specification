@@ -1,0 +1,69 @@
+  <h3>Structure of this specification</h3>
+
+  <p><i>This section is non-normative.</i></p>
+
+  <p>This specification is divided into the following major
+  sections:</p>
+
+  <dl>
+
+
+   <dt><a href="#infrastructure">Common Infrastructure</a></dt>
+
+   <dd>The conformance classes, algorithms, definitions, and the
+   common underpinnings of the rest of the specification.</dd>
+
+
+   <dt><a href="#dom">Semantics, structure, and APIs of HTML documents</a></dt>
+
+   <dd>Documents are built from elements. These elements form a tree
+   using the DOM. This section defines the features of this DOM, as
+   well as introducing the features common to all elements, and the
+   concepts used in defining elements.</dd>
+
+
+   <dt><a href="#semantics">Elements</a></dt>
+
+   <dd>Each element has a predefined meaning, which is explained in
+   this section. Rules for authors on how to use the element<span
+   class="impl">, along with user agent requirements for how to handle
+   each element,</span> are also given.</dd>
+
+   <dt><a href="#browsers">Web Browsers</a></dt>
+
+   <dd>HTML documents do not exist in a vacuum &mdash; this section
+   defines many of the features that affect environments that deal
+   with multiple pages, links between pages, and running scripts.</dd>
+
+
+   <dt><a href="#editing">User Interaction</a></dt>
+
+   <dd>HTML documents can provide a number of mechanisms for users to
+   interact with and modify content, which are described in this
+   section.</dd>
+
+
+   <dt><a href="#comms">The Communication APIs</a></dt>
+
+   <dd>This section describes some mechanisms that applications
+   written in HTML can use to communicate with other applications from
+   different domains running on the same client.</dd>
+
+
+   <dt><a href="#syntax">The HTML Syntax</a></dt>
+   <dt><a href="#xhtml">The XHTML Syntax</a></dt>
+
+   <dd>All of these features would be for naught if they couldn't be
+   represented in a serialized form and sent to other people, and so
+   these sections define the syntaxes of HTML, along with rules for
+   how to parse content using those syntaxes.</dd>
+
+
+  </dl>
+
+  <p>There are also a couple of appendices, defining <a
+  href="#rendering">rendering rules</a> for Web browsers and listing
+  <a href="#obsolete">obsolete features</a> and <a href="#no">areas
+  that are out of scope</a> for this specification.</p>
+
+

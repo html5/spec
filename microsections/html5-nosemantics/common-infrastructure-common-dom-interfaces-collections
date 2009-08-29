@@ -1,0 +1,673 @@
+  <h4>Collections</h4>
+
+  <p>The <code>HTMLCollection</code>, <code>HTMLAllCollection</code>,
+  <code>HTMLFormControlsCollection</code>,
+  <code>HTMLOptionsCollection</code>, and
+  <code>HTMLPropertyCollection</code> interfaces represent various
+  lists of DOM nodes. Collectively, objects implementing these
+  interfaces are called <dfn>collections</dfn>.</p>
+
+  <p>When a <span title="collections">collection</span> is created, a
+  filter and a root are associated with the collection.</p>
+
+  <p class="example">For example, when the <code>HTMLCollection</code>
+  object for the <code
+  title="dom-document-images">document.images</code> attribute is
+  created, it is associated with a filter that selects only
+  <code>img</code> elements, and rooted at the root of the
+  document.</p>
+
+  <p>The <span title="collections">collection</span> then <dfn
+  title="represented by the collection">represents</dfn> a
+  <span>live</span> view of the subtree rooted at the collection's
+  root, containing only nodes that match the given filter. The view is
+  linear. <span class="impl">In the absence of specific requirements
+  to the contrary, the nodes within the collection must be sorted in
+  <span>tree order</span>.</span></p>
+
+  <div class="impl">
+
+  <p class="note">The <code title="dom-table-rows">rows</code> list is
+  not in tree order.</p>
+
+  <p>An attribute that returns a collection must return the same
+  object every time it is retrieved.</p>
+
+  </div>
+
+
+  <h5>HTMLCollection</h5>
+
+  <p>The <code>HTMLCollection</code> interface represents a generic
+  <span title="collections">collection</span> of elements.</p>
+
+  <pre class="idl">interface <dfn>HTMLCollection</dfn> {
+  readonly attribute unsigned long <span title="dom-HTMLCollection-length">length</span>;
+  caller getter Element <span title="dom-HTMLCollection-item">item</span>(in unsigned long index);
+  caller getter Element <span title="dom-HTMLCollection-namedItem">namedItem</span>(in DOMString name);
+  <span>HTMLAllCollection</span> <span title="dom-HTMLCollection-tags">tags</span>(in DOMString tagName);
+};</pre>
+
+  <dl class="domintro">
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLCollection-length">length</code></dt>
+   <dd>
+    <p>Returns the number of elements in the collection.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLCollection-item">item</code>(<var title="">index</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">index</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">index</var>)</dt>
+   <dd>
+    <p>Returns the item with index <var title="">index</var> from the collection. The items are sorted in <span>tree order</span>.</p>
+    <p>Returns null if <var title="">index</var> is out of range.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">name</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">name</var>)</dt>
+   <dd>
+    <p>Returns the first item with <span title="concept-id">ID</span> or name <var title="">name</var>
+    from the collection.</p>
+    <p>Returns null if no element with that <span title="concept-id">ID</span> or name could be found.</p>
+    <p>Only <code>a</code>, <code>applet</code>, <code>area</code>,
+    <code>embed</code>, <code>form</code>, <code>frame</code>,
+    <code>frameset</code>, <code>iframe</code>, <code>img</code>, and
+    <code>object</code> elements can have a name for the purpose of
+    this method; their name is given by the value of their <code
+    title="">name</code> attribute.</p>
+   </dd>
+
+   <dt><var title="">collection</var> = <var title="">collection</var> . <code title="dom-HTMLCollection-tags">tags</code>(<var title="">tagName</var>)</dt>
+   <dd>
+    <p>Returns a collection that is a filtered view of the current collection, containing only elements with the given tag name.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The object's <span>indices of the supported indexed
+  properties</span> are the numbers in the range zero to one less than
+  the number of nodes <span>represented by the collection</span>. If
+  there are no such elements, then there are no <span>supported
+  indexed properties</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLCollection-length"><code>length</code></dfn>
+  attribute must return the number of nodes <span>represented by the
+  collection</span>.</p>
+
+  <p>The <dfn title="dom-HTMLCollection-item"><code>item(<var
+  title="">index</var>)</code></dfn> method must return the <var
+  title="">index</var>th node in the collection. If there is no <var
+  title="">index</var>th node in the collection, then the method must
+  return null.</p>
+
+  <p>The <span>names of the supported named properties</span> consist
+  of the values of the <code title="">name</code> attributes of each
+  <code>a</code>, <code>applet</code>, <code>area</code>,
+  <code>embed</code>, <code>form</code>, <code>frame</code>,
+  <code>frameset</code>, <code>iframe</code>, <code>img</code>, and
+  <code>object</code> element <span>represented by the
+  collection</span> with a <code title="">name</code> attribute, plus
+  the list of IDs that the elements <span>represented by the
+  collection</span> have.</p>
+
+  <p>The <dfn
+  title="dom-HTMLCollection-namedItem"><code>namedItem(<var
+  title="">key</var>)</code></dfn> method must return the first node
+  in the collection that matches the following requirements:</p>
+
+  <ul>
+
+   <li>It is an <code>a</code>, <code>applet</code>,
+   <code>area</code>, <code>embed</code>, <code>form</code>,
+   <code>frame</code>, <code>frameset</code>, <code>iframe</code>,
+   <code>img</code>, or <code>object</code> element with a <code
+   title="">name</code> attribute equal to <var title="">key</var>,
+   or,</li>
+
+   <li>It is an element with an <span title="concept-id">ID</span> <var title="">key</var>.</li>
+
+  </ul>
+
+  <p>If no such elements are found, then the method must return
+  null.</p>
+
+  <p>The <dfn title="dom-HTMLCollection-tags"><code>tags(<var
+  title="">tagName</var>)</code></dfn> method must return an
+  <code>HTMLAllCollection</code> rooted at the same node as the
+  <code>HTMLCollection</code> object on which the method was invoked,
+  whose filter matches only <span>HTML elements</span> whose local
+  name is the <var title="">tagName</var> argument and that already
+  match the filter of the <code>HTMLCollection</code> object on which
+  the method was invoked. In <span>HTML documents</span>, the argument
+  must first be <span>converted to ASCII lowercase</span>.</p>
+
+  </div>
+
+
+  <h5>HTMLAllCollection</h5>
+
+  <p>The <code>HTMLAllCollection</code> interface represents a generic
+  <span title="collections">collection</span> of elements just like
+  <code>HTMLCollection</code>, with the exception that its <code
+  title="dom-HTMLAllCollection-namedItem">namedItem()</code> method
+  returns an <code>HTMLCollection</code> object when there are
+  multiple matching elements.</p>
+
+  <pre class="idl">interface <dfn>HTMLAllCollection</dfn> {
+  readonly attribute unsigned long <span title="dom-HTMLAllCollection-length">length</span>;
+  caller getter Element <span title="dom-HTMLAllCollection-item">item</span>(in unsigned long index);
+  caller getter object <span title="dom-HTMLAllCollection-namedItem">namedItem</span>(in DOMString name);
+  <span>HTMLAllCollection</span> <span title="dom-HTMLAllCollection-tags">tags</span>(in DOMString tagName);
+};</pre>
+
+  <dl class="domintro">
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLAllCollection-length">length</code></dt>
+   <dd>
+    <p>Returns the number of elements in the collection.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLAllCollection-item">item</code>(<var title="">index</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">index</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">index</var>)</dt>
+   <dd>
+    <p>Returns the item with index <var title="">index</var> from the collection. The items are sorted in <span>tree order</span>.</p>
+    <p>Returns null if <var title="">index</var> is out of range.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLAllCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var> = <var title="">collection</var> . <code title="dom-HTMLAllCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">name</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">name</var>)</dt>
+   <dd>
+    <p>Returns the item with <span title="concept-id">ID</span> or name <var title="">name</var> from the collection.</p>
+    <p>If there are multiple matching items, then an <code>HTMLAllCollection</code> object containing all those elements is returned.</p>
+    <p>Returns null if no element with that <span title="concept-id">ID</span> or name could be found.</p>
+    <p>Only <code>a</code>, <code>applet</code>, <code>area</code>,
+    <code>embed</code>, <code>form</code>, <code>frame</code>,
+    <code>frameset</code>, <code>iframe</code>, <code>img</code>, and
+    <code>object</code> elements can have a name for the purpose of
+    this method; their name is given by the value of their <code
+    title="">name</code> attribute.</p>
+   </dd>
+
+   <dt><var title="">collection</var> = <var title="">collection</var> . <code title="dom-HTMLAllCollection-tags">tags</code>(<var title="">tagName</var>)</dt>
+   <dd>
+    <p>Returns a collection that is a filtered view of the current collection, containing only elements with the given tag name.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The object's <span>indices of the supported indexed
+  properties</span> are the numbers in the range zero to one less than
+  the number of nodes <span>represented by the collection</span>. If
+  there are no such elements, then there are no <span>supported
+  indexed properties</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLAllCollection-length"><code>length</code></dfn>
+  attribute must return the number of nodes <span>represented by the
+  collection</span>.</p>
+
+  <p>The <dfn title="dom-HTMLAllCollection-item"><code>item(<var
+  title="">index</var>)</code></dfn> method must return the <var
+  title="">index</var>th node in the collection. If there is no <var
+  title="">index</var>th node in the collection, then the method must
+  return null.</p>
+
+  <p>The <span>names of the supported named properties</span> consist
+  of the values of the <code title="">name</code> attributes of each
+  <code>a</code>, <code>applet</code>, <code>area</code>,
+  <code>embed</code>, <code>form</code>, <code>frame</code>,
+  <code>frameset</code>, <code>iframe</code>, <code>img</code>, and
+  <code>object</code> element <span>represented by the
+  collection</span> with a <code title="">name</code> attribute, plus
+  the list of IDs that the elements <span>represented by the
+  collection</span> have.</p>
+
+  <p>The <dfn
+  title="dom-HTMLAllCollection-namedItem"><code>namedItem(<var
+  title="">key</var>)</code></dfn> method must act according to the
+  following algorithm:</p>
+
+  <ol>
+
+   <li>
+
+    <p>Let <var title="">collection</var> be an
+    <code>HTMLAllCollection</code> object rooted at the same node as
+    the <code>HTMLAllCollection</code> object on which the method was
+    invoked, whose filter matches only only elements that already
+    match the filter of the <code>HTMLAllCollection</code> object on
+    which the method was invoked and that are either:</p>
+
+    <ul>
+
+     <li><code>a</code>, <code>applet</code>, <code>area</code>,
+     <code>embed</code>, <code>form</code>, <code>frame</code>,
+     <code>frameset</code>, <code>iframe</code>, <code>img</code>, or
+     <code>object</code> elements with a <code title="">name</code>
+     attribute equal to <var title="">key</var>, or,</li>
+
+     <li>elements with an <span title="concept-id">ID</span> <var title="">key</var>.</li>
+
+    </ul>
+
+   </li>
+
+   <li>If, at the time the method is called, there is exactly one node
+   in <var title="">collection</var>, then return that node and stop
+   the algorithm.</li>
+
+   <li>Otherwise, if, at the time the method is called, <var
+   title="">collection</var> is empty, return null and stop the
+   algorithm.</li>
+
+   <li>Otherwise, return <var title="">collection</var>.</li>
+
+  </ol>
+
+  <p>The <dfn title="dom-HTMLAllCollection-tags"><code>tags(<var
+  title="">tagName</var>)</code></dfn> method must return an
+  <code>HTMLAllCollection</code> rooted at the same node as the
+  <code>HTMLAllCollection</code> object on which the method was
+  invoked, whose filter matches only <span>HTML elements</span> whose
+  local name is the <var title="">tagName</var> argument and that
+  already match the filter of the <code>HTMLAllCollection</code>
+  object on which the method was invoked. In <span>HTML
+  documents</span>, the argument must first be <span>converted to
+  ASCII lowercase</span>.</p>
+
+  </div>
+
+
+  <h5>HTMLFormControlsCollection</h5>
+
+  <p>The <code>HTMLFormControlsCollection</code> interface represents
+  a <span title="collections">collection</span> of <span
+  title="category-listed">listed</span> elements in <code>form</code>
+  and <code>fieldset</code> elements.</p>
+
+  <pre class="idl">interface <dfn>HTMLFormControlsCollection</dfn> {
+  readonly attribute unsigned long <span title="dom-HTMLFormControlsCollection-length">length</span>;
+  caller getter <span>HTMLElement</span> <span title="dom-HTMLFormControlsCollection-item">item</span>(in unsigned long index);
+  caller getter object <span title="dom-HTMLFormControlsCollection-namedItem">namedItem</span>(in DOMString name);
+};
+
+interface <dfn>RadioNodeList</dfn> : <span>NodeList</span> {
+          attribute DOMString <span title="dom-RadioNodeList-value">value</span>;
+};</pre>
+
+  <dl class="domintro">
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLFormControlsCollection-length">length</code></dt>
+   <dd>
+    <p>Returns the number of elements in the collection.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLFormControlsCollection-item">item</code>(<var title="">index</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">index</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">index</var>)</dt>
+   <dd>
+    <p>Returns the item with index <var title="">index</var> from the collection. The items are sorted in <span>tree order</span>.</p>
+    <p>Returns null if <var title="">index</var> is out of range.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLFormControlsCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">radioNodeList</var> = <var title="">collection</var> . <code title="dom-HTMLFormControlsCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">name</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">name</var>)</dt>
+   <dd>
+    <p>Returns the item with <span title="concept-id">ID</span> or <code title="attr-fe-name">name</code> <var title="">name</var> from the collection.</p>
+    <p>If there are multiple matching items, then a <code>RadioNodeList</code> object containing all those elements is returned.</p>
+    <p>Returns null if no element with that <span title="concept-id">ID</span> or <code title="attr-fe-name">name</code> could be found.</p>
+   </dd>
+
+   <dt><var title="">radioNodeList</var> . <var title="">value</var> [ = <var title="">value</var> ]</dt>
+
+   <dd>
+
+    <p>Returns the value of the first checked radio button represented
+    by the object.</p>
+
+    <p>Can be set, to check the first radio button with the given
+    value represented by the object.</p>
+
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The object's <span>indices of the supported indexed
+  properties</span> are the numbers in the range zero to one less than
+  the number of nodes <span>represented by the collection</span>. If
+  there are no such elements, then there are no <span>supported
+  indexed properties</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLFormControlsCollection-length"><code>length</code></dfn>
+  attribute must return the number of nodes <span>represented by the
+  collection</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLFormControlsCollection-item"><code>item(<var
+  title="">index</var>)</code></dfn> method must return the <var
+  title="">index</var>th node in the collection. If there is no <var
+  title="">index</var>th node in the collection, then the method must
+  return null.</p>
+
+  <p>The <span>names of the supported named properties</span> consist
+  of the values of all the <code title="attr-id">id</code> and <code
+  title="attr-fe-name">name</code> attributes of all the elements
+  <span>represented by the collection</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLFormControlsCollection-namedItem"><code>namedItem(<var
+  title="">name</var>)</code></dfn> method must act according to the
+  following algorithm:
+
+  <ol>
+
+   <li>If, at the time the method is called, there is exactly one node
+   in the collection that has either an <code
+   title="attr-id">id</code> attribute or a <code
+   title="attr-fe-name">name</code> attribute equal to <var
+   title="">name</var>, then return that node and stop the
+   algorithm.</li>
+
+   <li>Otherwise, if there are no nodes in the collection that have
+   either an <code title="attr-id">id</code> attribute or a <code
+   title="attr-fe-name">name</code> attribute equal to <var
+   title="">name</var>, then return null and stop the algorithm.</li>
+
+   <li>Otherwise, create a <code>RadioNodeList</code> object
+   representing a live view of the
+   <code>HTMLFormControlsCollection</code> object, further filtered so
+   that the only nodes in the <code>RadioNodeList</code> object are
+   those that have either an <code title="attr-id">id</code> attribute
+   or a <code title="attr-fe-name">name</code> attribute equal to <var
+   title="">name</var>. The nodes in the <code>RadioNodeList</code>
+   object must be sorted in <span>tree order</span>.</li>
+
+   <li>Return that <code>RadioNodeList</code> object.</li>
+
+  </ol>
+
+  <hr>
+
+  <p>Members of the <code>RadioNodeList</code> interface inherited
+  from the <code>NodeList</code> interface must behave as they would
+  on a <code>NodeList</code> object.</p>
+
+  <p>The <dfn title="dom-RadioNodeList-value"><code>value</code></dfn>
+  DOM attribute on the <code>RadioNodeList</code> object, on getting,
+  must return the value returned by running the following steps:</p>
+
+  <ol>
+
+   <li><p>Let <var title="">element</var> be the first element in
+   <span>tree order</span> represented by the
+   <code>RadioNodeList</code> object that is an <code>input</code>
+   element whose <code title="attr-input-type">type</code> attribute
+   is in the <span title="attr-input-type-radio">Radio Button</span>
+   state and whose <span title="concept-fe-checked">checkedness</span>
+   is true. Otherwise, let it be null.</p></li>
+
+   <li><p>If <var title="">element</var> is null, or if it is an
+   element with no <code title="attr-input-value">value</code>
+   attribute, return the empty string.</p></li>
+
+   <li><p>Otherwise, return the value of <var title="">element</var>'s
+   <code title="attr-input-value">value</code> attribute.</p></li>
+
+  </ol>
+
+  <p>On setting, the <code
+  title="dom-RadioNodeList-value">value</code> DOM attribute must run
+  the following steps:</p>
+
+  <ol>
+
+   <li><p>Let <var title="">element</var> be the first element in
+   <span>tree order</span> represented by the
+   <code>RadioNodeList</code> object that is an <code>input</code>
+   element whose <code title="attr-input-type">type</code> attribute
+   is in the <span title="attr-input-type-radio">Radio Button</span>
+   state and whose <code title="attr-input-value">value</code> content
+   attribute is present and equal to the new value, if any. Otherwise,
+   let it be null.</p></li>
+
+   <li><p>If <var title="">element</var> is not null, then set its
+   <span title="concept-fe-checked">checkedness</span> to true.</p>
+
+  </ol>
+
+<!--
+http://software.hixie.ch/utilities/js/live-dom-viewer/?%3C%21DOCTYPE%20html%3E...%0A%3Cform%20name%3D%22a%22%3E%3Cinput%20id%3D%22x%22%20name%3D%22y%22%3E%3Cinput%20name%3D%22x%22%20id%3D%22y%22%3E%3C/form%3E%0A%3Cscript%3E%0A%20%20var%20x%3B%0A%20%20w%28x%20%3D%20document.forms%5B%27a%27%5D%5B%27x%27%5D%29%3B%0A%20%20w%28x.length%29%3B%0A%20%20x%5B0%5D.parentNode.removeChild%28x%5B0%5D%29%3B%0A%20%20w%28x.length%29%3B%0A%20%20w%28x%20%3D%3D%20document.forms%5B%27a%27%5D%5B%27x%27%5D%29%3B%0A%3C/script%3E%0A
+-->
+
+  </div>
+
+
+  <h5>HTMLOptionsCollection</h5>
+
+  <p>The <code>HTMLOptionsCollection</code> interface represents a
+  list of <code>option</code> elements. It is always rooted on a
+  <code>select</code> element and has attributes and methods that
+  manipulate that element's descendants.</p>
+
+  <pre class="idl">interface <dfn>HTMLOptionsCollection</dfn> {
+           attribute unsigned long <span title="dom-HTMLOptionsCollection-length">length</span>;
+  caller getter <span>HTMLOptionElement</span> <span title="dom-HTMLOptionsCollection-item">item</span>(in unsigned long index);
+  caller getter object <span title="dom-HTMLOptionsCollection-namedItem">namedItem</span>(in DOMString name);
+  void <span title="dom-HTMLOptionsCollection-add">add</span>(in <span>HTMLElement</span> element, in optional <span>HTMLElement</span> before);
+  void <span title="dom-HTMLOptionsCollection-add">add</span>(in <span>HTMLElement</span> element, in long before);
+  void <span title="dom-HTMLOptionsCollection-remove">remove</span>(in long index);
+};</pre>
+
+  <dl class="domintro">
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLOptionsCollection-length">length</code> [ = <var title="">value</var> ]</dt>
+   <dd>
+    <p>Returns the number of elements in the collection.</p>
+    <p>When set to a smaller number, truncates the number of <code>option</code> elements in the corresponding container.</p>
+    <p>When set to a greater number, adds new blank <code>option</code> elements to that container.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLOptionsCollection-item">item</code>(<var title="">index</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">index</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">index</var>)</dt>
+   <dd>
+    <p>Returns the item with index <var title="">index</var> from the collection. The items are sorted in <span>tree order</span>.</p>
+    <p>Returns null if <var title="">index</var> is out of range.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLOptionsCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">nodeList</var> = <var title="">collection</var> . <code title="dom-HTMLOptionsCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">name</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">name</var>)</dt>
+   <dd>
+    <p>Returns the item with <span title="concept-id">ID</span> or <code title="attr-option-name">name</code> <var title="">name</var> from the collection.</p>
+    <p>If there are multiple matching items, then a <code>NodeList</code> object containing all those elements is returned.</p>
+    <p>Returns null if no element with that <span title="concept-id">ID</span> could be found.</p>
+   </dd>
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLOptionsCollection-add">add</code>(<var title="">element</var> [, <var title="">before</var> ] )</dt>
+   <dd>
+    <p>Inserts <var title="">element</var> before the node given by <var title="">before</var>.</p>
+    <p>The <var title="">before</var> argument can be a number, in
+    which case <var title="">element</var> is inserted before the item
+    with that number, or an element from the collection, in which case
+    <var title="">element</var> is inserted before that element.</p>
+    <p>If <var title="">before</var> is omitted, null, or a number out
+    of range, then <var title="">element</var> will be added at the
+    end of the list.</p>
+    <p>This method will throw a <code>HIERARCHY_REQUEST_ERR</code>
+    exception if <var title="">element</var> is an ancestor of the
+    element into which it is to be inserted. If <var
+    title="">element</var> is not an <code>option</code> or
+    <code>optgroup</code> element, then the method does nothing.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>The object's <span>indices of the supported indexed
+  properties</span> are the numbers in the range zero to one less than
+  the number of nodes <span>represented by the collection</span>. If
+  there are no such elements, then there are no <span>supported
+  indexed properties</span>.</p>
+
+  <p>On getting, the <dfn
+  title="dom-HTMLOptionsCollection-length"><code>length</code></dfn>
+  attribute must return the number of nodes <span>represented by the
+  collection</span>.</p>
+
+  <p>On setting, the behavior depends on whether the new value is
+  equal to, greater than, or less than the number of nodes
+  <span>represented by the collection</span> at that time. If the
+  number is the same, then setting the attribute must do nothing. If
+  the new value is greater, then <var title="">n</var> new
+  <code>option</code> elements with no attributes and no child nodes
+  must be appended to the <code>select</code> element on which the
+  <code>HTMLOptionsCollection</code> is rooted, where <var
+  title="">n</var> is the difference between the two numbers (new
+  value minus old value). If the new value is lower, then the last
+  <var title="">n</var> nodes in the collection must be removed from
+  their parent nodes, where <var title="">n</var> is the difference
+  between the two numbers (old value minus new value).</p>
+
+  <p class="note">Setting <code
+  title="dom-HTMLOptionsCollection-length">length</code> never removes
+  or adds any <code>optgroup</code> elements, and never adds new
+  children to existing <code>optgroup</code> elements (though it can
+  remove children from them).</p>
+
+  <p>The <dfn title="dom-HTMLOptionsCollection-item"><code>item(<var
+  title="">index</var>)</code></dfn> method must return the <var
+  title="">index</var>th node in the collection. If there is no <var
+  title="">index</var>th node in the collection, then the method must
+  return null.</p>
+
+  <p>The <span>names of the supported named properties</span> consist
+  of the values of all the <code title="attr-id">id</code> and <code
+  title="attr-option-name">name</code> attributes of all the elements
+  <span>represented by the collection</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLOptionsCollection-namedItem"><code>namedItem(<var
+  title="">name</var>)</code></dfn> method must act according to the
+  following algorithm:
+
+  <ol>
+
+   <li>If, at the time the method is called, there is exactly one node
+   in the collection that has either an <code
+   title="attr-id">id</code> attribute or a <code
+   title="attr-option-name">name</code> attribute equal to <var
+   title="">name</var>, then return that node and stop the
+   algorithm.</li>
+
+   <li>Otherwise, if there are no nodes in the collection that have
+   either an <code title="attr-id">id</code> attribute or a <code
+   title="attr-option-name">name</code> attribute equal to <var
+   title="">name</var>, then return null and stop the algorithm.</li>
+
+   <!-- IE returns an HTMLCollection instead; we may need to change to that for compat -->
+   <li>Otherwise, create a <code>NodeList</code> object representing a
+   live view of the <code>HTMLOptionsCollection</code> object, further
+   filtered so that the only nodes in the <code>NodeList</code> object
+   are those that have either an <code title="attr-id">id</code>
+   attribute or a <code title="attr-option-name">name</code> attribute
+   equal to <var title="">name</var>. The nodes in the
+   <code>NodeList</code> object must be sorted in <span>tree
+   order</span>.</li>
+
+   <li>Return that <code>NodeList</code> object.</li>
+
+  </ol>
+
+  <p>The <dfn title="dom-HTMLOptionsCollection-add"><code>add(<var
+  title="">element</var>, <var title="">before</var>)</code></dfn>
+  method must act according to the following algorithm:</p>
+
+  <ol>
+
+   <li><p>If <var title="">element</var> is not an <code>option</code>
+   or <code>optgroup</code> element, then return and abort these
+   steps.</li>
+
+   <li><p>If <var title="">element</var> is an ancestor of the
+   <code>select</code> element on which the
+   <code>HTMLOptionsCollection</code> is rooted, then throw a
+   <code>HIERARCHY_REQUEST_ERR</code> exception.</li>
+
+   <li><p>If <var title="">before</var> is an element, but that
+   element isn't a descendant of the <code>select</code> element on
+   which the <code>HTMLOptionsCollection</code> is rooted, then throw
+   a <code>NOT_FOUND_ERR</code> exception.</p></li>
+
+   <li><p>If <var title="">element</var> and <var
+   title="">before</var> are the same element, then return and abort
+   these steps.</li>
+
+   <li><p>If <var title="">before</var> is a node, then let <var
+   title="">reference</var> be that node. Otherwise, if <var
+   title="">before</var> is an integer, and there is a <var
+   title="">before</var>th node in the collection, let <var
+   title="">reference</var> be that node. Otherwise, let <var
+   title="">reference</var> be null.</p></li>
+
+   <li><p>If <var title="">reference</var> is not null, let <var
+   title="">parent</var> be the parent node of <var
+   title="">reference</var>. Otherwise, let <var title="">parent</var>
+   be the <code>select</code> element on which the
+   <code>HTMLOptionsCollection</code> is rooted.</p></li>
+
+   <li><p>Act as if the DOM Core <code
+   title="dom-insertBefore">insertBefore()</code> method was invoked
+   on the <var title="">parent</var> node, with <var
+   title="">element</var> as the first argument and <var
+   title="">reference</var> as the second argument.</p>
+
+  </ol>
+
+  <p>The <dfn
+  title="dom-HTMLOptionsCollection-remove"><code>remove(<var
+  title="">index</var>)</code></dfn> method must act according to
+  the following algorithm:</p>
+
+  <ol>
+
+   <li><p>If the number of nodes <span>represented by the
+   collection</span> is zero, abort these steps.</li>
+
+   <li><p>If <var title="">index</var> is not a number greater than or
+   equal to 0 and less than the number of nodes <span>represented by
+   the collection</span>, let <var title="">element</var> be the first
+   element in the collection. Otherwise, let <var
+   title="">element</var> be the <var title="">index</var>th element
+   in the collection.</p></li>
+
+   <li><p>Remove <var title="">element</var> from its parent
+   node.</p></li>
+
+  </ol>
+
+  <!-- see also http://ln.hixie.ch/?start=1161042744&count=1 -->
+
+  </div>
