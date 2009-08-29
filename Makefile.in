@@ -26,11 +26,13 @@ html5-hixie: directories ${DIST_DIR}/html5-hixie.html
 
 ${DIST_DIR}/html5-hixie.html: headers/header-w3c-html5 html5-hixie/source
 	@echo "Building HTML5-hixie specification..."
+	@echo "Removing non-HTML5 sections..."
+	@perl -e '$$_ = join("", <>); s/<!--END html5-->.*?<!--START html5-->//gs; s/<!--(START|END).*?-->//g; print' html5-hixie/source > html5-hixie/source-html5
 	@echo "Splitting html5-hixie into microsections..."
-	@./bin/microsplit.py html5-hixie/source
+	@./bin/microsplit.py html5-hixie/source-html5
 	@echo "Joining microsections into HTML5-hixie specification..."
 	@echo "include headers/header-w3c-html5" > build/html5-hixie.conf
-	@cat build/source.conf >> build/html5-hixie.conf
+	@cat build/source-html5.conf >> build/html5-hixie.conf
 	@./bin/microjoin.py build/html5-hixie.conf
 	@echo "Generating final document via Anolis (this may take 2-3 minutes)..."
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/specification.html ${DIST_DIR}/html5-hixie.html

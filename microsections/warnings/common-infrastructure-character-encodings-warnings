@@ -1,5 +1,5 @@
 <p class="XXX">
-This section is controversial and does not enjoy broad consensus. 
+This section is under active discussion and does not enjoy broad consensus. 
 </p>
 
 <p class="XXX">
@@ -13,7 +13,8 @@ violate currently published specifications.
 <p class="XXX">
 While these "willful violations" of current W3C and IETF specifications 
 are performed to ensure backward compatability for legacy content, the
-act of violating known specifications is controversial and must be
-discussed with both the W3C and IETF. There may be a possibility to
-harmonize this specification with the specifications that are violated.
+act of violating known specifications is not good practice and must be
+discussed in further detail with both the W3C and IETF. There may be a 
+possibility to harmonize this specification with the specifications 
+that are violated.
 </p>

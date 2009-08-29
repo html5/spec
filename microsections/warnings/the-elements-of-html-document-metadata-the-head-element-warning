@@ -2,11 +2,13 @@
 
   <p class="XXX">
   The removal of the <code>profile</code> attribute from the <code>head</code>
-  element is controversial and currently does not enjoy consensus.
+  element is under active discussion and currently does not enjoy consensus.
+  The issue was <a href="http://www.w3.org/html/wg/tracker/issues/55">
+  raised on June 26th, 2008</a>.
   </p>
 
   <p class="XXX">
-  Microformats and GRDDL require the existence of the <code>profile</code> 
+  GRDDL requires the existence of the <code>profile</code> 
   attribute. There is currently 
   <a href="http://www.w3.org/html/wg/tracker/issues/55">an active issue 
   in HTML WG</a> that is tracking the discussion of the <code>profile</code> 

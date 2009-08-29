@@ -2,14 +2,14 @@
 
   <p class="XXX">
   The <code title="http-origin">Origin</code> header is currently
-  controversial and may possibly duplicate work being performed at 
+  under active discussion and may possibly duplicate work being performed at 
   the IETF. Since 
   <a href="http://www.w3.org/html/wg/tracker/issues/63">it is 
-  still uncertain</a> where the 
-  <code title="http-origin">Origin</code> header specification
-  will be defined, readers should note that the language in this
-  section concerning the <code title="http-origin">Origin</code> header
-  may be removed. 
+  still uncertain</a> whether or not the
+  <code title="http-origin">Origin</code> header specification will be
+  completed at the IETF, readers should note that the language in this 
+  section concerning the <code title="http-origin">Origin</code> header 
+  may be revised or completely removed.
   </p>
 
   <p>Certain actions cause the <span>browsing context</span> to

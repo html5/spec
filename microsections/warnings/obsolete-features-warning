@@ -1,14 +1,15 @@
 <p class="XXX">
-Statements regarding the summary attribute are controversial and 
+Statements regarding the summary attribute are under active discussion and 
 do not enjoy broad consensus. 
 </p>
 
 <p class="XXX">
-There is concern that making the summary attribute obsolete conflicts
+There is concern that making the summary attribute as obsolete conflicts
 with current guidance given via the
 <abbr title="Web Accessibility Initiative">WAI</abbr> and the 
 <abbr title="Protocols and Formats Working Group">PFWG</abbr>. Alternate
 language for the summary attribute is currently being authored and may
 replace some of the language related to summary in this specification.
+This <a href="http://www.w3.org/html/wg/tracker/issues/32">
+issue is currently being tracked</a> at the HTML WG.
 </p>
-

@@ -1,5 +1,8 @@
 <p class="XXX">
-This section is controversial and does not enjoy broad consensus. 
+This section is under active discussion and does not enjoy broad consensus. 
+The discussion surrounding whether or not to integrate RDFa or Microdata
+into the HTML5 specification was started 
+<a href="http://lists.whatwg.org/pipermail/whatwg-whatwg.org/2008-August/015892.html">around August 2008</a>.
 </p>
 
 <p class="XXX">
@@ -11,6 +14,6 @@ currently published as a
 An additional alternative that is being proposed
 is the removal of Microdata and RDFa from the HTML5 specification and
 the placement of each section into a separate specification that is
-implemented on top of the HTML5 standard.
+implemented on top of the HTML5 standard. 
 </p>
 

@@ -594,12 +594,12 @@ the time Marco had stuck his tongue out...&lt;/p></pre>
   described in the following sections.</p>
 
   <p class="XXX">
-  Some of the following sections are controversial and do not enjoy 
+  Some of the following sections are under active discussion and do not enjoy 
   broad consensus.
   </p>
   <p class="XXX">
-  The notion that there may be images in the document that contain an
-  <code>alt</code> attribute that is blank may cause a number of usability
+  The notion that there may be images in the document that do not contain an
+  <code>alt</code> attribute may cause a number of usability
   concerns for <abbr title="Assistive Technologies">AT</abbr>. The 
   <abbr title="Web Accessibility Initiative">WAI</abbr> 
   <abbr title="Protocols and Formats Working Group">PFWG</abbr> has 
