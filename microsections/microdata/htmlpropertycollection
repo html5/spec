@@ -1,0 +1,118 @@
+  <h3>HTMLPropertyCollection</h3>
+
+  <p>The <code>HTMLPropertyCollection</code> interface represents a
+  <span title="collections">collection</span> of elements that add
+  name-value pairs to a particular <span
+  title="concept-item">item</span> in the <span>microdata</span>
+  model.</p>
+
+  <pre class="idl">interface <dfn>HTMLPropertyCollection</dfn> {
+  readonly attribute unsigned long <span title="dom-HTMLPropertyCollection-length">length</span>;
+  readonly attribute <span>DOMStringList</span> <span title="dom-HTMLPropertyCollection-names">names</span>;
+  caller getter <span>HTMLElement</span> <span title="dom-HTMLPropertyCollection-item">item</span>(in unsigned long index);
+  caller getter <span>PropertyNodeList</span> <span title="dom-HTMLPropertyCollection-namedItem">namedItem</span>(in DOMString name);
+};
+
+typedef sequence&lt;any> <dfn>PropertyValueArray</dfn>;
+
+interface <dfn>PropertyNodeList</dfn> : <span>NodeList</span> {
+          attribute <span>PropertyValueArray</span> <span title="dom-PropertyNodeList-contents">contents</span>;
+};</pre>
+
+  <dl class="domintro">
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLPropertyCollection-length">length</code></dt>
+   <dd>
+    <p>Returns the number of elements in the collection.</p>
+   </dd>
+
+   <dt><var title="">collection</var> . <code title="dom-HTMLPropertyCollection-names">names</code></dt>
+   <dd>
+    <p>Returns a <code>DOMStringList</code> with the <span>property names</span> of the elements in the collection.</p>
+   </dd>
+
+   <dt><var title="">element</var> = <var title="">collection</var> . <code title="dom-HTMLPropertyCollection-item">item</code>(<var title="">index</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">index</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">index</var>)</dt>
+   <dd>
+    <p>Returns the element with index <var title="">index</var> from the collection. The items are sorted in <span>tree order</span>.</p>
+    <p>Returns null if <var title="">index</var> is out of range.</p>
+   </dd>
+
+   <dt><var title="">propertyNodeList</var> = <var title="">collection</var> . <code title="dom-HTMLPropertyCollection-item">namedItem</code>(<var title="">name</var>)</dt>
+   <dt><var title="">collection</var>[<var title="">name</var>]</dt>
+   <dt><var title="">collection</var>(<var title="">name</var>)</dt>
+   <dd>
+    <p>Returns a <code>PropertyNodeList</code> object containing any elements that add a property named <var title="">name</var>.</p>
+   </dd>
+
+   <dt><var title="">propertyNodeList</var> . <code title="dom-PropertyNodeList-contents">contents</code></dt>
+   <dd>
+    <p>Returns an array of the various values that the relevant elements have.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The object's <span>indices of the supported indexed
+  properties</span> are the numbers in the range zero to one less than
+  the number of nodes <span>represented by the collection</span>. If
+  there are no such elements, then there are no <span>supported
+  indexed properties</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLPropertyCollection-length"><code>length</code></dfn>
+  attribute must return the number of nodes <span>represented by the
+  collection</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLPropertyCollection-item"><code>item(<var
+  title="">index</var>)</code></dfn> method must return the <var
+  title="">index</var>th node in the collection. If there is no <var
+  title="">index</var>th node in the collection, then the method must
+  return null.</p>
+
+  <p>The <span>names of the supported named properties</span> consist
+  of the <span>property names</span> of all the elements
+  <span>represented by the collection</span>.</p>
+
+  <p>The <dfn
+  title="dom-HTMLPropertyCollection-names"><code>names</code></dfn>
+  attribute must return a live <code>DOMStringList</code> object
+  giving the <span>property names</span> of all the elements
+  <span>represented by the collection</span>, listed in <span>tree
+  order</span>, but with duplicates removed, leaving only the first
+  occurrence of each name. The same object must be returned each
+  time.</p>
+
+  <p>The <dfn
+  title="dom-HTMLPropertyCollection-namedItem"><code>namedItem(<var
+  title="">name</var>)</code></dfn> method must return a
+  <code>PropertyNodeList</code> object representing a live view of the
+  <code>HTMLPropertyCollection</code> object, further filtered so that
+  the only nodes in the <code>RadioNodeList</code> object are those
+  that have a <span title="property names">property name</span> equal
+  to <var title="">name</var>. The nodes in the
+  <code>PropertyNodeList</code> object must be sorted in <span>tree
+  order</span>, and the same object must be returned each time a
+  particular <var title="">name</var> is queried.</p>
+
+  <hr>
+
+  <p>Members of the <code>PropertyNodeList</code> interface inherited
+  from the <code>NodeList</code> interface must behave as they would
+  on a <code>NodeList</code> object.</p>
+
+  <p>The <dfn
+  title="dom-PropertyNodeList-contents"><code>contents</code></dfn>
+  DOM attribute on the <code>PropertyNodeList</code> object, on
+  getting, must return a newly constructed array whose values are the
+  values obtained from the <code title="dom-content">content</code>
+  DOM property of each of the elements represented by the object, in
+  <span>tree order</span>.</p>
+
+  </div>
+

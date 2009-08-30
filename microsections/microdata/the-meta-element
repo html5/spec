@@ -1,0 +1,35 @@
+
+   <h3>The <dfn><code>meta</code></dfn> Element</h3>
+
+   <p>
+    The type of element category is determined based on
+    the presence of the <code title="attr-itemprop">itemprop</code> attribute:
+   </p>
+   
+   <dt>
+   <dd>If the <code title="attr-itemprop">itemprop</code> attribute is present: <span>flow content</span>.</dd>
+   <dd>If the <code title="attr-itemprop">itemprop</code> attribute is present: <span>phrasing content</span>.</dd>
+   </dt>
+
+   <p>
+    Additionally, the element may be used where <span>phrasing content</span>
+    is expected if the <code title="attr-itemprop">itemprop</code> attribute 
+    is present.
+   </p>
+
+  <p>Exactly one of the <code title="attr-meta-name">name</code>,
+  <code title="attr-meta-http-equiv">http-equiv</code>, <code
+  title="attr-meta-charset">charset</code>, and <code
+  title="attr-itemprop">itemprop</code> attributes must be
+  specified. This differs from the HTML5 specification in the addition
+  of the requirement for the <code title="attr-itemprop">itemprop</code>
+  attribute to be specified on the <code title="attr-meta">meta</code> element.
+
+  <p>If either <code title="attr-meta-name">name</code>, <code
+  title="attr-meta-http-equiv">http-equiv</code>, or <code
+  title="attr-itemprop">itemprop</code> is specified, then the <code
+  title="attr-meta-content">content</code> attribute must also be
+  specified. Otherwise, it must be omitted. This differs from the 
+  HTML5 specification in the addition of the requirement for the
+  existence of <code title="attr-meta-content">content</code> if 
+  <code title="attr-itemprop">itemprop</code> is specified.</p>

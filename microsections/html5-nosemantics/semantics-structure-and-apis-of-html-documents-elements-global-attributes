@@ -1,0 +1,694 @@
+  <h4><dfn>Global attributes</dfn></h4>
+
+  <p>The following attributes are common to and may be specified on
+  all <span>HTML elements</span><span class="impl"> (even those not
+  defined in this specification)</span>:</p>
+
+  <ul class="brief">
+   <li><code title="attr-accesskey">accesskey</code></li>
+   <li><code title="attr-class">class</code></li>
+   <li><code title="attr-contenteditable">contenteditable</code></li>
+   <li><code title="attr-contextmenu">contextmenu</code></li>
+   <li><code title="attr-dir">dir</code></li>
+   <li><code title="attr-draggable">draggable</code></li>
+   <li><code title="attr-id">id</code></li>
+   <li><code title="attr-hidden">hidden</code></li>
+   <li><code title="attr-lang">lang</code></li>
+   <li><code title="attr-spellcheck">spellcheck</code></li>
+   <li><code title="attr-style">style</code></li>
+   <li><code title="attr-tabindex">tabindex</code></li>
+   <li><code title="attr-title">title</code></li>
+  </ul>
+
+  <hr>
+
+  <p>Unless otherwise specified, the following <span>event handler
+  content attributes</span> may be specified on any <span title="HTML
+  elements">HTML element</span>:</p>
+
+  <ul class="brief">
+   <li><code title="handler-onabort">onabort</code></li>
+   <li><code title="handler-onblur">onblur</code>*</li>
+   <li><code title="handler-oncanplay">oncanplay</code></li>
+   <li><code title="handler-oncanplaythrough">oncanplaythrough</code></li>
+   <li><code title="handler-onchange">onchange</code></li>
+   <li><code title="handler-onclick">onclick</code></li>
+   <li><code title="handler-oncontextmenu">oncontextmenu</code></li>
+   <li><code title="handler-ondblclick">ondblclick</code></li>
+   <li><code title="handler-ondrag">ondrag</code></li>
+   <li><code title="handler-ondragend">ondragend</code></li>
+   <li><code title="handler-ondragenter">ondragenter</code></li>
+   <li><code title="handler-ondragleave">ondragleave</code></li>
+   <li><code title="handler-ondragover">ondragover</code></li>
+   <li><code title="handler-ondragstart">ondragstart</code></li>
+   <li><code title="handler-ondrop">ondrop</code></li>
+   <li><code title="handler-ondurationchange">ondurationchange</code></li>
+   <li><code title="handler-onemptied">onemptied</code></li>
+   <li><code title="handler-onended">onended</code></li>
+   <li><code title="handler-onerror">onerror</code>*</li>
+   <li><code title="handler-onfocus">onfocus</code>*</li>
+   <li><code title="handler-onformchange">onformchange</code></li>
+   <li><code title="handler-onforminput">onforminput</code></li>
+   <li><code title="handler-oninput">oninput</code></li>
+   <li><code title="handler-oninvalid">oninvalid</code></li>
+   <li><code title="handler-onkeydown">onkeydown</code></li>
+   <li><code title="handler-onkeypress">onkeypress</code></li>
+   <li><code title="handler-onkeyup">onkeyup</code></li>
+   <li><code title="handler-onload">onload</code>*</li>
+   <li><code title="handler-onloadeddata">onloadeddata</code></li>
+   <li><code title="handler-onloadedmetadata">onloadedmetadata</code></li>
+   <li><code title="handler-onloadstart">onloadstart</code></li>
+   <li><code title="handler-onmousedown">onmousedown</code></li>
+   <li><code title="handler-onmousemove">onmousemove</code></li>
+   <li><code title="handler-onmouseout">onmouseout</code></li>
+   <li><code title="handler-onmouseover">onmouseover</code></li>
+   <li><code title="handler-onmouseup">onmouseup</code></li>
+   <li><code title="handler-onmousewheel">onmousewheel</code></li>
+   <li><code title="handler-onpause">onpause</code></li>
+   <li><code title="handler-onplay">onplay</code></li>
+   <li><code title="handler-onplaying">onplaying</code></li>
+   <li><code title="handler-onprogress">onprogress</code></li>
+   <li><code title="handler-onratechange">onratechange</code></li>
+   <li><code title="handler-onreadystatechange">onreadystatechange</code></li>
+   <li><code title="handler-onscroll">onscroll</code></li>
+   <li><code title="handler-onseeked">onseeked</code></li>
+   <li><code title="handler-onseeking">onseeking</code></li>
+   <li><code title="handler-onselect">onselect</code></li>
+   <li><code title="handler-onshow">onshow</code></li>
+   <li><code title="handler-onstalled">onstalled</code></li>
+   <li><code title="handler-onsubmit">onsubmit</code></li>
+   <li><code title="handler-onsuspend">onsuspend</code></li>
+   <li><code title="handler-ontimeupdate">ontimeupdate</code></li>
+   <li><code title="handler-onvolumechange">onvolumechange</code></li>
+   <li><code title="handler-onwaiting">onwaiting</code></li>
+  </ul>
+
+  <p class="note">The attributes marked with an asterisk have a
+  different meaning when specified on <code>body</code> elements as
+  those elements expose <span>event handler attributes</span> of the
+  <code>Window</code> object with the same names.</p>
+
+  <hr>
+
+  <p><span title="custom data attribute">Custom data attributes</span>
+  (e.g. <code title="">data-foldername</code> or <code
+  title="">data-msgid</code>) can be specified on any <span
+  title="HTML elements">HTML element</span>, to store custom data
+  specific to the page.</p>
+
+  <hr>
+
+  <p>In <span>HTML documents</span>, elements in the <span>HTML
+  namespace</span> may have an <code title="">xmlns</code> attribute
+  specified, if, and only if, it has the exact value
+  "<code>http://www.w3.org/1999/xhtml</code>". This does not apply to
+  <span>XML documents</span>.</p>
+
+  <p class="note">In HTML, the <code title="">xmlns</code> attribute
+  has absolutely no effect. It is basically a talisman. It is allowed
+  merely to make migration to and from XHTML mildly easier. When
+  parsed by an <span>HTML parser</span>, the attribute ends up in no
+  namespace, not the "<code>http://www.w3.org/2000/xmlns/</code>"
+  namespace like namespace declaration attributes in XML do.</p>
+
+  <p class="note">In XML, an <code title="">xmlns</code> attribute is
+  part of the namespace declaration mechanism, and an element cannot
+  actually have an <code title="">xmlns</code> attribute in no
+  namespace specified.</p>
+
+  <hr>
+
+  <p>To enable assistive technology products to expose a more
+  fine-grained interface than is otherwise possible with HTML elements
+  and attributes, a set of <span>annotations for assistive technology
+  products</span> can be specified.</p>
+
+
+  <h5>The <dfn title="attr-id"><code>id</code></dfn> attribute</h5>
+
+  <p>The <code title="attr-id">id</code> attribute specifies its
+  element's <dfn title="concept-id">unique identifier (ID)</dfn>. The
+  value must be unique amongst all the IDs in the element's <span>home
+  subtree</span> and must contain at least one character. The value
+  must not contain any <span title="space character">space
+  characters</span>.</p>
+
+  <!-- space characters are disallowed because space-separated lists
+  of IDs otherwise would not be able to reach all valid IDs -->
+
+  <p class="note">An element's <span title="concept-id">unique
+  identifier</span> can be used for a variety of purposes, most
+  notably as a way to link to specific parts of a document using
+  fragment identifiers, as a way to target an element when scripting,
+  and as a way to style a specific element from CSS.</p>
+
+  <div class="impl">
+
+  <p>If the value is not the empty string, user agents must associate
+  the element with the given value (exactly, including any space
+  characters) for the purposes of ID matching within the element's
+  <span>home subtree</span> (e.g. for selectors in CSS or for the
+  <code>getElementById()</code> method in the DOM).</p>
+
+  <p>Identifiers are opaque strings. Particular meanings should not be
+  derived from the value of the <code title="attr-id">id</code>
+  attribute.</p>
+
+  <p>This specification doesn't preclude an element having multiple
+  IDs, if other mechanisms (e.g. DOM Core methods) can set an
+  element's ID in a way that doesn't conflict with the <code
+  title="attr-id">id</code> attribute.</p>
+
+  <p>The <dfn title="dom-id"><code>id</code></dfn> DOM attribute must
+  <span>reflect</span> the <code title="attr-id">id</code> content
+  attribute.</p>
+
+  </div>
+
+
+  <h5>The <dfn title="attr-title"><code>title</code></dfn> attribute</h5>
+
+  <p>The <code title="attr-title">title</code> attribute
+  <span>represents</span> advisory information for the element, such
+  as would be appropriate for a tooltip. On a link, this could be the
+  title or a description of the target resource; on an image, it could
+  be the image credit or a description of the image; on a paragraph,
+  it could be a footnote or commentary on the text; on a citation, it
+  could be further information about the source; and so forth. The
+  value is text.</p>
+
+  <p>If this attribute is omitted from an element, then it implies
+  that the <code title="attr-title">title</code> attribute of the
+  nearest ancestor <span title="HTML elements">HTML element</span>
+  with a <code title="attr-title">title</code> attribute set is also
+  relevant to this element. Setting the attribute overrides this,
+  explicitly stating that the advisory information of any ancestors is
+  not relevant to this element. Setting the attribute to the empty
+  string indicates that the element has no advisory information.</p>
+
+  <p>If the <code title="attr-title">title</code> attribute's value
+  contains U+000A LINE FEED (LF) characters, the content is split into
+  multiple lines. Each U+000A LINE FEED (LF) character represents a
+  line break.</p>
+
+  <div class="example">
+
+   <p>Caution is advised with respect to the use of newlines in <code
+   title="attr-title">title</code> attributes.</p>
+
+   <p>For instance, the following snippet actually defines an
+   abbreviation's expansion <em>with a line break in it</em>:</p>
+
+   <pre class="bad">&lt;p>My logs show that there was some interest in &lt;abbr title="Hypertext
+Transport Protocol">HTTP&lt;/abbr> today.&lt;/p></pre>
+
+  </div>
+
+  <p>Some elements, such as <code>link</code>, <code>abbr</code>, and
+  <code>input</code>, define additional semantics for the <code
+  title="attr-title">title</code> attribute beyond the semantics
+  described above.</p>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The <dfn title="dom-title"><code>title</code></dfn> DOM attribute
+  must <span>reflect</span> the <code title="attr-title">title</code>
+  content attribute.</p>
+
+  </div>
+
+
+
+  <h5>The <code title="attr-lang">lang</code> and <code
+  title="attr-xml-lang">xml:lang</code> attributes</h5>
+
+  <p>The <dfn title="attr-lang"><code>lang</code></dfn> attribute (in
+  no namespace) specifies the primary <dfn>language</dfn> for the
+  element's contents and for any of the element's attributes that
+  contain text. Its value must be a valid BCP 47 language code, or
+  the empty string. <a href="#refsBCP47">[BCP47]</a></p>
+
+  <p>The <dfn title="attr-xml-lang"><code title="">lang</code></dfn>
+  attribute in the <span>XML namespace</span> is defined in XML. <a
+  href="#refsXML">[XML]</a></p>
+
+  <p>If these attributes are omitted from an element, then the
+  language of this element is the same as the language of its parent
+  element, if any. Setting the attribute to the empty string indicates
+  that the primary language is unknown.</p> <!-- UA conformance
+  requires for this are below -->
+
+  <p>The <code title="attr-lang">lang</code> attribute in no namespace
+  may be used on any <span title="HTML elements">HTML
+  element</span>.</p>
+
+  <p>The <span title="attr-xml-lang"><code title="">lang</code>
+  attribute in the <span>XML namespace</span></span> may be used on
+  <span>HTML elements</span> in <span>XML documents</span>, as well as
+  elements in other namespaces if the relevant specifications allow it
+  (in particular, MathML and SVG allow <span
+  title="attr-xml-lang"><code title="">lang</code> attributes in the
+  <span>XML namespace</span></span> to be specified on their
+  elements). If both the <code title="attr-lang">lang</code> attribute
+  in no namespace and the <span title="attr-xml-lang"><code
+  title="">lang</code> attribute in the <span>XML
+  namespace</span></span> are specified on the same element, they must
+  have exactly the same value when compared in an <span>ASCII
+  case-insensitive</span> manner.</p>
+
+  <p>Authors must not use the <span title="attr-xml-lang"><code
+  title="">lang</code> attribute in the <span>XML
+  namespace</span></span> in <span>HTML documents</span>. To ease
+  migration to and from XHTML, authors may specify an attribute in no
+  namespace with no prefix and with the literal localname "<code
+  title="">xml:lang</code>" on <span>HTML elements</span> in
+  <span>HTML documents</span>, but such attributes must only be
+  specified if a <code title="attr-lang">lang</code> attribute in no
+  namespace is also specified, and both attributes must have the same
+  value when compared in an <span>ASCII case-insensitive</span>
+  manner.</p>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>To determine the language of a node, user agents must look at the
+  nearest ancestor element (including the element itself if the node
+  is an element) that has a <span title="attr-xml-lang"><code
+  title="">lang</code> attribute in the <span>XML
+  namespace</span></span> set or is an <span title="HTML
+  elements">HTML element</span> and has a <code
+  title="attr-lang">lang</code> in no namespace attribute set. That
+  attribute specifies the language of the node.</p>
+
+  <p>If both the <code title="attr-lang">lang</code> attribute in no
+  namespace and the <span title="attr-xml-lang"><code
+  title="">lang</code> attribute in the <span>XML
+  namespace</span></span> are set on an element, user agents must use
+  the <span title="attr-xml-lang"><code title="">lang</code> attribute
+  in the <span>XML namespace</span></span>, and the <code
+  title="attr-lang">lang</code> attribute in no namespace must be
+  <span title="ignore">ignored</span> for the purposes of determining
+  the element's language.</p>
+
+  <p>If no explicit language is given for the <span>root
+  element</span>, but there is a <span>document-wide default
+  language</span> set, then that is the language of the node.</p>
+
+  <p>If there is no <span>document-wide default language</span>, then
+  language information from a higher-level protocol (such as HTTP), if
+  any, must be used as the final fallback language. In the absence of
+  any language information, the default value is unknown (the empty
+  string).</p>
+
+  <p>If the resulting value is not a recognized language code, then it
+  must be treated as an unknown language (as if the value was the
+  empty string).</p>
+
+  <hr>
+
+  <p>User agents may use the element's language to determine proper
+  processing or rendering (e.g. in the selection of appropriate
+  fonts or pronunciations, or for dictionary selection). <!--User
+  agents must not use the element's language to determine text
+  directionality. (commented out because text directionality is a
+  rendering-level concern.)--></p>
+
+  <hr>
+
+  <p>The <dfn title="dom-lang"><code>lang</code></dfn> DOM attribute
+  must <span>reflect</span> the <code title="attr-lang">lang</code>
+  content attribute in no namespace.</p>
+
+  </div>
+
+
+  <h5>The <dfn title="attr-xml-base"><code>xml:base</code></dfn>
+  attribute (XML only)</h5>
+
+  <p>The <code title="attr-xml-base">xml:base</code> attribute is
+  defined in XML Base. <a href="#refsXMLBASE">[XMLBASE]</a></p>
+
+  <p>The <code title="attr-xml-base">xml:base</code> attribute may be
+  used on elements of <span>XML documents</span>. Authors must not
+  use the <code title="attr-xml-base">xml:base</code> attribute in
+  <span>HTML documents</span>.</p>
+
+
+  <h5>The <dfn title="attr-dir"><code>dir</code></dfn> attribute</h5>
+
+  <p>The <code title="attr-dir">dir</code> attribute specifies the
+  element's text directionality. The attribute is an <span>enumerated
+  attribute</span> with the keyword <code title="">ltr</code> mapping
+  to the state <i>ltr</i>, and the keyword <code title="">rtl</code>
+  mapping to the state <i>rtl</i>. The attribute has no
+  defaults.</p>
+
+  <div class="impl">
+
+  <p>The processing of this attribute is primarily performed by the
+  presentation layer. For example, the rendering section in this
+  specification defines a mapping from this attribute to the CSS
+  'direction' and 'unicode-bidi' properties, and CSS defines rendering
+  in terms of those properties.</p>
+
+  </div>
+
+  <p><dfn>The directionality</dfn> of an element, which is used in
+  particular by the <code>canvas</code> element's text rendering API,
+  is either 'ltr' or 'rtl'. If the user agent supports CSS and the
+  'direction' property on this element has a computed value of either
+  'ltr' or 'rtl', then that is <span>the directionality</span> of the
+  element. Otherwise, if the element is being rendered, then <span>the
+  directionality</span> of the element is the directionality used by
+  the presentation layer, potentially determined from the value of the
+  <code title="attr-dir">dir</code> attribute on the
+  element. Otherwise, if the element's <code
+  title="attr-dir">dir</code> attribute has the state <i>ltr</i>, the
+  element's directionality is 'ltr' (left-to-right); if the attribute
+  has the state <i>rtl</i>, the element's directionality is 'rtl'
+  (right-to-left); and otherwise, the element's directionality is the
+  same as its parent element, or 'ltr' if there is no parent
+  element.</p>
+
+  <hr>
+
+  <dl class="domintro">
+
+   <dt><var title="">document</var> . <code title="dom-dir">dir</code> [ = <var title="">value</var> ]</dt>
+   <dd>
+    <p>Returns <span>the <code>html</code> element</span>'s <code title="attr-dir">dir</code> attribute's value, if any.</p>
+    <p>Can be set, to either "<code title="">ltr</code>" or "<code title="">rtl</code>", to replace <span>the <code>html</code> element</span>'s <code title="attr-dir">dir</code> attribute's value.</p>
+    <p>If there is no <span title="the html element"><code>html</code> element</span>, returns the empty string and ignores new values.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>The <dfn title="dom-dir"><code>dir</code></dfn> DOM attribute on
+  an element must <span>reflect</span> the <code
+  title="attr-dir">dir</code> content attribute of that element,
+  <span>limited to only known values</span>.</p>
+
+  <p>The <dfn title="dom-document-dir"><code>dir</code></dfn> DOM
+  attribute on <code>HTMLDocument</code> objects must
+  <span>reflect</span> the <code title="attr-dir">dir</code> content
+  attribute of <span>the <code>html</code> element</span>, if any,
+  <span>limited to only known values</span>. If there is no such
+  element, then the attribute must return the empty string and do
+  nothing on setting.</p>
+
+  </div>
+
+  <p class="note">Authors are strongly encouraged to use the <code
+  title="attr-dir">dir</code> attribute to indicate text direction
+  rather than using CSS, since that way their documents will continue
+  to render correctly even in the absence of CSS (e.g. as interpreted
+  by search engines).</p>
+
+
+  <h5 id="classes">The <dfn title="attr-class"><code>class</code></dfn> attribute</h5>
+
+  <p>Every <span title="HTML elements">HTML element</span> may have a
+  <code title="attr-class">class</code> attribute specified.</p>
+
+  <p>The attribute, if specified, must have a value that is an
+  <span>unordered set of unique space-separated tokens</span>
+  representing the various classes that the element belongs to.</p>
+
+  <div class="impl">
+
+  <p>The classes that an <span title="HTML elements">HTML
+  element</span> has assigned to it consists of all the classes
+  returned when the value of the <code title="attr-class">class</code>
+  attribute is <span title="split a string on spaces">split on
+  spaces</span>.</p>
+
+  </div>
+
+  <p class="note">Assigning classes to an element affects class
+  matching in selectors in CSS, the <code
+  title="dom-document-getElementsByClassName">getElementsByClassName()</code>
+  method in the DOM, and other such features.</p>
+
+  <p>Authors may use any value in the <code
+  title="attr-class">class</code> attribute, but are encouraged to use
+  the values that describe the nature of the content, rather than
+  values that describe the desired presentation of the
+  content.</p>
+
+  <div class="impl">
+
+  <hr>
+
+  <p>The <dfn title="dom-className"><code>className</code></dfn> and
+  <dfn title="dom-classList"><code>classList</code></dfn> DOM
+  attributes must both <span>reflect</span> the <code
+  title="attr-class">class</code> content attribute.</p>
+
+  </div>
+
+
+
+  <h5>The <dfn title="attr-style"><code>style</code></dfn> attribute</h5>
+
+  <p>All <span>HTML elements</span> may have the <code
+  title="attr-style">style</code> content attribute set. If specified,
+  the attribute must contain only a list of zero or more
+  semicolon-separated (;) CSS declarations. <a
+  href="#refsCSS">[CSS]</a></p>
+
+  <div class="impl">
+
+  <p>In user agents that support CSS, the attribute's value must be
+  parsed when the attribute is added or has its value changed, with
+  its value treated as the body (the part inside the curly brackets)
+  of a declaration block in a rule whose selector matches just the
+  element on which the attribute is set. All <span
+  title="URL">URLs</span> in the value must be <span title="resolve a
+  url">resolved</span> relative to the element when the attribute is
+  parsed.<!-- so dynamic changes to the base URL don't affect the CSS
+  --> For the purposes of the CSS cascade, the attribute must be
+  considered to be a 'style' attribute at the author level.</p>
+
+  </div>
+
+  <p>Documents that use <code title="attr-style">style</code>
+  attributes on any of their elements must still be comprehensible and
+  usable if those attributes were removed.</p>
+
+  <p class="note">In particular, using the <code
+  title="attr-style">style</code> attribute to hide and show content,
+  or to convey meaning that is otherwise not included in the document,
+  is non-conforming. (To hide and show content, use the <code
+  title="attr-hidden">hidden</code> attribute.)</p>
+
+  <hr>
+
+  <dl class="domintro">
+
+   <dt><var title="">element</var> . <code title="dom-style">style</code></dt>
+   <dd>
+    <p>Returns a <code>CSSStyleDeclaration</code> object for the element's <code title="attr-style">style</code> attribute.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>The <dfn title="dom-style"><code>style</code></dfn> DOM attribute
+  must return a <code>CSSStyleDeclaration</code> whose value
+  represents the declarations specified in the attribute, if
+  present. Mutating the <code>CSSStyleDeclaration</code> object must
+  create a <code title="attr-font-style">style</code> attribute on the
+  element (if there isn't one already) and then change its value to be
+  a value representing the serialized form of the
+  <code>CSSStyleDeclaration</code> object. <a
+  href="#refsCSSOM">[CSSOM]</a>
+
+  </div>
+
+  <div class="example">
+
+   <p>In the following example, the words that refer to colors are
+   marked up using the <code>span</code> element and the <code
+   title="attr-style">style</code> attribute to make those words show
+   up in the relevant colors in visual media.</p>
+
+   <pre>&lt;p>My sweat suit is &lt;span style="color: green; background:
+transparent">green&lt;/span> and my eyes are &lt;span style="color: blue;
+background: transparent">blue&lt;/span>.&lt;/p></pre>
+
+  </div>
+
+
+
+  <h5><dfn>Embedding custom non-visible data</dfn></h5>
+
+  <p>A <dfn>custom data attribute</dfn> is an attribute in no
+  namespace whose name starts with the string "<dfn
+  title="attr-data-*"><code>data-</code></dfn>", has at least one
+  character after the hyphen, is <span>XML-compatible</span>, and
+  contains no characters in the range U+0041 .. U+005A (LATIN CAPITAL
+  LETTER A .. LATIN CAPITAL LETTER Z).</p>
+
+  <p class="note">All attributes in <span>HTML documents</span> get
+  lowercased automatically, so the restriction on uppercase letters
+  doesn't affect such documents.</p>
+
+  <p><span title="custom data attribute">Custom data attributes</span>
+  are intended to store custom data private to the page or
+  application, for which there are no more appropriate attributes or
+  elements.</p>
+
+  <p>These attributes are not intended for use by software that is
+  independent of the site that uses the attributes.</p>
+
+  <div class="example">
+
+   <p>For instance, a site about music could annotate list items
+   representing tracks in an album with custom data attributes
+   containing the length of each track. This information could then be
+   used by the site itself to allow the user to sort the list by track
+   length, or to filter the list for tracks of certain lengths.</p>
+
+   <pre>&lt;ol>
+ &lt;li data-length="2m11s">Beyond The Sea&lt;/li>
+ ...
+&lt;/ol></pre>
+
+   <p>It would be inappropriate, however, for the user to use generic
+   software not associated with that music site to search for tracks
+   of a certain length by looking at this data.</p>
+
+   <p>This is because these attributes are intended for use by the
+   site's own scripts, and are not a generic extension mechanism for
+   publicly-usable metadata.</p>
+
+  </div>
+
+  <p>Every <span title="HTML elements">HTML element</span> may have
+  any number of <span title="custom data attribute">custom data
+  attributes</span> specified, with any value.</p>
+
+  <hr>
+
+  <dl class="domintro">
+
+   <dt><var title="">element</var> . <code title="dom-dataset">dataset</code></dt>
+   <dd>
+    <p>Returns a <code>DOMStringMap</code> object for the element's <code title="attr-data-*">data-*</code> attributes.</p>
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>The <dfn title="dom-dataset"><code>dataset</code></dfn> DOM
+  attribute provides convenient accessors for all the <code
+  title="attr-data-*">data-*</code> attributes on an element. On
+  getting, the <code title="dom-dataset">dataset</code> DOM attribute
+  must return a <code>DOMStringMap</code> object, associated with the
+  following algorithms, which expose these attributes on their
+  element:</p>
+
+  <dl>
+
+   <dt>The algorithm for getting the list of name-value pairs</dt>
+
+   <dd>
+    <ol>
+
+     <li>Let <var title="">list</var> be an empty list of name-value
+     pairs.</li>
+
+     <li>For each content attribute on the element whose first five
+     characters are the string "<code title="">data-</code>", add a
+     name-value pair to <var title="">list</var> whose name is the
+     attribute's name with the first five character removed and whose
+     value is the attribute's value.</li>
+
+     <li>Return <var title="">list</var>.</li>
+
+    </ol>
+   </dd>
+
+   <dt>The algorithm for setting names to certain values</dt>
+
+   <dd>
+    <ol>
+
+     <li>Let <var title="">name</var> be the concatenation of the
+     string <code title="">data-</code> and the name passed to the
+     algorithm.</li>
+
+     <li>Let <var title="">value</var> be the value passed to the
+     algorithm.</li>
+
+     <li>Set the value of the attribute with the name <var
+     title="">name</var>, to the value <var title="">value</var>,
+     replacing any previous value if the attribute already existed. If
+     <code title="">setAttribute()</code> would have raised an
+     exception when setting an attribute with the name <var
+     title="">name</var>, then this must raise the same
+     exception.</li>
+
+    </ol>
+   </dd>
+
+   <dt>The algorithm for deleting names</dt>
+
+   <dd>
+    <ol>
+
+     <li>Let <var title="">name</var> be the concatenation of the
+     string <code title="">data-</code> and the name passed to the
+     algorithm.</li>
+
+     <li>Remove the attribute with the name <var title="">name</var>,
+     if such an attribute exists. Do nothing otherwise.</li>
+
+    </ol>
+   </dd>
+
+  </dl>
+
+  </div>
+
+  <div class="example">
+
+   <p>If a Web page wanted an element to represent a space ship,
+   e.g. as part of a game, it would have to use the <code
+   class="attr-class">class</code> attribute along with <code
+   title="attr-data-*">data-*</code> attributes:</p>
+
+   <pre>
+&lt;div class="spaceship" data-id="92432"
+     data-weapons="laser 2" data-shields="50%"
+     data-x="30" data-y="10" data-z="90">
+ &lt;button class="fire"
+         onclick="spaceships[this.parentNode.dataset.id].fire()">
+  Fire
+ &lt;/button>
+&lt;/div>
+</pre>
+
+  </div>
+
+  <p>Authors should carefully design such extensions so that when the
+  attributes are ignored and any associated CSS dropped, the page is
+  still usable.</p>
+
+  <div class="impl">
+
+  <p>User agents must not derive any implementation behavior from
+  these attributes or values. Specifications intended for user agents
+  must not define these attributes to have any meaningful values.</p>
+
+  </div>
+
+
+

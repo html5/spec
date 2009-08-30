@@ -1,0 +1,813 @@
+  <h4 id="meta">The <dfn><code>meta</code></dfn> element</h4>
+
+  <dl class="element">
+   <dt>Categories</dt>
+   <dd><span>Metadata content</span>.</dd>
+   <dt>Contexts in which this element may be used:</dt>
+   <dd>If the <code title="attr-meta-charset">charset</code> attribute is present, or if the element's <code title="attr-meta-http-equiv">http-equiv</code> attribute is in the <span title="attr-meta-http-equiv-content-type">Encoding declaration state</span>: in a <code>head</code> element.</dd>
+   <dd>If the <code title="attr-meta-http-equiv">http-equiv</code> attribute is present and in the <span title="attr-meta-http-equiv-content-type">Encoding declaration state</span>: in a <code>head</code> element.</dd>
+   <dd>If the <code title="attr-meta-http-equiv">http-equiv</code> attribute is present but not in the <span title="attr-meta-http-equiv-content-type">Encoding declaration state</span>: in a <code>noscript</code> element that is a child of a <code>head</code> element.</dd>
+   <dd>If the <code title="attr-meta-name">name</code> attribute is present: where <span>metadata content</span> is expected.</dd>
+   <dt>Content model:</dt>
+   <dd>Empty.</dd>
+   <dt>Content attributes:</dt>
+   <dd><span>Global attributes</span></dd>
+   <dd><code title="attr-meta-name">name</code></dd>
+   <dd><code title="attr-meta-http-equiv">http-equiv</code></dd>
+   <dd><code title="attr-meta-content">content</code></dd>
+   <dd><code title="attr-meta-charset">charset</code></dd>
+   <dt>DOM interface:</dt>
+   <dd>
+<pre class="idl">interface <dfn>HTMLMetaElement</dfn> : <span>HTMLElement</span> {
+           attribute DOMString <span title="dom-meta-name">name</span>;
+           attribute DOMString <span title="dom-meta-httpEquiv">httpEquiv</span>;
+};</pre>
+   </dd>
+  </dl>
+
+  <p>The <code>meta</code> element <span>represents</span> various
+  kinds of metadata that cannot be expressed using the
+  <code>title</code>, <code>base</code>, <code>link</code>,
+  <code>style</code>, and <code>script</code> elements.</p>
+
+  <p>The <code>meta</code> element can represent document-level
+  metadata with the <code title="attr-meta-name">name</code>
+  attribute, pragma directives with the <code
+  title="attr-meta-http-equiv">http-equiv</code> attribute, and the
+  file's <span>character encoding declaration</span> when an HTML
+  document is serialized to string form (e.g. for transmission over
+  the network or for disk storage) with the <code
+  title="attr-meta-charset">charset</code> attribute.</p>
+
+  <p>Exactly one of the <code title="attr-meta-name">name</code>,
+  <code title="attr-meta-http-equiv">http-equiv</code>, and <code
+  title="attr-meta-charset">charset</code> attributes must be
+  specified.</p>
+
+  <p>If either <code title="attr-meta-name">name</code>, or <code
+  title="attr-meta-http-equiv">http-equiv</code>, is specified, 
+  then the <code title="attr-meta-content">content</code> attribute 
+  must also be specified. Otherwise, it must be omitted.</p>
+
+  <p>The <dfn title="attr-meta-charset"><code>charset</code></dfn>
+  attribute specifies the character encoding used by the
+  document. This is a <span>character encoding declaration</span>. If
+  the attribute is present in an <span title="XML documents">XML
+  document</span>, its value must be an <span>ASCII
+  case-insensitive</span> match for the string "<code
+  title="">UTF-8</code>" (and the document is therefore required to
+  use UTF-8 as its encoding).</p>
+
+  <p class="note">The <code title="attr-meta-charset">charset</code>
+  attribute on the <code>meta</code> element has no effect in XML
+  documents, and is only allowed in order to facilitate migration to
+  and from XHTML.</p>
+
+  <p>There must not be more than one <code>meta</code> element with a
+  <code title="attr-meta-charset">charset</code> attribute per
+  document.</p>
+
+  <p>The <dfn title="attr-meta-content"><code>content</code></dfn>
+  attribute gives the value of the document metadata or pragma
+  directive when the element is used for those purposes. The allowed
+  values depend on the exact context, as described in subsequent
+  sections of this specification.</p>
+
+  <p>If a <code>meta</code> element has a <dfn
+  title="attr-meta-name"><code>name</code></dfn> attribute, it sets
+  document metadata. Document metadata is expressed in terms of
+  name/value pairs, the <code title="attr-meta-name">name</code>
+  attribute on the <code>meta</code> element giving the name, and the
+  <code title="attr-meta-content">content</code> attribute on the same
+  element giving the value. The name specifies what aspect of metadata
+  is being set; valid names and the meaning of their values are
+  described in the following sections. If a <code>meta</code> element
+  has no <code title="attr-meta-content">content</code> attribute,
+  then the value part of the metadata name/value pair is the empty
+  string.</p>
+
+  <div class="impl">
+
+  <p>The <dfn title="dom-meta-name"><code>name</code></dfn> DOM
+  attribute must <span>reflect</span> the content attribute of the
+  same name. The DOM attribute <dfn
+  title="dom-meta-httpEquiv"><code>httpEquiv</code></dfn> must
+  <span>reflect</span> the content attribute <code
+  title="attr-meta-http-equiv">http-equiv</code>.</p>
+
+  </div>
+
+
+  <h5>Standard metadata names</h5>
+
+  <p>This specification defines a few names for the <code
+  title="attr-meta-name">name</code> attribute of the
+  <code>meta</code> element.</p>
+
+  <dl>
+
+   <dt><dfn title="meta-application-name">application-name</dfn></dt>
+
+   <dd><p>The value must be a short free-form string that giving the
+   name of the Web application that the page represents. If the page
+   is not a Web application, the <code
+   title="meta-application-name">application-name</code> metadata name
+   must not be used. <span class="impl">User agents may use the
+   application name in UI in preference to the page's
+   <code>title</code>, since the title might include status messages
+   and the like relevant to the status of the page at a particular
+   moment in time instead of just being the name of the
+   application.</span></p></dd>
+
+   <dt><dfn title="meta-description">description</dfn></dt>
+
+   <dd><p>The value must be a free-form string that describes the
+   page. The value must be appropriate for use in a directory of
+   pages, e.g. in a search engine.</p></dd>
+
+   <dt><dfn title="meta-generator">generator</dfn></dt>
+
+   <dd><p>The value must be a free-form string that identifies the
+   software used to generate the document. This value must not be used
+   on hand-authored pages.</p></dd>
+
+  </dl>
+
+
+  <h5>Other metadata names</h5>
+
+  <p><dfn title="concept-meta-extensions">Extensions to the predefined
+  set of metadata names</dfn> may be registered in the <a
+  href="http://wiki.whatwg.org/wiki/MetaExtensions">WHATWG Wiki
+  MetaExtensions page</a>.
+
+  <p>Anyone is free to edit the WHATWG Wiki MetaExtensions page at any
+  time to add a type. These new names must be specified with the
+  following information:</p>
+
+  <dl>
+
+   <dt>Keyword</dt>
+
+   <dd><p>The actual name being defined. The name should not be
+   confusingly similar to any other defined name (e.g. differing only
+   in case).</p></dd>
+
+
+   <dt>Brief description</dt>
+
+   <dd><p>A short description of what the metadata name's meaning is,
+   including the format the value is required to be in.</p></dd>
+
+
+   <dt>Link to more details</dt>
+
+   <dd>A link to a more detailed description of the metadata name's
+   semantics and requirements. It could be another page on the Wiki,
+   or a link to an external page.</dd>
+
+
+   <dt>Synonyms</dt>
+
+   <dd><p>A list of other names that have exactly the same processing
+   requirements. Authors should not use the names defined to be
+   synonyms, they are only intended to allow user agents to support
+   legacy content.</p></dd>
+
+
+   <dt>Status</dt>
+
+   <dd>
+
+    <p>One of the following:</p>
+
+    <dl>
+
+     <dt>Proposal</dt>
+
+     <dd>The name has not received wide peer review and
+     approval. Someone has proposed it and is using it.</dd>
+
+     <dt>Accepted</dt>
+
+     <dd>The name has received wide peer review and approval. It has a
+     specification that unambiguously defines how to handle pages that
+     use the name, including when they use it in incorrect ways.</dd>
+
+     <dt>Unendorsed</dt>
+
+     <dd>The metadata name has received wide peer review and it has
+     been found wanting. Existing pages are using this keyword, but
+     new pages should avoid it. The "brief description" and "link to
+     more details" entries will give details of what authors should
+     use instead, if anything.</dd>
+
+    </dl>
+
+    <p>If a metadata name is added with the "proposal" status and
+    found to be redundant with existing values, it should be removed
+    and listed as a synonym for the existing value.</p>
+
+   </dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>Conformance checkers must use the information given on the WHATWG
+  Wiki MetaExtensions page to establish if a value not explicitly
+  defined in this specification is allowed or not. Conformance
+  checkers may cache this information (e.g. for performance reasons or
+  to avoid the use of unreliable network connectivity).</p>
+
+  <p>When an author uses a new type not defined by either this
+  specification or the Wiki page, conformance checkers should offer to
+  add the value to the Wiki, with the details described above, with
+  the "proposal" status.</p>
+
+  </div>
+
+  <p>This specification does not define how new values will get
+  approved. It is expected that the Wiki will have a community that
+  addresses this.</p>
+
+  <p>Metadata names whose values are to be <span
+  title="URL">URLs</span> must not be proposed or accepted. Links must
+  be represented using the <code>link</code> element, not the
+  <code>meta</code> element.</p>
+
+
+
+
+  <h5>Pragma directives</h5>
+
+  <p>When the <dfn
+  title="attr-meta-http-equiv"><code>http-equiv</code></dfn> attribute
+  is specified on a <code>meta</code> element, the element is a pragma
+  directive.</p>
+
+  <p>The <code title="attr-meta-http-equiv">http-equiv</code>
+  attribute is an <span>enumerated attribute</span>. The following
+  table lists the keywords defined for this attribute. The states
+  given in the first cell of the rows with keywords give the states to
+  which those keywords map. <!--<span class="impl">Some of the
+  keywords are non-conforming, as noted in the last
+  column.</span>--></p>
+
+<!-- things that are neither conforming nor do anything are commented out -->
+<!-- if you add something non-conforming, uncomment out the last sentence above -->
+  <table>
+   <thead>
+    <tr>
+     <th>State
+     <th>Keywords
+     <th>Notes
+   <tbody>
+    <tr>
+     <td><span title="attr-meta-http-equiv-content-language">Content Language</span>
+     <td><code title="">content-language</code>
+     <td>Conformance checkers will include a warning
+    <tr>
+     <td><span title="attr-meta-http-equiv-content-type">Encoding declaration</span>
+     <td><code title="">content-type</code>
+     <td>
+<!--
+    <tr class="impl">
+     <td><span title="attr-meta-http-equiv-content-script-type">Content-Script-Type</span>
+     <td><code title="">Content-Script-Type</code>
+     <td>Non-conforming
+    <tr class="impl">
+     <td><span title="attr-meta-http-equiv-content-style-type">Content-Style-Type</span>
+     <td><code title="">Content-Style-Type</code>
+     <td>Non-conforming
+-->
+    <tr>
+     <td><span title="attr-meta-http-equiv-default-style">Default style</span>
+     <td><code title="">default-style</code>
+     <td>
+    <tr>
+     <td><span title="attr-meta-http-equiv-refresh">Refresh</span>
+     <td><code title="">refresh</code>
+     <td>
+  </table>
+
+<!--
+DATA: According to Henri's validator stats, here are common
+non-conforming values used by people who validate (sample of 400
+pages):
+
+COUNT ERROR
+   20 Bad value "Content-Language" for attribute "http-equiv" on element "meta".
+   17 Bad value "Content-Style-Type" for attribute "http-equiv" on element "meta".
+   12 Bad value "Expires" for attribute "http-equiv" on element "meta".
+   11 Bad value "Pragma" for attribute "http-equiv" on element "meta".
+   11 Bad value "imagetoolbar" for attribute "http-equiv" on element "meta".
+   10 Bad value "Content-Script-Type" for attribute "http-equiv" on element "meta".
+   10 Bad value "content-language" for attribute "http-equiv" on element "meta".
+ [...]
+http://hsivonen.iki.fi/test/moz/analysis.txt
+
+Here's some more data, this time from Philip`, on a sample of 15k pages.
+
+  COUNT VALUE
+   1181 Content-Language
+    430 Content-Style-Type
+    342 imagetoolbar
+    276 content-language
+    269 Pragma
+    260 expires
+    227 Expires
+    211 pragma
+    146 Content-Script-Type
+    132 keywords
+    119 Page-Enter
+    116 description
+    106 reply-to
+    102 Cache-Control
+   [...]
+http://philip.html5.org/data/meta-http-equiv.txt
+
+These numbers are low; further study is required to establish what
+people expect to have work and what is necessary.
+-->
+
+  <div class="impl">
+
+  <p>When a <code>meta</code> element is <span title="insert an
+  element into a document">inserted into the document</span>, if its
+  <code title="attr-meta-http-equiv">http-equiv</code> attribute is
+  present and represents one of the above states, then the user agent
+  must run the algorithm appropriate for that state, as described in
+  the following list:</p>
+
+  </div>
+
+  <dl>
+
+   <dt><dfn title="attr-meta-http-equiv-content-language">Content language state</dfn> (<code title="">http-equiv="content-language"</code>)
+
+   <dd>
+
+    <p>This pragma sets the <dfn>document-wide default
+    language</dfn>. Until the pragma is successfully processed, there
+    is no <span>document-wide default language</span>.</p>
+
+    <p class="note">Conformance checkers will include a warning if
+    this pragma is used. Authors are encouraged to use the <code
+    title="attr-lang">lang</code> attribute instead.</p>
+
+    <div class="impl">
+
+    <ol>
+
+     <li><p>If another <code>meta</code> element with an <code
+     title="attr-meta-http-equiv">http-equiv</code> attribute in the
+     <span title="attr-meta-http-equiv-content-language">Content
+     Language state</span> has already been successfully processed
+     (i.e. when it was inserted the user agent processed it and
+     reached the last step of this list of steps), then abort these
+     steps.</p></li>
+
+     <li><p>If the <code>meta</code> element has no <code
+     title="attr-meta-content">content</code> attribute, or if that
+     attribute's value is the empty string, then abort these
+     steps.</p></li>
+
+     <li><p>Let <var title="">input</var> be the value of the
+     element's <code title="attr-meta-content">content</code>
+     attribute.</p></li>
+
+     <li><p>Let <var title="">position</var> point at the first
+     character of <var title="">input</var>.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p><span title="collect a sequence of characters">Collect a
+     sequence of characters</span> that are neither <span title="space
+     character">space characters</span> nor a U+002C COMMA character
+     (",").</p></li>
+
+     <li><p>Let the <span>document-wide default language</span> be the
+     string that resulted from the previous step.</p></li>
+
+    </ol>
+
+    </div>
+
+    <p>For <code>meta</code> elements with an <code
+    title="attr-meta-http-equiv">http-equiv</code> attribute in the
+    <span title="attr-meta-http-equiv-content-language">Content
+    Language state</span>, the <code
+    title="attr-meta-content">content</code> attribute must have a
+    value consisting of a valid BCP 47 language code. <a
+    href="#refsBCP47">[BCP47]</a></p>
+
+    <p class="note">This pragma is not exactly equivalent to the HTTP
+    <code>Content-Language</code> header, for instance it only
+    supports one language. <a href="#refsHTTP">[HTTP]</a></p>
+
+   </dd>
+
+   <dt><dfn title="attr-meta-http-equiv-content-type">Encoding declaration state</dfn> (<code title="">http-equiv="content-type"</code>)
+
+   <dd>
+
+    <p>The <span title="attr-meta-http-equiv-content-type">Encoding
+    declaration state</span> is just an alternative form of setting
+    the <code title="meta-charset">charset</code> attribute: it is a
+    <span>character encoding declaration</span>. <span
+    class="impl">This state's user agent requirements are all handled
+    by the parsing section of the specification.</span></p>
+
+    <p>For <code>meta</code> elements with an <code
+    title="attr-meta-http-equiv">http-equiv</code> attribute in the
+    <span title="attr-meta-http-equiv-content-type">Encoding
+    declaration state</span>, the <code
+    title="attr-meta-content">content</code> attribute must have a
+    value that is an <span>ASCII case-insensitive</span> match for a
+    string that consists of: the literal string "<code
+    title="">text/html;</code>", optionally followed by any number of
+    <span title="space character">space characters</span>, followed by
+    the literal string "<code title="">charset=</code>", followed by
+    the character encoding name of the <span>character encoding
+    declaration</span>.</p>
+
+    <p>If the document contains a <code>meta</code> element with an
+    <code title="attr-meta-http-equiv">http-equiv</code> attribute in
+    the <span title="attr-meta-http-equiv-content-type">Encoding
+    declaration state</span>, then the document must not contain a
+    <code>meta</code> element with the <code
+    title="attr-meta-charset">charset</code> attribute present.</p>
+
+    <p>The <span title="attr-meta-http-equiv-content-type">Encoding
+    declaration state</span> may be used in <span>HTML
+    documents</span>, but elements with an <code
+    title="attr-meta-http-equiv">http-equiv</code> attribute in that
+    state must not be used in <span>XML documents</span>.</p>
+
+   </dd>
+
+   <dt><dfn title="attr-meta-http-equiv-default-style">Default style state</dfn> (<code title="">http-equiv="default-style"</code>)
+
+   <dd>
+
+    <p>This pragma sets the name of the default <span
+    title="alternative style sheet sets">alternative style sheet
+    set</span>.</p>
+
+    <div class="impl">
+
+    <ol>
+
+     <li><p>If the <code>meta</code> element has no <code
+     title="attr-meta-content">content</code> attribute, or if that
+     attribute's value is the empty string, then abort these
+     steps.</p></li>
+
+     <li><p>Set the <span>preferred style sheet set</span> to the
+     value of the element's <code
+     title="attr-meta-content">content</code> attribute. <a
+     href="#refsCSSOM">[CSSOM]</a></p></li>
+
+    </ol>
+
+    </div>
+
+   </dd>
+
+   <dt><dfn title="attr-meta-http-equiv-refresh">Refresh state</dfn> (<code title="">http-equiv="refresh"</code>)
+
+   <dd>
+
+    <p>This pragma acts as timed redirect.</p>
+
+    <div class="impl">
+
+    <ol>
+     <!-- TESTS: http://www.hixie.ch/tests/adhoc/html/meta/refresh/ -->
+
+     <li><p>If another <code>meta</code> element with an <code
+     title="attr-meta-http-equiv">http-equiv</code> attribute in the
+     <span title="attr-meta-http-equiv-refresh">Refresh state</span>
+     has already been successfully processed (i.e. when it was
+     inserted the user agent processed it and reached the last step of
+     this list of steps), then abort these steps.</p></li>
+
+     <li><p>If the <code>meta</code> element has no <code
+     title="attr-meta-content">content</code> attribute, or if that
+     attribute's value is the empty string, then abort these
+     steps.</p></li>
+
+     <li><p>Let <var title="">input</var> be the value of the
+     element's <code title="attr-meta-content">content</code>
+     attribute.</p></li>
+
+     <li><p>Let <var title="">position</var> point at the first
+     character of <var title="">input</var>.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p><span title="collect a sequence of characters">Collect a
+     sequence of characters</span> in the range U+0030 DIGIT ZERO to
+     U+0039 DIGIT NINE, and parse the resulting string using the
+     <span>rules for parsing non-negative integers</span>. If the
+     sequence of characters collected is the empty string, then no
+     number will have been parsed; abort these steps. Otherwise, let
+     <var title="">time</var> be the parsed number.</p></li>
+
+     <li><p><span title="collect a sequence of characters">Collect a
+     sequence of characters</span> in the range U+0030 DIGIT ZERO to
+     U+0039 DIGIT NINE and U+002E FULL STOP ("<code
+     title="">.</code>"). Ignore any collected characters.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p>Let <var title="">url</var> be the address of the current
+     page.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is a U+003B SEMICOLON ("<code
+     title="">;</code>"), then advance <var title="">position</var> to
+     the next character. Otherwise, jump to the last step.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is one of U+0055 LATIN CAPITAL
+     LETTER U or U+0075 LATIN SMALL LETTER U, then advance <var
+     title="">position</var> to the next character. Otherwise, jump to
+     the last step.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is one of U+0052 LATIN CAPITAL
+     LETTER R or U+0072 LATIN SMALL LETTER R, then advance <var
+     title="">position</var> to the next character. Otherwise, jump to
+     the last step.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is one of U+004C LATIN CAPITAL
+     LETTER L or U+006C LATIN SMALL LETTER L, then advance <var
+     title="">position</var> to the next character. Otherwise, jump to
+     the last step.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is a U+003D EQUALS SIGN ("<code
+     title="">=</code>"), then advance <var title="">position</var> to
+     the next character. Otherwise, jump to the last step.</p></li>
+
+     <li><p><span>Skip whitespace</span>.</p></li>
+
+     <li><p>If the character in <var title="">input</var> pointed to
+     by <var title="">position</var> is either a U+0027 APOSTROPHE
+     character (') or U+0022 QUOTATION MARK character ("), then let
+     <var title="">quote</var> be that character, and advance <var
+     title="">position</var> to the next character. Otherwise, let
+     <var title="">quote</var> be the empty string.</p></li>
+
+     <li><p>Let <var title="">url</var> be equal to the substring of
+     <var title="">input</var> from the character at <var
+     title="">position</var> to the end of the string.</p></li>
+
+     <li><p>If <var title="">quote</var> is not the empty string, and
+     there is a character in <var title="">url</var> equal to <var
+     title="">quote</var>, then truncate <var title="">url</var> at
+     that character, so that it and all subsequent characters are
+     removed.</p>
+
+     <li><p>Strip any trailing <span title="space character">space
+     characters</span> from the end of <var
+     title="">url</var>.</p></li>
+
+     <li><p>Strip any U+0009 CHARACTER TABULATION, U+000A LINE FEED
+     (LF), and U+000D CARRIAGE RETURN (CR) characters from <var
+     title="">url</var>.</p></li>
+
+     <li><p><span title="resolve a url">Resolve</span> the <var
+     title="">url</var> value to an <span>absolute URL</span>,
+     relative to the <code>meta</code> element. If this fails, abort
+     these steps.</p></li>
+
+     <li>
+
+      <p>Perform one or more of the following steps:</p>
+
+      <ul>
+
+       <li><p>Set a timer so that in <var title="">time</var> seconds,
+       adjusted to take into account user or user agent preferences,
+       if the user has not canceled the redirect, the user agent <span
+       title="navigate">navigates</span> the document's browsing
+       context to <var title="">url</var>, with <span>replacement
+       enabled</span>, and with the document's browsing context as the
+       <span>source browsing context</span>.</p></li>
+
+       <li><p>Provide the user with an interface that, when selected,
+       <span>navigates</span> a <span>browsing context</span> to <var
+       title="">url</var>, with the document's browsing context as the
+       <span>source browsing context</span>.</p></li>
+
+       <li><p>Do nothing.</p></li>
+
+      </ul>
+
+      <p>In addition, the user agent may, as with anything, inform the
+      user of any and all aspects of its operation, including the
+      state of any timers, the destinations of any timed redirects,
+      and so forth.</p>
+
+     </li>
+
+    </ol>
+
+    </div>
+
+    <p>For <code>meta</code> elements with an <code
+    title="attr-meta-http-equiv">http-equiv</code> attribute in the
+    <span title="attr-meta-http-equiv-refresh">Refresh state</span>,
+    the <code title="attr-meta-content">content</code> attribute must
+    have a value consisting either of:</p>
+
+    <ul>
+
+     <li> just a <span>valid non-negative integer</span>, or</li>
+
+     <li> a <span>valid non-negative integer</span>, followed by a
+     U+003B SEMICOLON (<code title="">;</code>), followed by one or
+     more <span title="space character">space characters</span>,
+     followed by either a U+0055 LATIN CAPITAL LETTER U or a U+0075
+     LATIN SMALL LETTER U, a U+0052 LATIN CAPITAL LETTER R or a U+0072
+     LATIN SMALL LETTER R, a U+004C LATIN CAPITAL LETTER L or a U+006C
+     LATIN SMALL LETTER L, a U+003D EQUALS SIGN (<code
+     title="">=</code>), and then a <span>valid URL</span>.</li>
+
+    </ul>
+
+    <p>In the former case, the integer represents a number of seconds
+    before the page is to be reloaded; in the latter case the integer
+    represents a number of seconds before the page is to be replaced
+    by the page at the given <span>URL</span>.</p>
+
+   </dd>
+
+  </dl>
+
+  <p>There must not be more than one <code>meta</code> element with
+  any particular state in the document at a time.</p>
+
+
+  <h5>Other pragma directives</h5>
+
+  <p><dfn title="concept-http-equiv-extensions">Extensions to the
+  predefined set of pragma directives</dfn> may, under certain
+  conditions, be registered in the <a
+  href="http://wiki.whatwg.org/wiki/PragmaExtensions">WHATWG Wiki
+  PragmaExtensions page</a>.</p>
+
+  <p>Such extensions must use a name that is identical to a
+  previously-registered HTTP header defined in an RFC, and must have
+  behavior identical to that described for the HTTP header. Pragma
+  directions corresponding to headers describing metadata, or not
+  requiring specific user agent processing, must not be registered;
+  instead, use <span title="concept-meta-extensions">metadata
+  names</span>. Pragma directions corresponding to headers that affect
+  the HTTP processing model (e.g. caching) must not be registered, as
+  they would result in HTTP-level behavior being different for user
+  agents that implement HTML than for user agents that do not.</p>
+
+  <p>Anyone is free to edit the WHATWG Wiki PragmaExtensions page at
+  any time to add a pragma directive satisfying these conditions. Such
+  registrations must specify the following information:</p>
+
+  <dl>
+
+   <dt>Keyword</dt>
+
+   <dd><p>The actual name being defined.</p></dd>
+
+
+   <dt>Brief description</dt>
+
+   <dd><p>A short description of the purpose of the pragma
+   directive.</p></dd>
+
+
+   <dt>Specification</dt>
+
+   <dd>A link to an IETF RFC defining the corresponding HTTP header.</dd>
+
+  </dl>
+
+  <div class="impl">
+
+  <p>Conformance checkers must use the information given on the WHATWG
+  Wiki PragmaExtensions page to establish if a value not explicitly
+  defined in this specification is allowed or not. Conformance
+  checkers may cache this information (e.g. for performance reasons or
+  to avoid the use of unreliable network connectivity).</p>
+
+  </div>
+
+
+  <h5 id="charset">Specifying the document's character encoding</h5>
+
+  <!-- READ ME WHEN EDITING: if we ever move this to the "writing
+  HTML" section, then we have to duplicate the requirements in the
+  parsing section for conformance checkers, and we have to make sure
+  that the requirements for charset="" apply even in XML, for the
+  <meta charset=""> polyglot hack. -->
+
+  <p>A <dfn>character encoding declaration</dfn> is a mechanism by
+  which the character encoding used to store or transmit a document is
+  specified.</p>
+
+  <p>The following restrictions apply to character encoding
+  declarations:</p>
+
+  <ul>
+
+   <li>The character encoding name given must be the name of the
+   character encoding used to serialize the file.</li>
+
+   <li>The value must be a valid character encoding name, and must be
+   the preferred name for that encoding. <a
+   href="#refsIANACHARSET">[IANACHARSET]</a></li>
+
+   <li>The character encoding declaration must be serialized without
+   the use of <span title="syntax-charref">character references</span>
+   or character escapes of any kind.</li>
+
+   <li id="charset512">The element containing the character encoding
+   declaration must be serialized completely within the first 512
+   bytes of the document.</li>
+
+   <li>There can only be one character encoding declaration in the
+   document.</li> <!-- conformance criteria for this one are given in
+   the XML spec, the <meta> section just after defining charset="",
+   and the character encoding pragma section. And actually this
+   statement isn't quite true, since you can have an XML one and an
+   HTML one at the same time if they match. -->
+
+  </ul>
+
+  <p>If an <span title="HTML documents">HTML document</span> does not
+  start with a BOM, and if its encoding is not explicitly given by
+  <span title="Content-Type">Content-Type metadata</span>, then the
+  character encoding used must be an <span>ASCII-compatible character
+  encoding</span>, and, in addition, if that encoding isn't US-ASCII
+  itself, then the encoding must be specified using a
+  <code>meta</code> element with a <code
+  title="attr-meta-charset">charset</code> attribute or a
+  <code>meta</code> element with an <code
+  title="attr-meta-http-equiv">http-equiv</code> attribute in the
+  <span title="attr-meta-http-equiv-content-type">Encoding declaration
+  state</span>.</p>
+
+  <p>If an <span title="HTML documents">HTML document</span> contains
+  a <code>meta</code> element with a <code
+  title="attr-meta-charset">charset</code> attribute or a
+  <code>meta</code> element with an <code
+  title="attr-meta-http-equiv">http-equiv</code> attribute in the
+  <span title="attr-meta-http-equiv-content-type">Encoding declaration
+  state</span>, then the character encoding used must be an
+  <span>ASCII-compatible character encoding</span>.</p>
+
+  <p>Authors should not use JIS-X-0208 <!-- x-JIS0208 -->
+  (JIS_C6226-1983), JIS-X-0212 (JIS_X0212-1990), encodings based on
+  ISO-2022<!-- http://krijnhoetmer.nl/irc-logs/whatwg/20090628#l-422
+  -->, and encodings based on EBCDIC. Authors should not use
+  UTF-32. Authors must not use the CESU-8, UTF-7, BOCU-1 and SCSU
+  encodings.
+  <a href="#refsRFC1345">[RFC1345]</a><!-- for the JIS types -->
+  <a href="#refsRFC1468">[RFC1468]</a><!-- ISO-2022-JP -->
+  <a href="#refsRFC2237">[RFC2237]</a><!-- ISO-2022-JP-1 -->
+  <a href="#refsRFC1554">[RFC1554]</a><!-- ISO-2022-JP-2 -->
+  <a href="#refsRFC1922">[RFC1922]</a><!-- ISO-2022-CN and ISO-2022-CN-EXT -->
+  <a href="#refsRFC1557">[RFC1557]</a><!-- ISO-2022-KR -->
+  <a href="#refsUNICODE">[UNICODE]</a>
+  <a href="#refsCESU8">[CESU8]</a>
+  <a href="#refsUTF7">[UTF7]</a>
+  <a href="#refsBOCU1">[BOCU1]</a>
+  <a href="#refsSCSU">[SCSU]</a>
+  <!-- no idea what to reference for EBCDIC, so... -->
+  </p>
+
+  <p>Authors are encouraged to use UTF-8. Conformance checkers may
+  advise against authors using legacy encodings.</p>
+
+  <div class="impl">
+
+  <p>Authoring tools should default to using UTF-8 for newly-created
+  documents.</p>
+
+  </div>
+
+  <p class="note">Using non-UTF-8 encodings can have unexpected
+  results on form submission and URL encodings, which use the
+  <span>document's character encoding</span> by default.</p>
+
+  <p>In XHTML, the XML declaration should be used for inline character
+  encoding information, if necessary.</p>
+
+

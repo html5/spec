@@ -1,0 +1,21 @@
+   <h3>Content Models</h3>
+
+   <p>
+    If the <code title="attr-itemprop">itemprop</code> attribute is present on
+    the following elements, they should be treated as <dfn>flow content</dfn>.
+   </p>
+
+   <ul>
+   <li><code>link</code> (if the <code title="attr-itemprop">itemprop</code> attribute is present)</li>
+   <li><code>meta</code> (if the <code title="attr-itemprop">itemprop</code> attribute is present)</li>
+   </ul>
+
+   <p>
+    If the <code title="attr-itemprop">itemprop</code> attribute is present on
+    the following elements, they should be treated as <dfn>phrasing content</dfn>.
+   </p>
+
+   <ul>
+   <li><code>link</code> (if the <code title="attr-itemprop">itemprop</code> attribute is present)</li>
+   <li><code>meta</code> (if the <code title="attr-itemprop">itemprop</code> attribute is present)</li>
+   </ul>

@@ -1,0 +1,13 @@
+  <h3>Additional Elements in the DOM</h3>
+
+  <p>The following extension to the HTMLElement object must be made. 
+  </p>
+  
+  <pre class="idl">interface <dfn>HTMLElement</dfn> : <span>Element</span> {
+  // <span>microdata</span>
+           attribute DOMString <span title="dom-item">item</span>;
+  [PutForwards=<span title="dom-DOMSettableTokenList-value">value</span>] readonly attribute <span>DOMSettableTokenList</span> <span title="dom-itemprop">itemprop</span>;
+  readonly attribute <span>HTMLPropertyCollection</span> <span title="dom-properties">properties</span>;
+           attribute DOMString <span title="dom-content">content</span>;
+           attribute <span>HTMLElement</span> <span title="dom-subject">subject</span>;
+  </pre>

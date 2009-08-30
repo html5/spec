@@ -1,0 +1,18 @@
+
+   <h3>The <dfn><code>link</code></dfn> Element</h3>
+
+   <p>
+    The type of element category is determined based on
+    the presence of the <code title="attr-itemprop">itemprop</code> attribute:
+   </p>
+   
+   <dt>
+   <dd>If the <code title="attr-itemprop">itemprop</code> attribute is present: <span>flow content</span>.</dd>
+   <dd>If the <code title="attr-itemprop">itemprop</code> attribute is present: <span>phrasing content</span>.</dd>
+   </dt>
+
+   <p>
+    Additionally, the element may be used where <span>phrasing content</span>
+    is expected if the <code title="attr-itemprop">itemprop</code> attribute 
+    is present.
+   </p>

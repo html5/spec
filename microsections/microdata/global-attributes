@@ -1,0 +1,10 @@
+   <h3>Global Attributes</h3>
+
+   <p>The following additional global attributes must be allowed on all
+   HTMLElements:</p>
+
+   <ul>
+    <li><code title="attr-item">item</code></li>
+    <li><code title="attr-itemfor">itemfor</code></li>
+    <li><code title="attr-itemprop">itemprop</code></li>
+   </ul>

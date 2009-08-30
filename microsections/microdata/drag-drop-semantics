@@ -1,0 +1,13 @@
+    <h3>Drag-Drop Semantics</h3>
+
+    <p>When a user agent is performing a drag operation, it must ensure
+    that the following step is performed as a part of the drag operation:</p>
+
+    <p>The user agent must take the <span>list of dragged nodes</span>
+    and <span title="extracting JSON">extract the microdata from those
+    nodes into a JSON form</span>, and then must add the resulting
+    string to the <code
+    title="dom-DragEvent-dataTransfer">dataTransfer</code> member,
+    associated with the <code
+    title="">application/microdata+json</code> format.</p>
+
