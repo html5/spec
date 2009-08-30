@@ -1,19 +1,19 @@
-  <h4>
+  <h2>
    Modifications to XHTML+RDFa
-  </h4>
+  </h2>
   <p>
    <em>This section is normative.</em>
   </p>
   <p>
    The [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>]
-   Recommendation is the base document on which this section builds. That
-   document specifies the attributes and processing rules for extracting
+   Recommendation is the base document on which this specification builds. 
+   XHTML+RDFa specifies the attributes and processing rules for extracting
    RDF from an XHTML document. This section specifies changes to the
    attributes and processing rules defined in XHTML+RDFa in order to
    support extracting RDF from HTML documents.
   </p>
 
-  <h5>Specifying the language for a literal</h5>
+  <h3>Specifying the language for a literal</h3>
   <p>
    The <code>lang</code> attribute must be supported in the same manner 
    as the <code>xml:lang</code> attribute is in the XHTML+RDFa specification.
@@ -28,18 +28,16 @@
    both attributes is exactly the same.
   </p>
 
-  <h5>Invalid XMLLiteral values</h5>
+  <h3>Invalid XMLLiteral values</h3>
   <p>
    When generating literals of type XMLLiteral, the processor must ensure that
    the output XMLLiteral is 
    <a href="http://www.w3.org/TR/xml/#dt-wellformed">well-formed XML</a>. 
    If the input is not well-formed XML</a>, the processor must transform
-   the input text in a way that generates well-formed XML.
-   <div class="XXX">
-    Since the HTML5 specification already has an algorithm for 
-    serializing a DOM subtree into XHTML5, the RDFa Task Force is considering
-    re-using that algorithm.
-   </div>
+   the input text in a way that generates well-formed XML. An RDFa Processor
+   that is transforming not well-formed XML to well-formed XML must use the
+   algorithm for serializing a DOM subtree into XHTML5 as specified in the
+   HTML5 specification.
   </p>
   <p>
    Transformation to well-formed XML is required because an application
@@ -52,27 +50,7 @@
    only text nodes.
   </p>
 
-  <h5>The <code>xmlns:</code> attribute</h5>
-  <p>
-   <div class="XXX">
-    There have been various objections to the usage of the <code>xmlns</code>: 
-    attribute across all HTML family languages. It is currently unknown 
-    whether or not the <code>xmlns</code>: attribute will be supported in 
-    HTML5 as it is defined in the 
-    [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>]
-    specification. The RDFa Task Force is exploring alternatives 
-    to xmlns: that may be used in non-XML languages.
-   </div>
-   <div class="XXX">
-    While deprecation of the xmlns: attribute is attempted in HTML5, it
-    must still be available to ensure backwards-compatability for existing
-    XHTML code snippets on the web. Which raises the question, if HTML5 
-    subsumes XHTML 1.0 documents, and it is going to be long-lived, and 
-    xmlns: is required to ensure backwards with XHTML documents, then there
-    is no choice but to support xmlns: as it is defined in 
-    [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>].
-   </div>
-  </p>
+  <h3>The <code>xmlns:</code> attribute</h3>
   <p>
    CURIE prefix mappings specified using <code>xmlns:</code>
    must be processed using the rules specified in the

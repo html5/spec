@@ -206,7 +206,7 @@
    <h2 class="no-num no-toc" id="a-mechanism-for-embedding-rdf-in-html">
     A mechanism for embedding RDF in HTML
    </h2>
-   <h2 class="no-num no-toc" id="editor-s-draft-date-30-August-2009">Editor's Draft 30 August 2009</h2>
+   <h2 class="no-num no-toc" id="editor-s-draft-date-@DAY@-@MONTH@-@YEAR@">Editor's Draft @DATE_STRING@</h2>
     <!--:ZZZ-->
    <dl>
     <!-- ZZZ: update the month/day (twice), (un)comment out

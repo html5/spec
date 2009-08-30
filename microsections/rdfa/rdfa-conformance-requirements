@@ -1,6 +1,6 @@
-  <h4>
+  <h2>
    Conformance Requirements
-  </h4>
+  </h2>
   <p>
    <em>This section is normative.</em>
   </p>
@@ -10,9 +10,9 @@
    interpreted as described in [<a class="nref"
       href="#ref_RFC2119">RFC2119</a>].
   </p>
-  <h5>
+  <h3>
    Document Conformance
-  </h5>
+  </h3>
   <p>
    In order for a document to claim that it is a conforming HTML+RDFa document,
    it must provide the facilities described as mandatory in this section.
@@ -24,11 +24,13 @@
    <li>
     There should be a DOCTYPE declaration specified prior to the root element
     in the document that follows the conventions outlined in the 
-    <span>The DOCTYPE</span> section.
+    <span>The DOCTYPE</span> section in the HTML5 specification 
+    [<a href="http://www.w3.org/TR/html5">HTML5</a>].
    </li>
    <li>
     The root element of the document must follow the conventions outlined
-    in <span>The root element</span> section.
+    in <span>The root element</span> section in the HTML5 specification 
+    [<a href="http://www.w3.org/TR/html5">HTML5</a>].
    </li>
    <li>
     There may be a <code>link</code> element contained in the 
@@ -36,40 +38,33 @@
     the the <code>rel</code> attribute and 
     <code>http://www.w3.org/1999/xhtml/vocab</code> for the <code>href</code>
     attribute.
-    <div class="XXX">
-     This requires the HTML5 spec to add <code>profile</code> to the list of
-     allow-able <code>rel</code>-values. This is used as the signalling 
-     mechansim for an RDFa document because the <code>profile</code> 
-     attribute is deprecated in HTML5.
-    </div>
    </li>
   </ol>
-  <h5>
+  <h3>
    User Agent Conformance
-  </h5>
+  </h3>
   <p>
    A conforming RDFa user agent must:
    <ul>
    <li>
-    Conform to all conformance requirements listed in the 
-    "Conformance requirements" section of the HTML5 specification.
+    Conform to all requirements listed in the 
+    <span>Conformance requirements</span> section of the HTML5 specification.
    </li>
    <li>
-    Implement all of the features required in the RDFa section of the 
-    HTML5 specification.
+    Implement all of the features required by this specification.
    </li>
    <li>
     Implement all of the features specified in the XHTML+RDFa specification, 
-    excluding those features which are specifically overridden by the RDFa 
-    section of the HTML5 specification.
+    excluding those features which are specifically overridden by 
+    this specification.
    </li>
    </ul>
   </p>
-  <h5>
+  <h3>
    RDFa Processor Conformance
-  </h5>
+  </h3>
   <p>
    A conforming RDFa Processor must implement all of the mandatory features 
    specified in the XHTML+RDFa specification. It must also support any
-   mandatory features specified in the RDFa section of the HTML5 specification.
+   mandatory features specified in this specification.
   </p>

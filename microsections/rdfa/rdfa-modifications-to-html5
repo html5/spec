@@ -1,0 +1,30 @@
+  <h2>
+   Modifications to HTML5
+  </h2>
+  <p>
+   <em>This section is normative.</em>
+  </p>
+  <p>
+    There are a few changes that are required to the HTML5 specification in
+    order to fully support RDFa. The following sub-sections outline the
+    necessary modifications to the base HTML5 specification.
+  </p>
+
+  <h3>Preservation of the <code>profile</code> keyword in <code>rel</code> attributes</h3>
+  <p>
+    In order to provide a language version signalling mechanism, the 
+    <code>profile</code> keyword is provided for use in <code>rel</code>
+    attributes embedded in <code>link</code> elements. 
+  </p>
+
+  <h3>Preservation and Validation of <code>xmlns:</code></h3>
+
+  <p>
+    Since RDFa uses <code>xmlns:</code> to specify CURIE prefixes, it is
+    important that any attribute starting with a case-insensitive match on
+    the text string <code>xmlns:</code> be preserved in the DOM or other
+    tree-like model that is passed to the RDFa Processor. It is also
+    necessary that when validating non-XML mode documents that the validator
+    must not generate a warning for attributes starting with 
+    <code>xmlns:</code>.
+  </p>

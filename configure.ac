@@ -54,6 +54,8 @@ fi
 # Generating files
 AC_CONFIG_FILES([
 	Makefile
+        headers/header-w3c-html5
+        headers/header-w3c-rdfa
 	headers/header-w3c-msporny
 	headers/header-w3c-microdata
 ])

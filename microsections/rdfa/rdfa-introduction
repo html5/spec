@@ -1,9 +1,17 @@
-  <h4>
-   Introduction
-  </h4>
+  <h2>Introduction</h2>
+
   <p>
    <em>This section is informative.</em>
   </p>
+
+  <p>
+  Today's web is built predominantly for human consumption. Even as machine-readable data begins to permeate the web, it is typically distributed in a separate file, with a separate format, and very limited correspondence between the human and machine versions. As a result, web browsers can provide only minimal assistance to humans in parsing and processing web data: browsers only see presentation information. RDFa is intended to solve the problem of machine-readable data in HTML documents. RDFa provides a set of HTML attributes to augment visual data with machine-readable hints. Using RDFa, authors may turn their existing human-visible text and links into machine-readable data without repeating content.
+  </p>
+
+  <h3>
+   History
+  </h3>
+
   <p>
    In early 2004, Mark Birbeck published a document named
    [<a href="http://www.w3.org/MarkUp/2004/02/xhtml-rdf.html">XHTML and RDF</a>]

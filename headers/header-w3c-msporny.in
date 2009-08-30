@@ -95,7 +95,7 @@
    .XXX { color: #E50000; background: white; border: solid red; padding: 0.5em; margin: 1em 0; }
    .XXX > :first-child { margin-top: 0; }
    p .XXX { line-height: 3em; }
-.annotation { border: solid thin black; background: #0C479D; color: white; position: relative; margin: 8px 0 20px 0; }
+   .annotation { border: solid thin black; background: #0C479D; color: white; position: relative; margin: 8px 0 20px 0; }
    .annotation:before { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 6px -6px -6px 6px; background: #333333; z-index: -1; content: ''; }
    .annotation :link, .annotation :visited { color: inherit; }
    .annotation :link:hover, .annotation :visited:hover { background: transparent; }
@@ -181,18 +181,11 @@
    <!--<h2 class="no-num no-toc">W3C Working Draft @DATE_STRING@</h2>-->
    <h2 class="no-num no-toc" id="editor-s-draft-date-@DAY@-@MONTH@-@YEAR@">Editor's Draft @DATE_STRING@</h2>
 
-   <!--:ZZZ-->
-   <dl><!-- ZZZ: update the month/day (twice), (un)comment out
-    <dt>This Version:</dt>
-    <dd><a href="http://www.w3.org/TR/@YEAR@/WD-html5-@CONDENSED_DATE_STRING@/">http://www.w3.org/TR/@YEAR@/WD-html5-@CONDENSED_DATE_STRING@/</a></dd>
+
+   <dl>
     <dt>Latest Editor's Draft:</dt>
-    <dd><a href="http://dev.w3.org/html5/msporny/@SPEC_NAME@">http://dev.w3.org/html5/msporny/@SPEC_NAME@</a></dd>
-<!-- ZZZ: add the new version after it has shipped -->
-    <dt>Previous Versions:</dt>
+     <dd><a href="http://html5.digitalbazaar.com/specs/@SPEC_NAME@">http://html5.digitalbazaar.com/specs/@SPEC_NAME@</a></dd>
 
-    <!--: PREVIOUS_VERSIONS -->
-
-<!-- :ZZZ -->
     <dt>Editors:</dt>
     <dd><a href="mailto:ian@hixie.ch">Ian Hickson</a>, Google, Inc.</dd>
     <dd>David Hyatt, Apple, Inc.</dd>
