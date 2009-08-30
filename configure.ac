@@ -9,9 +9,12 @@ AC_CONFIG_AUX_DIR(setup)
 # Check for the existence of Anolis and Subversion
 ANOLIS=`pwd`/utils/anolis
 AC_CHECK_PROGS(SVN, svn /usr/bin/svn /usr/local/bin/svn, [not found], $PATH)
+AC_CHECK_PROGS(WGET, wget /usr/bin/wget /usr/local/bin/wget, [not found], $PATH)
+
+ISSUE_ANNOTATIONS=build/issue-annotations.xml
 
 # Setup the flags needed for Anolis
-ANOLIS_FLAGS="--w3c-compat-xref-a-placement --parser=lxml.html --output-encoding=us-ascii --allow-duplicate-dfns"
+ANOLIS_FLAGS="--w3c-compat-xref-a-placement --parser=lxml.html --output-encoding=us-ascii --allow-duplicate-dfns --annotations=$ISSUE_ANNOTATIONS --annotate-w3c-issues"
 AC_SUBST(ANOLIS_FLAGS)
 
 # Generate the printable date string
@@ -29,14 +32,13 @@ AC_SUBST(YEAR)
 AC_SUBST(DATE_STRING)
 AC_SUBST(CONDENSED_DATE_STRING)
 AC_SUBST(ANOLIS)
+AC_SUBST(WGET)
+AC_SUBST(ISSUE_ANNOTATIONS)
 
 # Ensure that Anolis and Subversion were found
-if test "x$ANOLIS" == "xnot found"; then
-   echo "The configuration process was unable to find the anolis program on"
-   echo "your system. Anolis is required to build the HTML5 Specification."
-   echo "More information can be found on the Anolis website:"
-   echo ""
-   echo "   http://anolis.gsnedders.com/"
+if test "x$WGET" == "xnot found"; then
+   echo "The configuration process was unable to find the wget program on"
+   echo "your system. Wget is required to build the HTML5 Specification."
    exit 0
 fi
 

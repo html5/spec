@@ -95,6 +95,11 @@
    .XXX { color: #E50000; background: white; border: solid red; padding: 0.5em; margin: 1em 0; }
    .XXX > :first-child { margin-top: 0; }
    p .XXX { line-height: 3em; }
+.annotation { border: solid thin black; background: #0C479D; color: white; position: relative; margin: 8px 0 20px 0; }
+   .annotation:before { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 6px -6px -6px 6px; background: #333333; z-index: -1; content: ''; }
+   .annotation :link, .annotation :visited { color: inherit; }
+   .annotation :link:hover, .annotation :visited:hover { background: transparent; }
+   .annotation span { border: none ! important; }
    .note { color: green; background: transparent; font-family: sans-serif; }
    .warning { color: red; background: transparent; }
    .note, .warning { font-weight: bolder; font-style: italic; }

@@ -9,6 +9,7 @@ DIST_DIR := dist
 SOURCE_FILES := $(wildcard build/*)
 CONFIGS := $(wildcard ${CONFIG_DIR}/*.conf)
 SPEC_SPLIT_STAMP := ${BUILD_DIR}/spec-split.stamp
+ISSUE_ANNOTATIONS := @ISSUE_ANNOTATIONS@
 SPECS := $(patsubst ${CONFIG_DIR}/%.conf, ${DIST_DIR}/%.html, $(CONFIGS))
 
 help:
@@ -24,7 +25,7 @@ html5-hixie/source:
 ${BUILD_DIR} ${DIST_DIR}:
 	@mkdir -p $@
 
-$(SPECS): ${SPEC_SPLIT_STAMP} ${BUILD_DIR} ${DIST_DIR}
+$(SPECS): ${SPEC_SPLIT_STAMP} ${BUILD_DIR} ${ISSUE_ANNOTATIONS} ${DIST_DIR}
 	@echo "Building $(@F) specification..."
 	@echo "Joining microsections into $(@F) specification..."
 	@./bin/microjoin.py -d ${BUILD_DIR} -o tempspec-$(@F) ${CONFIG_DIR}/$(subst .html,.conf,$(@F))
@@ -41,6 +42,10 @@ ${SPEC_SPLIT_STAMP}: html5-hixie/source
 	@echo "include headers/header-w3c-html5" > ${CONFIG_DIR}/html5-hixie.conf
 	@cat ${BUILD_DIR}/source-html5.conf >> ${CONFIG_DIR}/html5-hixie.conf
 	@touch ${SPEC_SPLIT_STAMP}
+
+${ISSUE_ANNOTATIONS}:
+	@echo "Generating ${ISSUE_ANNOTATIONS} (this can take 15-90 seconds)..."
+	@wget -O ${ISSUE_ANNOTATIONS} "http://pimpmyspec.net/aquarium.py/annotations/output?spec_status=WD&annotations_url=http%3A%2F%2Fwww.whatwg.org%2Fspecs%2Fweb-apps%2Fcurrent-work%2Fstatus.cgi%3Faction%3Dget-all-annotations&tracker_url=http%3A%2F%2Fwww.w3.org%2Fhtml%2Fwg%2Ftracker%2F" 
 
 clean:
 	@echo "Cleaning all build files and directories..."
