@@ -1,0 +1,12 @@
+ <h2>Structured Data</h2>
+
+ <p>
+ As the
+ Web grows to include a variety of data producers, data sources, and 
+ mashup applications it becomes increasingly important to enable user agents 
+ to recognize and process the data that is inherently embedded in HTML 
+ documents.
+ This specification enables the markup of structured data with the HTML5
+ language using a number of techniques described below.
+ </p>
+

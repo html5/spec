@@ -1,9 +1,16 @@
-  <h4>
-   Introduction
-  </h4>
+  <h3><dfn>RDFa</dfn></h3>
+
   <p>
    <em>This section is informative.</em>
   </p>
+
+  <h4>Introduction</h4>
+
+  <p>
+  Today's web is built predominantly for human consumption. Even as machine-readable data begins to permeate the web, it is typically distributed in a separate file, with a separate format, and very limited correspondence between the human and machine versions. As a result, web browsers can provide only minimal assistance to humans in parsing and processing web data: browsers only see presentation information. RDFa is intended to solve the problem of machine-readable data in HTML documents. RDFa provides a set of HTML attributes to augment visual data with machine-readable hints. Using RDFa, authors may turn their existing human-visible text and links into machine-readable data without repeating content.
+  </p>
+
+  <h4>History</h4>
   <p>
    In early 2004, Mark Birbeck published a document named
    [<a href="http://www.w3.org/MarkUp/2004/02/xhtml-rdf.html">XHTML and RDF</a>]
@@ -43,11 +50,11 @@
    possibility of a unified semantic data expression mechanism between all 
    HTML and XHTML family documents was squarely in the realm of possibility.
   </p>
-  <p>
-   This section describes the modifications to the original XHTML+RDFa
-   specification that permit the use of RDFa in all HTML family documents.
-   By using the attributes and processing rules described in the 
-   XHTML+RDFa specification and heeding the minor changes in this 
-   section, authors can expect to generate markup that produces the same
-   semantic data output in HTML4, HTML5 and XHTML5.
-  </p>
+
+ <h4>Attributes, APIs and Processing Rules</h4>
+
+ <p>The RDFa attributes, Processing Rules and other normative
+    specification text is defined externally
+    in the HTML+RDFa specification 
+    [<a href="http://html5.digitalbazaar.com/specs/rdfa.html">HTML+RDFa</a>].</p>
+

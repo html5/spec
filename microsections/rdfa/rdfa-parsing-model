@@ -1,6 +1,6 @@
-  <h3>
+  <h4>
    Parsing Model
-  </h3>
+  </h4>
   <p>
    Section 5 of the
    [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>] specification
@@ -15,10 +15,10 @@
    In the context of the HTML5 specification, the parsing rules for an input 
    document in HTML4 and HTML5 are clearly defined. The processing model 
    defined in Section 5 of the XHTML+RDFa specification should be executed 
-   on the HTML5 DOM. While the HTML5 DOM is not currently stable, a parsing 
-   mechanism built on top of the html5lib library should provide a 
-   mechanism that is guaranteed to eventually provide a stable, tree-based 
-   model for the RDFa processing rules.
+   on the HTML5 DOM. While the HTML5 DOM is not currently stable, any 
+   mechanism that generates a valid HTML5 DOM, such as the html5lib library,
+   may provide a mechanism that is guaranteed to eventually provide a 
+   stable, tree-based model for the RDFa processing rules.
   </p>
   <p>
    RDFa's tree-based processing rules enable an input document to be 

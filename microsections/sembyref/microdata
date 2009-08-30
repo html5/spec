@@ -1,0 +1,24 @@
+ <h3><dfn>Microdata</dfn></h3>
+
+ <p><i>This section is non-normative.</i></p>
+
+ <h4>Introduction</h4>
+
+  <p>Sometimes, it is desirable to annotate content with specific
+  machine-readable labels, e.g. to allow generic scripts to provide
+  services that are customised to the page, or to enable content from
+  a variety of cooperating authors to be processed by a single script
+  in a consistent manner.</p>
+
+  <p>For this purpose, authors can use the microdata features
+  described in this section. Microdata allows nested groups of
+  name-value pairs to be added to documents, in parallel with the
+  existing content.</p>
+
+ <h4>Attributes, APIs and Processing Rules</h4>
+
+ <p>The Microdata attributes, APIs, Processing Rules and other normative
+    specification text is defined externally
+    in the Microdata specification 
+    [<a href="http://html5.digitalbazaar.com/specs/microdata.html">MICRODATA</a>].</p>
+
