@@ -1,5 +1,5 @@
   <h2>
-   Modifications to HTML5
+   Extensions to the HTML5 Syntax
   </h2>
   <p>
    <em>This section is normative.</em>
@@ -10,14 +10,70 @@
     necessary modifications to the base HTML5 specification.
   </p>
 
-  <h3>Preservation of the <code>profile</code> keyword in <code>rel</code> attributes</h3>
+  <h3>The <code>profile</code> attribute and link type</h3>
   <p>
-    In order to provide a language version signalling mechanism, the 
-    <code>profile</code> keyword is provided for use in <code>rel</code>
-    attributes embedded in <code>link</code> elements. 
+    For content conforming to this specification, <code>profile</code> 
+    is an obsolete but conforming attribute name when used in the 
+    <code>head</code> element and when its value is set to the 
+    XHTML Vocabulary URI: "http://www.w3.org/1999/xhtml/vocab". 
+    The <code>profile</code> link type replaces
+    the <code>profile</code> attribute. The <code>profile</code> link type
+    should be used in the <code>rel</code> attribute in a <code>link</code> 
+    element contained in the <code>head</code> element of a conforming 
+    document. When the <code>profile</code> link type is specified, its
+    value must be the XHTML Vocabulary URI: 
+    "http://www.w3.org/1999/xhtml/vocab". For example:
+  </p>
+<pre>
+  &lt;head&gt;
+    &lt;link rel="profile" href="http://www.w3.org/1999/xhtml/vocab" /&gt;
+  &lt;/head&gt;
+</pre>
+  <p>
+    This particular attribute and link type is used to provide a language 
+    version signalling mechanism to the RDFa Processor. In future versions
+    of RDFa, the value of the profile may trigger different processing
+    rules in RDFa Processors.
+  </p>
+  <p>
+    Authors should use the <code>profile</code> link type instead of the
+    <code>profile</code> attribute when authoring new HTML documents.
   </p>
 
-  <h3>Preservation and Validation of <code>xmlns:</code></h3>
+  <p>
+   The table entry below extends the list of link types as specified in 
+   <a href="http://www.w3.org/TR/html5/Overview.html#linkTypes">Link types section</a> 
+   of the HTML5 specification:
+   <table>
+    <thead>
+     <tr>
+      <th rowspan="2">Link type</th>
+      <th colspan="2">Effect on...</th>
+      <th rowspan="2">Brief description</th>
+     </tr>
+     <tr>
+      <th><code>link</code></th>
+      <th><code>a</code> and <code>area</code></th>
+     </tr>
+    </thead>
+    <tbody>
+
+     <tr>
+      <td><code title="rel-profile">profile</code></td>
+      <td><span title="hyperlink link">Hyperlink</span></td>
+      <td><em>not allowed</em></td>
+      <td>
+        In the future, this may trigger different RDFa Processor behavior
+        based on the value of the <code>href</code> attribute.
+      </td>
+     </tr>
+
+    </tbody
+    </thead>
+   </table>
+  </p>
+
+  <h3>Attributes That Start With <code>xmlns:</code></h3>
 
   <p>
     Since RDFa uses <code>xmlns:</code> to specify CURIE prefixes, it is

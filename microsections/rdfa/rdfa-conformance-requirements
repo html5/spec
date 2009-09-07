@@ -13,6 +13,7 @@
   <h3>
    Document Conformance
   </h3>
+  
   <p>
    In order for a document to claim that it is a conforming HTML+RDFa document,
    it must provide the facilities described as mandatory in this section.
@@ -22,15 +23,14 @@
 
   <ol>
    <li>
-    There should be a DOCTYPE declaration specified prior to the root element
-    in the document that follows the conventions outlined in the 
-    <span>The DOCTYPE</span> section in the HTML5 specification 
-    [<a href="http://www.w3.org/TR/html5">HTML5</a>].
+    All document conformance requirements stated as mandatory in the HTML5 
+    specification must be met.
    </li>
    <li>
-    The root element of the document must follow the conventions outlined
-    in <span>The root element</span> section in the HTML5 specification 
-    [<a href="http://www.w3.org/TR/html5">HTML5</a>].
+    There should be a <code>version</code> attribute on the <code>html</code>
+    element. The value of the <code>version</code> attribute should be
+    "HTML+RDFa 1.0" if the document is a non-XML mode document, or 
+    "XHTML+RDFa 1.0" if the document is a XML mode document.
    </li>
    <li>
     There may be a <code>link</code> element contained in the 
@@ -56,7 +56,8 @@
    <li>
     Implement all of the features specified in the XHTML+RDFa specification, 
     excluding those features which are specifically overridden by 
-    this specification.
+    this specification as detailed in the 
+    <a href="#modifications-to-xhtml-rdfa">Modifications to XHTML+RDFa</a>.
    </li>
    </ul>
   </p>

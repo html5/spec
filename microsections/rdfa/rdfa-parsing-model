@@ -2,6 +2,9 @@
    Parsing Model
   </h2>
   <p>
+   <em>This section is normative.</em>
+  </p>
+  <p>
    Section 5 of the
    [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>] specification
    defines a generic processing model for extracting RDF from a
@@ -9,22 +12,32 @@
    model suited for the RDFa processing rules is intentionally not defined
    in the XHTML+RDFa specification. The method of transformation was intended
    to be defined in the implementation language, in this case, this section of
-   the HTML5 specification.
+   the HTML+RDFa specification.
   </p>
   <p>
-   In the context of the HTML5 specification, the parsing rules for an input 
-   document in HTML4 and HTML5 are clearly defined. The processing model 
-   defined in Section 5 of the XHTML+RDFa specification should be executed 
-   on the HTML5 DOM. While the HTML5 DOM is not currently stable, any 
-   mechanism that generates a valid HTML5 DOM, such as the html5lib library,
-   may provide a mechanism that is guaranteed to eventually provide a 
-   stable, tree-based model for the RDFa processing rules.
+   The HTML5 and XHTML5 DOMs are each a super-set of the tree-based model
+   on which the RDFa processing rules operate. Therefore, a mapping mechanism 
+   to translate from a DOM to a tree-model is not necessary.
+   The HTML5 and XHTML5 DOM, or equivalent data structure, should be used 
+   as input to the RDFa processing rules. The normative language for
+   construction of the HTML5 DOM and XHTML5 DOM is contained in the HTML5
+   specification.
+  </p>
+  <h3>Modifying the Input Document</h3>
+  <p>
+   <em>This section is informative.</em>
   </p>
   <p>
    RDFa's tree-based processing rules enable an input document to be 
    automatically corrected, cleaned-up, re-arranged, or modified in any
    way that is approved by the host language. For example, element nesting 
    issues in HTML documents may be corrected before the input document is 
-   serialized into the tree-based model on which the RDFa processing rules 
-   will operate.
+   translated into the DOM, a valid tree-based model, on which the 
+   RDFa processing rules will operate.
+  </p>
+  <p>
+   Any mechanism that generates a data structure equivalent to the HTML5 or 
+   XHTML5 DOM, such as the html5lib library, may be used as the mechanism to
+   construct the tree-based model provided as input to the RDFa processing 
+   rules.
   </p>

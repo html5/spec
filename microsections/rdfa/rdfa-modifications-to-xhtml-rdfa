@@ -12,42 +12,114 @@
    attributes and processing rules defined in XHTML+RDFa in order to
    support extracting RDF from HTML documents.
   </p>
+  <p>
+   The requirements and rules, as specified in XHTML+RDFa and further 
+   modified in this document, apply to all HTML5 documents. The RDFa Processor 
+   operating on HTML and XHTML documents, specifically the resulting DOMs, 
+   must apply the same processing rules for both types of serializations an 
+   DOMs.
+  </p>
 
   <h3>Specifying the language for a literal</h3>
   <p>
-   The <code>lang</code> attribute must be supported in the same manner 
-   as the <code>xml:lang</code> attribute is in the XHTML+RDFa specification.
-   The precedence rules for selecting which value overrides the other is
-   outlined in the section titled "The lang and xml:lang attributes" in
-   the HTML5 specification.
+   The <code>lang</code> attribute must be processed in the same manner 
+   as the <code>xml:lang</code> attribute is in the XHTML+RDFa specification,
+   <a href="http://www.w3.org/TR/rdfa-syntax/#sec_5.5.">Section 5.5</a>, 
+   step #3.
+  </p>
+   The rules for determining the language of a node are specified in the
+   section titled 
+   <a href="http://www.w3.org/TR/html5/Overview.html#the-lang-and-xml:lang-attributes">The lang and xml:lang attributes</a> in the HTML5 specification.
   </p>
   <p>
-   If an author is unsure of the final encapsulating DOCTYPE for their
-   markup, such as HTML5 vs. XHTML5, it is suggested that the author specify
-   both <code>lang</code> and <code>xml:lang</code> where the value in
-   both attributes is exactly the same.
+   If an author is editing an HTML fragment and is unsure of the final 
+   encapsulating MIME type for their markup, it is suggested that the 
+   author specify both <code>lang</code> and <code>xml:lang</code> where the 
+   value in both attributes is exactly the same.
   </p>
 
   <h3>Invalid XMLLiteral values</h3>
   <p>
    When generating literals of type XMLLiteral, the processor must ensure that
-   the output XMLLiteral is 
-   <a href="http://www.w3.org/TR/xml/#dt-wellformed">well-formed XML</a>. 
-   If the input is not well-formed XML</a>, the processor must transform
-   the input text in a way that generates well-formed XML. An RDFa Processor
-   that is transforming not well-formed XML to well-formed XML must use the
-   algorithm for serializing a DOM subtree into XHTML5 as specified in the
-   HTML5 specification.
+   the output XMLLiteral is a namespace well-formed XML fragment. A namespace 
+   well-formed XML fragment has the following properties:
+   <ul>
+    <li>
+     The XML fragment, when placed inside of a single root element, must
+     validate as well-formed XML. The normative language that describes a
+     well-formed XML document is specified in 
+     <a href="http://www.w3.org/TR/REC-xml/#sec-well-formed">Section 2.1 "Well-Formed XML Documents"</a> 
+     of the XML specification.
+    </li>
+    <li>
+     A case-insensitive match for the currently active <code>xmlns</code> 
+     attribute as well as all currently active attributes starting with
+     <code>xmlns:</code> must be preserved in the generated XMLLiteral. 
+     This preservation must be accomplished by placing all active namespaces 
+     in each top-level element in the generated XMLLiteral, taking care to
+     not over-write pre-existing namespace values.
+    </li>
+   </ul>
+   If the input is not a namespace well-formed XML fragment, the processor 
+   must transform the input text in a way that ensures the well-formedness
+   rules described in this section. If a sequence of characters cannot be 
+   transformed into a namespace well-formed XML fragment, the triple 
+   containing the XMLLiteral must not be generated.
   </p>
   <p>
-   Transformation to well-formed XML is required because an application
-   that consumes XMLLiteral data expects that data to be well-formed.
+   An RDFa Processor that transforms the XML fragment must use the 
+   <a href="http://www.w3.org/TR/html5/Overview.html#coercing-an-html-dom-into-an-infoset">Coercing an HTML DOM into an Infoset</a> 
+   rules, as specified in the HTML5 specification, prior to generating the 
+   triple containing the XMLLiteral. The serialization algorithm that must
+   be used for generating the XMLLiteral is normatively defined in the
+   <a href="http://www.w3.org/TR/html5/Overview.html#serializing-xhtml-fragments">Serializing XHTML Fragments</a>
+   section of the HTML5 specification.
+  </p>
+  <p>
+   Transformation to a namespace well-formed XML fragment is required 
+   because an application that consumes XMLLiteral data expects that 
+   data to be a namespace well-formed XML fragment.
   </p>
   <p>
    The transformation requirement does not apply to input data that are
    text-only, such as literals that contain a <code>datatype</code> attribute
    with an empty value (<code>""</code>), or input data that that contain
    only text nodes.
+  </p>
+  <p>
+   An example transformation demonstrating the preservation of namespace values is provided below. The &rarr; symbol is used to denote that the line is a continuation of the previous line and is included purely for the purposes of readability:
+
+   <pre>
+&lt;p xmlns:ex="http://example.org/vocab#" 	
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
+ Two rectangles (the example markup for them are stored in a triple):
+ &lt;svg xmlns="http://www.w3.org/2000/svg" property="ex:markup" datatype="rdf:XMLLiteral"&gt;
+&rarr; &lt;rect width="300" height="100" 
+&rarr; style="fill:rgb(0,0,255);stroke-width:1; stroke:rgb(0,0,0)"/&gt;
+&rarr; &lt;rect width="50" height="50" 
+&rarr; style="fill:rgb(255,0,0);stroke-width:2; 
+&rarr; stroke:rgb(0,0,0)"/&gt;&lt;/svg&gt;
+&lt;/p&gt;
+   </pre>
+
+   The markup above should produce the following triple:
+
+   <pre>
+&lt;&gt; 
+   &lt;http://example.org/vocab#markup&gt;
+      "&lt;rect xmlns=\"http://www.w3.org/2000/svg\" xmlns:ex=\"http://example.org/vocab#\" 
+&rarr; xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" width=\"300\" 
+&rarr; height=\"100\" style=\"fill:rgb(0,0,255);stroke-width:1; stroke:rgb(0,0,0)\"/&gt;
+&rarr; &lt;rect xmlns=\"http://www.w3.org/2000/svg\" xmlns:ex=\"http://example.org/vocab#\" 
+&rarr; xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" width=\"50\" 
+&rarr; height=\"50\" style=\"fill:rgb(255,0,0);stroke-width:2; 
+&rarr; stroke:rgb(0,0,0)\"/&gt;"^^http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral
+   </pre>
+
+   Note the preservation of the namespaces by injecting a new 
+   <code>xmlns</code> attribute, as well as the attributes starting 
+   with the character sequence <code>xmlns:</code>, into each <code>rect</code>
+   element.
   </p>
 
   <h3>The <code>xmlns:</code> attribute</h3>
