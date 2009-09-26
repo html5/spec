@@ -7,16 +7,20 @@
   <p>
    The [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>]
    Recommendation is the base document on which this specification builds. 
-   XHTML+RDFa specifies the attributes and processing rules for extracting
+   XHTML+RDFa specifies the attributes, in
+   <a href="http://www.w3.org/TR/rdfa-syntax/#rdfa-attributes">Section 2.1: The RDFa Attributes</a>,
+   and processing model, in  
+   <a href="http://www.w3.org/TR/rdfa-syntax/#s_model">Section 5: Processing Model</a>,
+   for extracting
    RDF from an XHTML document. This section specifies changes to the
-   attributes and processing rules defined in XHTML+RDFa in order to
+   attributes and processing model defined in XHTML+RDFa in order to
    support extracting RDF from HTML documents.
   </p>
   <p>
    The requirements and rules, as specified in XHTML+RDFa and further 
    modified in this document, apply to all HTML5 documents. The RDFa Processor 
    operating on HTML and XHTML documents, specifically the resulting DOMs, 
-   must apply the same processing rules for both types of serializations an 
+   must apply the same processing rules for both types of serializations and 
    DOMs.
   </p>
 
@@ -24,7 +28,7 @@
   <p>
    The <code>lang</code> attribute must be processed in the same manner 
    as the <code>xml:lang</code> attribute is in the XHTML+RDFa specification,
-   <a href="http://www.w3.org/TR/rdfa-syntax/#sec_5.5.">Section 5.5</a>, 
+   <a href="http://www.w3.org/TR/rdfa-syntax/#sec_5.5.">Section 5.5: Sequence</a>, 
    step #3.
   </p>
    The rules for determining the language of a node are specified in the
@@ -122,20 +126,30 @@
    element.
   </p>
 
-  <h3>The <code>xmlns:</code> attribute</h3>
+  <h3><code>xmlns:</code>-Prefixed Attributes</h3>
+
+  <p class="XXX">
+   While this section outlines xmlns: processing in RDFa, the support for
+   distributed extensibility in non-XML mode HTML5 (using xmlns and xmlns:)
+   is still an open issue. This section may be further modified before 
+   Last Call based on progress made on the distributed extensibility issue.
+  </p>
+
   <p>
-   CURIE prefix mappings specified using <code>xmlns:</code>
-   must be processed using the rules specified in the
-   [<a href="http://www.w3.org/TR/REC-xml-names/">Namespaces in XML</a>]
-   Recommendation.
+   CURIE prefix mappings specified using attributes prepended with
+   <code>xmlns:</code>
+   must be processed using the rules specified in
+   <a href="">Section 5.4, CURIE and URI Processing,</a> 
+   contained in the XHTML+RDFa specification.
   </p>
   <p>
    Since CURIE prefix mappings have been specified using <code>xmlns:</code>, 
    and since HTML attribute names are case-insensitive, CURIE prefix names 
    declared using the <code>xmlns:</code>attribute-name pattern 
    <code>xmlns:&lt;PREFIX&gt;="&lt;URI&gt;"</code> should be specified
-   using only lower-case characters. For example, the text "xmlns:" and the
-   text in "&lt;PREFIX&gt;" should be lower-case only. This is to ensure that 
+   using only lower-case characters. For example, the text "<code>xmlns:</code>"
+   and the text in <code>"&lt;PREFIX&gt;"</code> should be lower-case only. 
+   This is to ensure that 
    prefix mappings are interpreted in the same way between HTML 
    (case-insensitive attribute names) and XHTML (case-sensitive attribute
    names) document types.

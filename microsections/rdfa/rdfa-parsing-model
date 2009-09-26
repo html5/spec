@@ -5,7 +5,8 @@
    <em>This section is normative.</em>
   </p>
   <p>
-   Section 5 of the
+   <a href="http://www.w3.org/TR/rdfa-syntax/#sec_5.5.">Section 5.5: Sequence<a/>,
+   of the
    [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>] specification
    defines a generic processing model for extracting RDF from a
    tree-based model. The method of transforming an input document into a
@@ -28,9 +29,12 @@
    <em>This section is informative.</em>
   </p>
   <p>
-   RDFa's tree-based processing rules enable an input document to be 
+   RDFa's tree-based processing rules, outlined in 
+   <a href="http://www.w3.org/TR/rdfa-syntax/#sec_5.5.">Section 5.5: Sequence<a/> 
+   of the XHTML+RDFa specification, allow an input document to be 
    automatically corrected, cleaned-up, re-arranged, or modified in any
-   way that is approved by the host language. For example, element nesting 
+   way that is approved by the host language prior to processing. 
+   For example, element nesting 
    issues in HTML documents may be corrected before the input document is 
    translated into the DOM, a valid tree-based model, on which the 
    RDFa processing rules will operate.

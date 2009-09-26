@@ -206,7 +206,7 @@
    <h2 class="no-num no-toc" id="a-mechanism-for-embedding-rdf-in-html">
     A mechanism for embedding RDF in HTML
    </h2>
-   <h2 class="no-num no-toc" id="editor-s-draft-date-05-September-2009">Editor's Draft 05 September 2009</h2>
+   <h2 class="no-num no-toc" id="editor-s-draft-date-26-September-2009">Editor's Draft 26 September 2009</h2>
     <!--:ZZZ-->
    <dl>
     <!-- ZZZ: update the month/day (twice), (un)comment out
@@ -259,8 +259,8 @@
    This specification defines rules and guidelines for adapting the 
    RDF in XHTML: Syntax and Processing (RDFa) specification for use in the 
    HTML5 and XHTML5 members of the HTML family. The rules defined in this 
-   document not only apply to HTML5 documents in non-XML and XML mode, but 
-   also to HTML4 documents interpreted through the HTML5 parsing rules.
+   document not only apply to HTML5 documents in non-XML and XML mode,
+   but also to HTML4 documents interpreted through the HTML5 parsing rules.
   </p>
   <h2 class="no-num no-toc"
       id="status-of-this-document">
@@ -318,8 +318,8 @@
   </p>
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- context and rationale (required) -->
   <p>
-   This specification is an extension to the HTML5 language. All
-   normative content in the HTML5 specification, unless overridden by this
+   This specification is an extension to the HTML5 language. All normative
+   content in the HTML5 specification, unless specifically overridden by this 
    specification, is intended to be the basis for this specification.
   </p>
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- required patent boilerplate -->

@@ -1,0 +1,19 @@
+<h2>Normative References</h2>
+
+<dl>
+ <dt id="refsHTML5">[HTML5] (currently not a REC)</dt>
+ <dd>The HTML5 Specification</dd>
+</dl>
+
+<h2>Non-Normative References</h2>
+
+<p>All references are non-normative.</p>
+
+<dl>
+ <dt id="#refsGRDDL">[<a href="">GRDDL</a>]</dt>
+ <dd>Gleaning Resource Descriptions from Dialects of Languages (GRDDL), Dan Connolly. W3C, September 2007.</dd>
+ <dt id="refsXHTMLRDFA">[<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFA</a>]</dt>
+ <dd>RDFa in XHTML: Syntax and Processing, Mark Birbeck, Shane McCarron, Steven Pemberton. W3C, October 2008.</dd>
+ <dt id="refsERDF">[<a href="http://research.talis.com/2005/erdf/wiki/Main/RdfInHtml">ERDF</a>]</dt>
+ <dd>Embeddable Resource Description Framework, Ian Davis. Talis, October 2006</dd>
+</dl>
