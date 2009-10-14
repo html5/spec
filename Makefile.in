@@ -32,6 +32,7 @@ $(SPECS): ${SPEC_SPLIT_STAMP} ${BUILD_DIR} ${ISSUE_ANNOTATIONS} ${DIST_DIR}
 	@echo "Generating final document via Anolis (this may take 2-3 minutes)..."
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/tempspec-$(@F) $@
 	@sed -i "s/@SPEC_NAME@/$(@F)/g" $@
+	-@tidy -m -i -w 78 -ashtml $@
 	@echo "$(@F) spec written to: $@"
 
 ${SPEC_SPLIT_STAMP}: html5-hixie/source

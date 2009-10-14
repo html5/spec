@@ -1,0 +1,29 @@
+<h2>References</h2>
+
+<p>
+  Some of the following references are normative while others are informative.
+</p>
+
+<h3>Normative References</h3>
+
+<dl>
+ <dt id="#refsHTML5">[<a href="http://www.w3.org/TR/html5/">HTML5</a>] (currently not a REC)</dt>
+ <dd>The HTML5 Specification, Ian Hickson. W3C, Work in Progress</dd>
+</dl>
+
+<h3>Non-Normative References</h3>
+
+<p>All references are non-normative.</p>
+
+<dl>
+ <dt id="refsDCHTML">[<a href="">DC-HTML</a>]</dt>
+ <dd>Expressing Dublin Core metadata using HTML/XHTML meta and link elements, Andy Powell, Pete Johnston. Dublin Core Metadata Initiative, August 2008.</dd>
+ <dt id="refsERDF">[<a href="http://research.talis.com/2005/erdf/wiki/Main/RdfInHtml">ERDF</a>]</dt>
+ <dd>Embeddable Resource Description Framework, Ian Davis. Talis, October 2006</dd>
+ <dt id="refsGRDDL">[<a href="http://www.w3.org/TR/grddl/">GRDDL</a>]</dt>
+ <dd>Gleaning Resource Descriptions from Dialects of Languages (GRDDL), Dan Connolly. W3C, September 2007.</dd>
+ <dt id="refsMICROFORMATS">[<a href="http://microformats.org/wiki/profile-uris">MICROFORMATS</a>]
+ <dd>Microformats Profile URIs, Tantek Celik, Toby Inkster, Andy Mabbett, et. al. Microformats.org, August 2009.</dd>
+ <dt id="refsXHTMLRDFA">[<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFA</a>]</dt>
+ <dd>RDFa in XHTML: Syntax and Processing, Mark Birbeck, Shane McCarron, Steven Pemberton. W3C, October 2008.</dd>
+</dl>

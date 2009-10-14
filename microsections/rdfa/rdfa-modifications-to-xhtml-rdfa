@@ -111,19 +111,17 @@
    <pre>
 &lt;&gt; 
    &lt;http://example.org/vocab#markup&gt;
-      "&lt;rect xmlns=\"http://www.w3.org/2000/svg\" xmlns:ex=\"http://example.org/vocab#\" 
-&rarr; xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" width=\"300\" 
+      "&lt;rect xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" 
 &rarr; height=\"100\" style=\"fill:rgb(0,0,255);stroke-width:1; stroke:rgb(0,0,0)\"/&gt;
-&rarr; &lt;rect xmlns=\"http://www.w3.org/2000/svg\" xmlns:ex=\"http://example.org/vocab#\" 
-&rarr; xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" width=\"50\" 
+&rarr; &lt;rect xmlns=\"http://www.w3.org/2000/svg\" width=\"50\" 
 &rarr; height=\"50\" style=\"fill:rgb(255,0,0);stroke-width:2; 
 &rarr; stroke:rgb(0,0,0)\"/&gt;"^^http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral
    </pre>
 
-   Note the preservation of the namespaces by injecting a new 
-   <code>xmlns</code> attribute, as well as the attributes starting 
-   with the character sequence <code>xmlns:</code>, into each <code>rect</code>
-   element.
+   Note the preservation of the SVG namespace by injecting a new 
+   <code>xmlns</code> attribute. Since the <code>ex</code> and <code>rdf</code>
+   namespaces are not used in either <code>rect</code> element, they are
+   not preserved in the XMLLiteral.
   </p>
 
   <h3><code>xmlns:</code>-Prefixed Attributes</h3>

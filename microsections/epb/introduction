@@ -1,0 +1,29 @@
+<h2>Introduction</h2>
+
+<h3>Background</h3>
+
+<p>
+The <code>profile</code> attribute was introduced in HTML 4 as a means to specify the location of one or more meta data profiles. The attribute could contain a space-separated list of URIs and was primarily designed to extend the way User Agents processed metadata in the HTML document. User agents could recognize the URI (without actually retrieving the profile) and perform some activity based on known conventions for that profile or dereference the URI and perform some activity based on the actual definitions within the profile.
+</p>
+
+<p>
+While specific profile URIs were not defined in HTML 4, the profile attribute was later used in [<a href="#refsERDF">ERDF</a>], [<a href="#refsMICROFORMATS">MICROFORMATS</a>], [<a href="#refsGRDDL">GRDDL</a>], [<a href="#refsDCHTML">DCHTML</a>] and [<a href="#refsXHTMLRDFA">XHTML+RDFA</a>] in order to trigger processing instructions for extracting semantics from attribute values contained in the HTML document.
+</p>
+
+<p>
+The <code>version</code> attribute was introduced in HTML 2.0. The attribute could contain any type of character data and was primarily designed to signal the version of the HTML language to the user agent. It was later deprecated in favor of using a DOCTYPE header at the top of the HTML document.
+</p>
+
+<h3>Purpose</h3>
+
+<p class="XXX">
+This entire document is an attempt at ensuring that there is an easier way to specify language features than there have traditionally been in HTML4 and XHTML1 while ensuring backward and forward compatability for processing extensions such as eRDF, Microformats, GRDDL, RDFa, and DCHTML. The base HTML5 specification removes the ability to specify metadata profiles. This document is an attempt at intelligently re-enabling the concept of metadata profiles, and accurately instructing user agent processing behavior.
+</p>
+
+<p>
+The <code>profile</code> attribute and <code>version</code> attribute attempted to express desired processing behavior to the user agent. History has shown that neither was very effective at doing so, as most authors never specify the <code>profile</code> attribute nor the <code>version</code> attribute when authoring documents. However, the number of authors specifying DOCTYPE is significant. This could demonstrate that there is a desire for specifying the processing instructions for a language even though usage of the feature has not been, historically speaking, well understood. The DOCTYPE feature was subsequently obsoleted in the base HTML5 specification because correct authoring usage was problematic.
+</p>
+
+<p>
+Given these base assumptions, it is still useful for an author to be able to express desired processing behavior to user agents, especially when using language extensions. For example, in order to ensure backwards-compatability, a page author may request that a particular document is parsed according to a specific language version. To provide an example, the designers of the RDFa 1.0 Syntax Specification [<a href="#refsXHTMLRDFA">XHTML+RDFA</a>] may desire to change the processing rules in a future version of the specification, say RDFa 2.0, that subtly changes the RDFa processor output. If an author desires that their document always be processed according to RDFa 1.0 rules, they can use techniques outlined in this document to ensure that their document is always interpreted in the same way, regardless of future changes to the extension language.
+</p>

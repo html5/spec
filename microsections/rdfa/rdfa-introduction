@@ -14,7 +14,7 @@
 
   <p>
    In early 2004, Mark Birbeck published a document named
-   [<a href="http://www.w3.org/MarkUp/2004/02/xhtml-rdf.html">XHTML and RDF</a>]
+   [<a href="#refsXHTMLRDF">XHTMLRDF</a>]
    via the XHTML2 Working Group wherein he laid the groundwork for what 
    would eventually become RDFa (The Resource Description Framework in 
    Attributes).
@@ -29,7 +29,7 @@
   <p>
   <p>
    The document, titled "RDF in XHTML: Syntax and Processing" 
-   [<a href="http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFa</a>], defined
+   [<a href="#refsXHTMLRDFA">XHTML+RDFa</a>], defined
    a set of attributes and rules for processing those attributes that
    resulted in the output of machine-readable semantic data. While the
    document applied to XHTML, the attributes and rules were always 

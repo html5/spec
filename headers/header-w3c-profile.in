@@ -3,7 +3,7 @@
 <!-- when publishing, change bits marked ZZZ -->
 <html lang="en-US-x-Hixie">
  <head>
-  <title>Profiles in HTML5</title>
+  <title>Extended Processing Behavior in HTML5</title>
   <style type="text/css">
  pre { margin-left: 2em; white-space: pre-wrap; }
    h2 { margin: 3em 0 1em 0; }
@@ -202,9 +202,9 @@
          src="http://www.w3.org/Icons/w3c_home"
          width="72"></a>
    </p>
-   <h1>Profiles in HTML5</h1>
-   <h2 class="no-num no-toc" id="a-mechanism-for-embedding-rdf-in-html">
-    A mechanism for extending processing instructions for HTML5 documents.
+   <h1>Extended Processing Behavior in HTML5</h1>
+   <h2 class="no-num no-toc" id="extending-user-agent-behavior-in-html5">
+    A mechanism for specifying and extending user agent processing behavior.
    </h2>
    <h2 class="no-num no-toc" id="editor-s-draft-date-@DAY@-@MONTH@-@YEAR@">Editor's Draft @DATE_STRING@</h2>
     <!--:ZZZ-->
@@ -217,7 +217,7 @@
     <dt>Latest Editor's Draft:</dt>
      <dd><a href="http://html5.digitalbazaar.com/specs/@SPEC_NAME@">http://html5.digitalbazaar.com/specs/@SPEC_NAME@</a></dd>
     <dt>
-     Editors (alphabetical order):
+     Editors:
     </dt>
     <dd>
      <a href="mailto:msporny@digitalbazaar.com">Manu Sporny</a>, Digital Bazaar, Inc.
@@ -246,8 +246,10 @@
    Abstract
   </h2>
   <p>
-   This specification defines rules and guidelines for extending the 
-   document processing rules for HTML5 documents.
+   This document defines rules and guidelines for HTML family documents
+   that trigger specific document processing behavior in user agents. 
+   These techniques enable language designers and user agent developers 
+   to build extensions for the HTML family languages.
   </p>
   <h2 class="no-num no-toc"
       id="status-of-this-document">
@@ -292,10 +294,8 @@
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- version history or list of changes (required) -->
   <p>
    The latest stable version of the editor's draft of this specification is
-   always available on <a href=
-   "http://dev.w3.org/html5/rdfa/rdfa-module.html">the W3C CVS server</a></a>. 
-   The <a href="http://dev.w3.org/html5/rdfa/rdfa">latest editor's working copy</a> (which may contain unfinished text in the process of
-   being prepared) is also available.
+   always available on <a href="http://dev.w3.org/">the W3C CVS server</a></a>. 
+   The <a href="">latest editor's working copy</a> (which may contain unfinished text in the process of being prepared) is also available.
   </p>
   <!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING LIST TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- status of document, group responsible (required) -->
   <p>

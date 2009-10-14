@@ -1,9 +1,0 @@
-<h2>Background</h2>
-
-<p>
-The profile attribute was introduced in HTML 4 as a means to specify the location of one or more meta data profiles. The attribute could contain a space-separated list of tokens or URIs and was primarily designed to extend the way User Agents processed the HTML document. User agents could recognize the URI (without actually retrieving the profile) and perform some activity based on known conventions for that profile or dereference the URI and perform some activity based on the actual definitions within the profile.
-</p>
-
-<p>
-While specific profiles were not defined in HTML 4, the profile attribute was later used in [<a href="#refsXHTML">XHTML</a>], [<a href="#refsERDF">ERDF</a>], [<a href="#refsGRDDL">GRDDL</a>], and [<a href="#refsXHTMLRDFA">XHTML+RDFA</a>] in order to present processing instructions for extracting semantics from attribute values containing the the HTML document.
-</p>
