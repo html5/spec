@@ -1,0 +1,144 @@
+  <h2>HTML 4.01 Errata</h2> 
+
+  <p> 
+    The [<a href="#refsHTML4">HTML4</a>] recommendation is inconsistent in its description of the
+    <a href="http://www.w3.org/TR/html4/struct/global.html#adef-profile">profile</a> attribute:
+  </p> 
+  <ol> 
+    <li>The DTD specifies <tt>%URI;</tt>, which just expands to <tt>CDATA</tt>.</li> 
+    <li>On the other hand, the prose explains that <q>This attribute specifies the location of one or more meta data profiles, separated by white space. 
+    For future extensions, user agents should consider the value to be a list even though this specification only considers the first URI to be significant. Profiles are discussed below in the section on meta data.</q>
+  </ol> 
+  <p> 
+    Since the publication of HTML 4.01, a number of meta data profiles have been defined,
+    and many of them can be used in the same document. While the <code>profile</code> 
+    attribute does not help in discovering which profile applies to which
+    part of the document, it <em>does</em> allow declaring which profiles
+    are in use, potentially triggering extended behavior in recipients.
+  </p> 
+  <p> 
+    This erratum restores consistency in HTML 4.01, explicitly allowing
+    multiple URIs in a single <code>profile</code> attribute. 
+  </p> 
+  
+  <h3>Corrections to HTML 4.01</h3> 
+  
+  <h4><a href="http://www.w3.org/TR/html4/types.html#type-uri">Section 6.4 - URIs</a></h4> 
+  <p> 
+    After
+  </p> 
+  <blockquote> 
+    URIs are represented in the DTD by the parameter entity %URI;.
+  </blockquote> 
+  <p> 
+    add
+  </p> 
+  <blockquote> 
+    Sets of whitespace-separated URIs are represented by the parameter entity %URIlist;.
+  </blockquote> 
+  
+  <h4 id="c2"><a href="http://www.w3.org/TR/html4/struct/global.html#h-7.4.1">Section 7.4.1 - The HEAD element</a></h4> 
+  <p> 
+    Replace  
+  </p> 
+  <pre> 
+  <tt>profile</tt> = <i>uri</i> [CT]
+  </pre> 
+  <p> 
+    with
+  </p> 
+  <pre> 
+  <tt>profile</tt> = <i>urilist</i> [CT]
+  </pre> 
+  <p> 
+    (just replacing "uri" by "urilist", but not changing the link target)
+  </p> 
+  
+  <p> 
+    Replace  
+  </p> 
+  <pre> 
+  profile     %URI;          #IMPLIED  -- named dictionary of meta info --
+  </pre> 
+  <p> 
+    with
+  </p> 
+  <pre> 
+  profile     %URIlist;      #IMPLIED  -- list of named meta info dictionaries, whitespace separated --
+  </pre> 
+  <p> 
+    Update the <a href="http://www.w3.org/TR/html4/index/attributes.html">attribute index</a> accordingly.
+  </p> 
+  
+  <p> 
+    Replace
+  </p> 
+  <blockquote> 
+  This attribute specifies the location of one or more meta data profiles,
+  separated by white space. For future extensions, user agents should consider
+  the value to be a list even though this specification only considers the
+  first URI to be significant. Profiles are discussed below in the section on
+  meta data.
+  </blockquote> 
+  <p> 
+    with
+  </p> 
+  <blockquote> 
+  This attribute specifies the location of one or more meta data profiles,
+  separated by white space. In case of ambiguities, profiles that appear
+  earlier in the attribute value should be considered more significant.
+  Profiles are discussed below in the section on meta data.
+  </blockquote> 
+  
+  <h4><a href="http://www.w3.org/TR/html4/struct/global.html#profiles">Section 7.4.4 - Meta Data Profiles</a></h4>
+  <p> 
+    Replace
+  </p> 
+  <blockquote> 
+    The profile attribute of the HEAD specifies the location of a meta data
+    profile. The value of the profile attribute is a URI. User agents may use
+    this URI in two ways: 
+  </blockquote> 
+  <p> 
+    with
+  </p> 
+  <blockquote> 
+    The profile attribute of the HEAD specifies a set of locations of meta data
+    profiles. The value of the profile attribute is a whitespace-separated list
+    of URIs. User agents may use these URIs in two ways: 
+  </blockquote> 
+ 
+ 
+  <h4><a href="http://www.w3.org/TR/html4/sgml/dtd.html">Section 21 - Document Type Definition</a></h4> 
+  <p> 
+    Note: the changes below apply both to the copy of the DTD in the HTML 4.01 spec,
+    and the actual DTD files.
+  </p> 
+  <p> 
+    After the definition for <tt>URI</tt>, insert:
+  </p> 
+  <pre> 
+&lt;!ENTITY % URIlist "CDATA"
+    -- whitespace-separated list of Uniform Resource Identifiers,
+       see [URI]
+    -->
+  </pre> 
+  <p> 
+    Replace the following definition:
+  </p> 
+  <pre> 
+&lt;!ATTLIST HEAD
+  %i18n;                               -- lang, dir --
+  profile     %URI;          #IMPLIED  -- named dictionary of meta info --
+  >
+  </pre> 
+  <p> 
+    with
+  </p> 
+  <pre> 
+&lt;!ATTLIST HEAD
+  %i18n;                               -- lang, dir --
+  profile     %URIlist;      #IMPLIED  -- list of named meta info dictionaries, whitespace separated --
+  >
+  </pre> 
+  

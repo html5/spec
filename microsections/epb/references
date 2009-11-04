@@ -7,6 +7,8 @@
 <h3>Normative References</h3>
 
 <dl>
+ <dt id="#refsHTML4">[<a href="http://www.w3.org/TR/html401/">HTML4</a>]</dt>
+ <dd>The HTML 4.01 Specification, D. Raggett, A. Le Hors, I. Jacobs, 24 December 1999.</dd>
  <dt id="#refsHTML5">[<a href="http://www.w3.org/TR/html5/">HTML5</a>] (currently not a REC)</dt>
  <dd>The HTML5 Specification, Ian Hickson. W3C, Work in Progress</dd>
 </dl>

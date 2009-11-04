@@ -10,64 +10,19 @@
     HTML5 specification.
   </p>
 
-  <h3>The <code>version</code> attribute</h3>
-  <p>
-    The <code>version</code> attribute in HTML5 contains a string that
-    triggers specific User Agent behavior based on the contents of the
-    string. This attribute is also provided as a mechanism for language
-    designers to extend the functionality of HTML5 for new technologies
-    before a clear standardization path has been defined.
-  <p>
-    The format of the string is as follows:
+  <h3>The <code>profile</code> attribute</h3>
 
-    <pre>
-      version_string := feature_string ['+' feature_string]
-      feature_string := feature [' ' version]
-      feature := <a href="http://www.w3.org/TR/1999/REC-xml-names-19990114/#ns-decl">NCName</a>
-      version := <a href="http://www.w3.org/TR/1999/REC-xml-names-19990114/#ns-decl">NCName</a>
-    </pre>
-  </p>
-
-  <p>
-    For example, the RDFa 1.0 specification for HTML uses the following version
-    string:
-    <pre>
-      &lt;html version="HTML+RDFa 1.0"&gt;
-    </pre>
-    A version string can contain many processing extensions:
-    <pre>
-      &lt;html version="HTML 5+FeatureX 2.0+FeatureY+RDFa 1.1"&gt;
-    </pre>
-
-    If an author would like to trigger very specific behavior for a document
-    in order to trigger specific user agent functionality or to provide 
-    future-proof compatability, they should use the version specifier in their
-    HTML document.
-  </p>
-
-  <p>
-    The version attribute should be specified on an HTML document on the
-    <code>html</code> element.
-  </p>
-
-  <p>
-    If specified, the version attribute must contain at least the document
-    language. For HTML5, the string "HTML" should be used. For
-    XHTML5, the string "XHTML" should be used.
-  </p>
-
-  <p class="XXX">
-    Should there be an API defined for extracting feature strings? Something
-    like document.getVersionFeatures() -> [('HTML', null), ('RDFa', '1.0')]
-    or document.getVersion("HTML") -> "5" or 
-    document.getVersion("RDFa") -> null ?
-  </p>
-
-  <h3>The <code>profile</code> attribute and link type</h3>
   <p>
     For content conforming to this specification, <code>profile</code> 
     is an obsolete but conforming attribute name when used in the 
-    <code>head</code> element.
+    <code>head</code> element. For example:
+  </p>
+
+<pre>
+  &lt;head profile="http://www.w3.org/1999/xhtml/vocab" /&gt;
+</pre>
+
+  <h3>The <code>profile</code> link type</h3>
     The <code>profile</code> link type replaces
     the <code>profile</code> attribute. The <code>profile</code> link type
     should be used in the <code>rel</code> attribute in a <code>link</code> 
@@ -113,8 +68,8 @@
       <td><em>not allowed</em></td>
       <td>
         This may be used by language designers and user agent developers
-        to trigger different processing behavior based on the value of 
-        the <code>href</code> attribute.
+        to trigger additional or different processing behavior based on 
+        the value of the <code>href</code> attribute.
       </td>
      </tr>
 
