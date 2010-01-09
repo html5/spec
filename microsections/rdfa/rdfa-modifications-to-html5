@@ -40,3 +40,40 @@
     insensitive prefix "<code>xmlns:</code>" are conforming in both HTML5 and
     XHTML5.
   </p>
+
+  <h3>Preserving Namespaces via Coercion to Infoset</h3>
+
+  <p class="XXX">
+    This section needs feedback from the user agent vendors to ensure that
+    this feature does not conflict with user agent architecture and has
+    no technical reason that it cannot be implemented.
+  </p>
+
+  <p>
+    RDFa is currently dependent on the <code>xmlns:</code> pattern to declare 
+    prefix mappings, it is imperative that namespace information that is 
+    declared in non-XML mode HTML5 documents are mapped to an Infoset correctly.
+    In order to ensure this mapping is performed correctly, the 
+    "Coercing an HTML DOM into an infoset" rules defined in 
+    [<a href="refsHTML5">HTML5</a>] must be modified to include the following 
+    rule: 
+  </p>
+
+  <p>
+    If the XML API is namespace-aware, the tool must ensure that proper 
+    ([<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">namespace name</a>], [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">local name</a>], [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">normalized value</a>]) namespace tuples are created when converting the non-XML mode DOM into an Infoset.
+  </p>
+
+  <p>
+    For example, given the following input text:
+
+    <pre>
+       &lt;div xmlns:audio="http://purl.org/media/audio#"&gt;
+    </pre>
+
+    The <code>div</code> element above, when coerced from an HTML DOM into
+    an Infoset, should contain an attribute in the
+    [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.element">namespace attributes</a>] list with a [namespace name] set to "<code>http://www.w3.org/2000/xmlns/</code>", a [local name] set to
+    <code>audio</code>, and a [normalized value] of 
+    "<code>http://purl.org/media/audio#</code>".
+  </p>

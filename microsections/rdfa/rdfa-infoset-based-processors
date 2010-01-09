@@ -1,0 +1,57 @@
+<h2>Infoset-based Processors</h2>
+
+<p><em>This section is informative</em></p>
+
+<p>
+While the intent of the RDFa processing instructions were to provide a
+set of rules that are as language and toolchain agnostic as possible, 
+for the sake of clarity, detailed methods of extracting RDFa content from
+processors operating on an XML Information Set are provided below.
+</p>
+
+<h3>Processing Namespaced RDFa Attributes</h3>
+
+<p>
+Extracting namespaced RDFa attributes while operating from within an 
+Infoset-based RDFa processor can be achieved using the following algorithm:
+</p>
+
+<p>
+While processing an element as described in [<a href="refsXHTMLRDFA">XHTML+RDFA</a>], Section 5.5, <a href="http://www.w3.org/TR/rdfa-syntax/#T_URI_mapping">Step #2</a>:
+</p>
+
+<ol>
+<li>For each attribute in the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.element">namespace attributes</a>] list that has a [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">prefix</a>] value, create a [<a href="http://www.w3.org/TR/rdfa-syntax/#T_URI_mapping">URI mapping</a>] by storing the [prefix] as the value to be mapped, and the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">normalized value</a>] as the value to map.</li>
+</li>
+<li>For each attribute in the in the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.element">attributes</a>] list that has no value for [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">prefix</a>] and a [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">local name</a>] that starts with <code>xmlns:</code>, create a [<a href="http://www.w3.org/TR/rdfa-syntax/#T_URI_mapping">URI mapping</a>] by storing the [local name] part with the <code>xmlns:</code> characters removed as the value to be mapped, and the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">normalized value</a>] as the value to map. <br /> <br />
+<span class="XXX">Note: This step is unnecessary if the Infoset coercion rules preserve namespaces specified in non-XML mode.</span></li>
+</ol>
+
+<p>
+To demonstrate, assume that the following markup is processed by an Infoset-based RDFa processor:
+
+<pre>
+&lt;div xmlns:audio="http://purl.org/media/audio#" ...
+</pre>
+
+After the markup is processed, there should exist a [URI mapping] in the [local list of URI mappings] that contains a mapping from <code>audio</code> to <code>http://purl.org/media/audio#</code>.
+
+</p>
+
+<h3>Processing RDFa Attributes</h3>
+
+<p>
+There are a number of non-prefixed attributes that are associated with RDFa 
+Processing in HTML5. If an XML Information Set based RDFa processor is used 
+to process these attributes, the following algorithm should be used to detect 
+and extract the values of the attributes.
+</p>
+
+<p>
+While processing an element as described in [<a href="refsXHTMLRDFA">XHTML+RDFA</a>], Section 5.5, <a href="http://www.w3.org/TR/rdfa-syntax/#T_current_element">Step #4 through Step #9</a>:
+</p>
+
+<ol>
+<li>For each RDFa attribute in the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">attributes</a>] list that has a [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">prefix</a>]] with no value or a [prefix] with the value of <code>http://www.w3.org/1999/xhtml</code>, extract and use the [<a href="http://www.w3.org/TR/xml-infoset/#infoitem.attribute">normalized value</a>].</li>
+</li>
+</ol>
