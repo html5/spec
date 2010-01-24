@@ -215,14 +215,14 @@
  :ZZZ -->
 
     <dt>This Version</dt>
-    <dd><a href="http://html5.digitalbazaar.com/specs/rdfa.html">http://html5.digitalbazaar.com/specs/rdfa.html</a></dd>
+    <dd><a href="http://dev.w3.org/html5/rdfa/">http://dev.w3.org/html5/rdfa/</a></dd>
     <dt>Latest Version</dt>
     <dd><a href="http://www.w3.org/TR/rdfa-in-html/">http://www.w3.org/TR/rdfa-in-html/</a></dd>
     <dt>Previous Versions</dt>
     <dd><a href="http://www.w3.org/TR/2009/WD-rdfa-in-html-20091015/">http://www.w3.org/TR/2009/WD-rdfa-in-html-20091015/</a><</dd>
     <dt>
     <dt>Diff-marked version</dt>
-    <dd><a href="http://html5.digitalbazaar.com/specs/rdfa-diff-20091015-20100115.html">http://html5.digitalbazaar.com/specs/rdfa-diff-20091015-20100115.html</a></dd>
+    <dd><a href="http://dev.w3.org/html5/rdfa/diffs/rdfa-diff-20091015-20100115.html">http://dev.w3.org/html5/rdfa/diffs/rdfa-diff-20091015-20100115.html</a></dd>
     <dt>
      Authors (alphabetical order):
     </dt>
@@ -266,8 +266,9 @@
    This specification defines rules and guidelines for adapting the 
    RDF in XHTML: Syntax and Processing (RDFa) specification for use in the 
    HTML5 and XHTML5 members of the HTML family. The rules defined in this 
-   document not only apply to HTML5 documents in non-XML and XML mode,
-   but also to HTML4 documents interpreted through the HTML5 parsing rules.
+   specification not only apply to HTML5 documents in non-XML and XML mode,
+   but also to HTML4 and XHTML documents interpreted through the 
+   HTML5 parsing rules.
   </p>
   <h2 class="no-num no-toc"
       id="status-of-this-document">
@@ -276,8 +277,16 @@
 
 <p><em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current W3C publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/">W3C technical reports index</a> at http://www.w3.org/TR/.</em></p>
 
-  <p>This is the First Public Working Draft of the "HTML+RDFa: A mechanism for embedding RDF in HTML" specification for review by W3C members and other interested parties.
+  <p>This is a Working Draft of the "HTML+RDFa: A mechanism for embedding RDF in HTML" specification for review by W3C members and other interested parties.
   </p>
+
+  <p>This Working Draft includes the following changes:</p>
+
+  <ul>
+  <li>Updating HTML5 coercion to Infoset rules (normative)</li>
+  <li>Clarifying how to extract RDFa attributes via Infoset (informative)</li>
+  <li>Clarifying how to extract RDFa attributes via DOM2 (informative)</li>
+  </ul>
 
   <p>
    If you wish to make comments regarding this document, please send them to
@@ -295,20 +304,26 @@
    Implementors should be aware that this specification is not stable.
    <strong>Implementors who are not taking part in the discussions are likely
    to find the specification changing out from under them in incompatible
-   ways.</strong> Vendors interested in implementing this specification
-   before it eventually reaches the Candidate Recommendation stage should
-   join the aforementioned mailing lists and take part in the discussions.
+   ways.</strong> Vendors interested in implementing this specification 
+   should note the status, and are encouraged to join the RDFa Working Group.
   </p><!-- not everyone agrees with html5 (requested before fpwd) -->
   <p>Publication as a Working Draft does not imply endorsement by the W3C Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p>
   <p>
-   The publication of this document by the W3C as a W3C Working Draft does
-   not imply that all of the participants in the W3C HTML working group
-   endorse the contents of the specification. Indeed, for any section of the
-   specification, one can usually find many members of the working group or
-   of the W3C as a whole who object strongly to the current text, the
-   existence of the section at all, or the idea that the working group should
-   even spend time discussing the concept of that section.
+   The publication of this document by the W3C as a W3C  Working Draft does 
+   not imply endorsement by the majority of members of the W3C HTML working 
+   group or the W3C as a whole. In particular, 
   </p>
+  <ul>
+    <li>There are one or more alternate methods of adding data without 
+     using RDFa, such as 
+     [<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/microdata.html">microdata</a>].</li>
+    <li>There are discussions of alternate extensibility mechanisms, 
+     covered in  
+     [<a href="http://www.w3.org/html/wg/tracker/issues/41">issue-41</a>],
+     which might allow other ways of integrating RDFa.</li>
+    <li>There is concern that continued development of this document belongs 
+     in a different working group.</li>
+  </ul>
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- version history or list of changes (required) -->
   <p>
    The latest stable version of the editor's draft of this specification is
@@ -319,9 +334,11 @@
   </p>
   <!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING LIST TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- status of document, group responsible (required) -->
   <p>
-   The W3C <a href="http://www.w3.org/html/wg/">HTML Working Group</a> is the
-   W3C working group responsible for this specification's progress along the
-   W3C Recommendation track. 
+   This specification has been developed by the 
+   <a href="http://www.w3.org/2001/sw/BestPractices/HTML/">RDFa Task Force</a> 
+   and is currently being published by the 
+   <a href="http://www.w3.org/html/wg/">W3C HTML Working Group</a>
+   to further discussions there.
   </p>
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- UNDER NO CIRCUMSTANCES IS THE PRECEDING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- context and rationale (required) -->
   <p>
