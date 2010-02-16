@@ -159,7 +159,8 @@ def addSpecBugWarnings(argv, stdout, environ):
             
             if(bugsBySection.has_key(idvalue)):
                 aestart = line[:idstart].rfind("<") + 1
-                activeElement = line[aestart:idstart-5].strip()
+                aeend = line.find(" ", aestart)
+                activeElement = line[aestart:aeend].strip()
 
         outfile.write(line)
         

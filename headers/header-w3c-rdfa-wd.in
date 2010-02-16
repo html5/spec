@@ -308,22 +308,16 @@
    should note the status, and are encouraged to join the RDFa Working Group.
   </p><!-- not everyone agrees with html5 (requested before fpwd) -->
   <p>Publication as a Working Draft does not imply endorsement by the W3C Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p>
-  <p>
-   The publication of this document by the W3C as a W3C Working Draft does 
-   not imply endorsement by the W3C HTML Working Group or the W3C as a whole. 
-   In particular, 
-  </p>
-  <ul>
-    <li>There are one or more alternate methods of adding data without 
-     using RDFa, such as 
-     [<a href="http://www.w3.org/TR/microdata/">microdata</a>].</li>
-    <li>There are discussions of alternate extensibility mechanisms, 
-     covered in  
-     [<a href="http://www.w3.org/html/wg/tracker/issues/41">issue-41</a>],
-     which might allow other ways of integrating RDFa.</li>
-    <li>There is concern that continued development of this document belongs 
-     in a different working group.</li>
-  </ul>
+
+ 
+  <p>The publication of this document by the W3C as a W3C Working Draft does
+  not imply that all of the participants in the W3C HTML working group
+  endorse the contents of the specification. Indeed, for any section of the
+  specification, one can usually find many members of the working group or of
+  the W3C as a whole who object strongly to the current text, the existence
+  of the section at all, or the idea that the working group should even spend
+  time discussing the concept of that section.</p> 
+
   <!-- UNDER NO CIRCUMSTANCES IS THE FOLLOWING PARAGRAPH TO BE REMOVED OR EDITED WITHOUT TALKING TO IAN FIRST --><!-- version history or list of changes (required) -->
   <p>
    The latest stable version of the editor's draft of this specification is
