@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #
-# Retrieves a bug list, parses the bug list for the 
+# Retrieves a bug list, retrieves all of the bugs in the bug list, 
+# parses an input specification and marks the specification with bug
+# identifiers associated with the W3C bug tracker.
 import sys, os, os.path
 from optparse import OptionParser
 import urllib
@@ -84,7 +86,7 @@ def addSpecBugWarnings(argv, stdout, environ):
     # Download the buglist if it doesn't already exist
     blFetcher = W3CUrlOpener()
     if(not os.path.exists(buglistFile)):
-        log("INFO: Downloading %s buglist to %s..." % (buglistFile,))
+        log("INFO: Downloading %s buglist to %s..." % (shortname, buglistFile))
         blFetcher.retrieve(quotedBugUrl, buglistFile)
         
     # Download all of the bugs in the buglist
@@ -102,7 +104,6 @@ def addSpecBugWarnings(argv, stdout, environ):
 
     # Process each of the bug reports
     for (key, value) in bugs.items():
-        log("INFO: Processing bug %s" % (key,))
         bug = None
         try:
             bug = parse(value["filename"])
@@ -144,7 +145,8 @@ def addSpecBugWarnings(argv, stdout, environ):
             log("WARNING: Bug %s does not have an associated spec section" % \
                 (bugId,))
 
-    # Process the input HTML file
+    # Process the input HTML file and mark each section identified by a
+    # bug with the relevant information
     specfile = open(options.specFile, "r")
     outfile = open(options.outFile, "w")
     activeElement = None
@@ -164,14 +166,14 @@ def addSpecBugWarnings(argv, stdout, environ):
         if(activeElement != None and 
             line.find("</%s>" % activeElement) != -1):
             outfile.write(
-                "\n<ul class=\"XXX annotation\"><li><b>Status</b>: " +
+                "\n  <p class=\"annotation\"><b>Status</b>: " +
                 "There are W3C bug tracker items associated with this " +
-                " section.</b></li>\n")
+                " section.<br/><br/>\n")
             for bug in bugsBySection[idvalue]:
-                outfile.write("<li class=\"XXX annotation\">" + 
-                    "BUG #<a href=\"%s\">%s</a>: %s</li>" % \
+                outfile.write("    <span class=\"annotation\">" + 
+                    "BUG #<a href=\"%s\">%s</a>: %s</span><br/>\n" % \
                     (bug["url"], bug["id"], bug["description"]))
-            outfile.write("</ul>")
+            outfile.write("  </p>\n")
             activeElement = None
 
     specfile.close()
