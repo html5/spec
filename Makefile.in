@@ -33,8 +33,9 @@ $(SPECS): ${SPEC_SPLIT_STAMP} ${BUILD_DIR} ${ISSUE_ANNOTATIONS} ${DIST_DIR}
 	@@ANOLIS@ @ANOLIS_FLAGS@ ${BUILD_DIR}/tempspec-$(@F) ${BUILD_DIR}/anolis-$(@F)
 	@sed -i "s/@SPEC_NAME@/$(@F)/g" ${BUILD_DIR}/anolis-$(@F)
 	-@tidy -m -i -w 78 -ashtml ${BUILD_DIR}/anolis-$(@F)
-	@echo "Inserting bug identifiers into sections..."
-	@./bin/specbugs.py -s ${BUILD_DIR}/anolis-$(@F) -n "HTML+RDFa (editor: Manu Sporny)" -o $@
+	@cp ${BUILD_DIR}/anolis-$(@F) $@
+	#@echo "Inserting bug identifiers into sections..."
+	#@./bin/specbugs.py -s ${BUILD_DIR}/anolis-$(@F) -n "HTML+RDFa (editor: Manu Sporny)" -o $@
 	@echo "$(@F) spec written to: $@"
 
 ${SPEC_SPLIT_STAMP}: html5-hixie/source
