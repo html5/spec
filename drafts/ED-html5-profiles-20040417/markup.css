@@ -1,0 +1,29 @@
+code           { font-family: monospace; }
+ 
+span.hilite { color: red; /* font-weight: bold */ }
+ 
+li p           { margin-top: 0.3em;
+                 margin-bottom: 0.3em; }
+ 
+div.explanation { background-color: #ADD8E6;
+                   width: 80%;
+                   margin: 12px; padding: 8px; }
+div.explanation li { margin-top: 8px; }
+div.explanation dd { margin: 4px; }
+ 
+                   
+.adef { 
+	font-family: monospace; 
+	font-weight: bold; 
+    color: #ff4500 !important;
+}
+ 
+.aref { 
+	font-family: monospace; 
+	font-weight: bold; 
+    color: #ff4500 !important;
+}
+ 
+span.entity { color: red; }
+ 
+span.element { color: green; }

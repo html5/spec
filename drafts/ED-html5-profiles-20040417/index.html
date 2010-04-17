@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html lang="en" dir="ltr">
+<head>
+
+  
+    <title>HTML5 Profiles</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    
+    
+    
+  <link charset="utf-8" type="text/css" rel="stylesheet" href="http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"><link charset="utf-8" type="text/css" rel="stylesheet" href="http://www.w3.org/StyleSheets/TR/W3C-ED"></head><body style="display: inherit;"><div class="head"><p><a href="http://www.w3.org/"><img src="http://www.w3.org/Icons/w3c_home" alt="W3C" width="72" height="48"></a></p><h1 class="title" id="title">HTML5 Profiles</h1><h2 id="w3c-editor-s-draft-17-april-2010"><acronym title="World Wide Web Consortium">W3C</acronym> Editor's Draft 17 April 2010</h2><dl><dt>This version:</dt><dd><a href="http://html5.digitalbazaar.com/specs/html5-profiles.html">http://html5.digitalbazaar.com/specs/html5-profiles.html</a></dd><dt>Latest published version:</dt><dd><a href="http://www.w3.org/TR/html5-profiles/">http://www.w3.org/TR/html5-profiles/</a></dd><dt>Latest editor's draft:</dt><dd><a href="http://html5.digitalbazaar.com/specs/html5-profiles.html">http://html5.digitalbazaar.com/specs/html5-profiles.html</a></dd><dt>Previous version:</dt><dd>none</dd><dt>Editor:</dt><dd>Manu Sporny, Digital Bazaar <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a> </dd><dt>Authors:</dt><dd>Tantek Çelik, Microformats.org</dd><dd>Julian Reschke, greenbytes, GmbH</dd><dd>Manu Sporny, Digital Bazaar <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a> </dd></dl><p class="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2010 <a href="http://www.w3.org/"><acronym title="World Wide Web Consortium"><acronym title="World Wide Web Consortium">W3C</acronym></acronym></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology"><acronym title="Massachusetts Institute of Technology">MIT</acronym></acronym></a>, <a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></acronym></a>, <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. <acronym title="World Wide Web Consortium">W3C</acronym> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.</p><hr></div>
+    <div class="introductory section" id="abstract"><h2>Abstract</h2>
+      <p>This specification defines rules and guidelines for extending the 
+      document processing rules for [<a href="#bib-HTML5" rel="biblioentry" class="bibref">HTML5</a>] documents. The specification of 
+      the <code>profile</code> attribute in this document is designed to correct
+      and supercede the definition of <code>profile</code> in [<a href="#bib-HTML401" rel="biblioentry" class="bibref">HTML401</a>] and
+      [<a href="#bib-XHTML11" rel="biblioentry" class="bibref">XHTML11</a>].
+      </p>        
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p><em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <acronym title="World Wide Web Consortium">W3C</acronym> publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><acronym title="World Wide Web Consortium">W3C</acronym> technical reports index</a> at http://www.w3.org/TR/.</em></p>
+      <p>
+      The latest stable version of the editor's draft of this specification is 
+      always available on the <acronym title="World Wide Web Consortium">W3C</acronym> CVS server. The latest editor's working copy 
+      (which may contain unfinished text in the process of being prepared) is 
+      also available.
+      </p>
+      
+      <p>
+      The <acronym title="World Wide Web Consortium">W3C</acronym> HTML Working Group is the <acronym title="World Wide Web Consortium">W3C</acronym> working group responsible for this 
+      specification's progress along the <acronym title="World Wide Web Consortium">W3C</acronym> Recommendation track.
+      </p>
+
+      <p>This specification is an extension to the HTML5 language. All normative
+      content in the HTML5 specification, unless specifically overridden by this
+      specification, is intended to be the basis for this specification.
+      </p>
+    <p>This document was published by the <a href="http://www.w3.org/html/wg/">HTML Working Group</a> as an Editor's Draft. If you wish to make comments regarding this document, please send them to <a href="mailto:public-html@w3.org@w3.org">public-html@w3.org@w3.org</a> (<a href="mailto:public-html@w3.org-request@w3.org?subject=subscribe">subscribe</a>, <a href="http://lists.w3.org/Archives/Public/public-html@w3.org/">archives</a>). All feedback is welcome.</p><p>Publication as a Editor's Draft does not imply endorsement by the <acronym title="World Wide Web Consortium">W3C</acronym> Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p><p>This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <acronym title="World Wide Web Consortium">W3C</acronym> Patent Policy</a>. <acronym title="World Wide Web Consortium">W3C</acronym> maintains a <a href="http://www.w3.org/2004/01/pp-impl/39408/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the <acronym title="World Wide Web Consortium">W3C</acronym> Patent Policy</a>.</p></div><div class="section" id="toc"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a class="tocxref" href="#background"><span class="secno">1. </span>Background</a></li><li class="tocline"><a class="tocxref" href="#conformance"><span class="secno">2. </span>Conformance</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#the-profile-attribute"><span class="secno">2.1 </span>The Profile Attribute</a></li><li class="tocline"><a class="tocxref" href="#profile-documents"><span class="secno">2.2 </span>Profile Documents</a></li><li class="tocline"><a class="tocxref" href="#microformat-profile-document-example"><span class="secno">2.3 </span>Microformat Profile Document Example</a></li><li class="tocline"><a class="tocxref" href="#rdfa-profile-document-example"><span class="secno">2.4 </span>RDFa Profile Document Example</a></li><li class="tocline"><a class="tocxref" href="#the-profile-attribute-in-other-languages"><span class="secno">2.5 </span>The Profile Attribute in Other Languages</a></li><li class="tocline"><a class="tocxref" href="#html-4.01-errata"><span class="secno">2.6 </span>HTML 4.01 Errata</a></li></ul></li><li class="tocline"><a class="tocxref" href="#references"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div>
+    
+    
+
+    <div class="section" id="background">
+      <!--OddPage--><h2><span class="secno">1. </span>Background</h2>
+      <p>
+      The profile attribute was introduced in [<a href="#bib-HTML401" rel="biblioentry" class="bibref">HTML401</a>] as a means to specifiy 
+      the location of one or more meta data profiles. The attribute could 
+      contain a space-separated list of tokens or URIs and was primarily 
+      designed to extend the way User Agents processed the HTML document. 
+      User agents could recognize the URI (without actually retrieving the 
+      profile) and perform some activity based on known conventions for that 
+      profile or dereference the URI and perform some activity based on the 
+      actual definitions within the profile.
+      </p>
+
+      <p>
+      While the mechanism to use the contents of the profile attribute
+      was not defined in HTML401, processing the profile attribute was later 
+      detailed by XMDP, [<a href="#bib-GRDDL" rel="biblioentry" class="bibref">GRDDL</a>] and ERDF in order to present 
+      processing instructions for extracting semantics from attribute values 
+      contained in the HTML document.
+      </p>
+      
+      <p>
+      Specifically, XMDP clarified profile attribute processing, and introduced 
+      a profile document format based on XHTML which authors could produce and 
+      link to using the [<a href="#bib-HTML401" rel="biblioentry" class="bibref">HTML401</a>] profile attribute.
+      </p>      
+
+      <p>
+      The HTML5 base specification dropped the <code>profile</code> attribute 
+      from the <code>HEAD</code> element.
+      </p>
+
+      <p>
+      This document is an extension to HTML5 which provides both a more 
+      thorough and rigorous definition of the profile attribute and 
+      generalizes it to all elements for scoped indication of vocabularies 
+      (similar to how the HTML5 RDFa document and the HTML5 Microdata document
+      extends and adds to HTML5).
+      </p>      
+    </div>
+    
+    <div id="conformance" class="normative section"><!--OddPage--><h2><span class="secno">2. </span>Conformance</h2><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p>
+<p>The key words <em title="must" class="rfc2119">must</em>, <em title="must not" class="rfc2119">must not</em>, <em title="required" class="rfc2119">required</em>, <em title="should" class="rfc2119">should</em>, <em title="should not" class="rfc2119">should not</em>, <em title="recommended" class="rfc2119">recommended</em>, <em title="may" class="rfc2119">may</em>, and <em title="optional" class="rfc2119">optional</em> in this specification are to be interpreted as described in [<a href="#bib-RFC2119" rel="biblioentry" class="bibref">RFC2119</a>].</p>
+
+    
+    <div class="section" id="the-profile-attribute">
+      <h3><span class="secno">2.1 </span>The Profile Attribute</h3>
+      <p>This specification defines a single attribute and the way in which
+      the values of that attribute are to be interpreted when generating a
+      list of URIs.</p>
+      <dl>
+        <dt><dfn id="dfn-profile" title="profile" class="adef">profile</dfn></dt>
+        <dd>a whitespace separated list of one or more URIs, each corresponding 
+        to a profile document.</dd>
+      </dl>
+      
+      <p>The <code>profile</code> attribute is valid on any element in
+      the document. When processing attribute values, each URI must be processed 
+      left to right.</p>
+
+    </div>
+    
+    <div class="section" id="profile-documents">
+      <h3><span class="secno">2.2 </span>Profile Documents</h3>
+      <p>
+      Profile documents define and provide URLs for vocabulary terms, these
+      vocabulary terms apply to the current element and all descendant elements.
+      </p>
+    </div>
+    
+    <div id="microformat-profile-document-example" class="informative section">
+      <h3><span class="secno">2.3 </span>Microformat Profile Document Example</h3><p><em>This section is non-normative.</em></p>
+      <pre class="example">&lt;div <span class="hilite">profile</span>="<span class="hilite">http://microformats.org/wiki/hcard</span>" class="<span class="hilite">vcard</span>"&gt;
+ &lt;a class="<span class="hilite">url fn</span>" href="<span class="hilite">http://tantek.com/</span>"&gt;<span class="hilite">Tantek Çelik</span>&lt;/a&gt;
+&lt;/div&gt;</pre>
+      <p>Would generate the following key-value mapping (in JSON format):</p>
+      <pre class="example">{
+   "___type___": "http://microformats.org/wiki/hcard#vcard",
+   "http://microformats.org/wiki/hcard#fn": "Manu Sporny",
+   "http://microformats.org/wiki/hcard#url": "http://manu.sporny.org/"
+}</pre>
+    </div>
+
+    <div id="rdfa-profile-document-example" class="informative section">
+      <h3><span class="secno">2.4 </span>RDFa Profile Document Example</h3><p><em>This section is non-normative.</em></p>
+      <pre class="example">&lt;div <span class="hilite">profile</span>="<span class="hilite">http://microformats.org/vocabs/hcard</span>" typeof="<span class="hilite">vcard</span>"&gt;
+ &lt;a rel="<span class="hilite">url</span>" href="<span class="hilite">http://manu.sporny.org/</span>" property="<span class="hilite">fn</span>"&gt;<span class="hilite">Manu Sporny</span>&lt;/a&gt;
+&lt;/div&gt;</pre>
+      <p>Would generate the following triples:</p>
+      <pre class="example">_:subject0 
+   &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt;
+      &lt;http://microformats.org/vocabs/hcard#vcard&gt; .
+_:subject0 
+   &lt;http://microformats.org/vocabs/hcard#fn&gt;
+      "Manu Sporny" .
+_:subject0 
+   &lt;http://microformats.org/vocabs/hcard#url&gt;
+      &lt;http://manu.sporny.org/&gt; .</pre>      
+      
+      <p class="issue">
+      Need to add a way that microdata could use definitions provided by the 
+      profile attribute without having to use full URLs in itemtype attribute 
+      values for example.
+      </p>
+      <p class="issue">
+      Need to add an example using the profile attribute to 
+      introduce/define/scope a vocabulary and then use in microdata, 
+      microformats, and RDFa markup simultaneously, as a demonstration that they
+      can be used on the same data in a complementary overlapping fashion. Not 
+      sure of the utility of doing this but demonstrating that they can 
+      be used in the same document or even on the same element may 
+      help both alleviate incompatibility concerns, and how to use shared 
+      vocabularies across multiple syntaxes.
+      </p>
+    </div>
+
+    <div id="the-profile-attribute-in-other-languages" class="informative section">
+      <h3><span class="secno">2.5 </span>The Profile Attribute in Other Languages</h3><p><em>This section is non-normative.</em></p>
+
+      <p>The profile attribute as defined in this specification can be applied 
+      to other markup languages (including previous versions of HTML and XHTML) 
+      as follows.
+      </p>
+
+      <p class="issue">
+      Informative profile attribute processing model for other languages.
+      </p>
+      
+      <p class="issue">
+      Add examples of HTML4, XHTML1, SVG, and other markup languages that have a 
+      class attribute.
+      </p>
+
+      <p class="issue">
+      Add examples of Atom, and other markup languages that have a rel attribute.
+      </p>
+      
+      <p class="issue">
+      Add note/reference how other markup languages could be extended with both 
+      the profile attribute and with one or more of : microformats (by adding 
+      class and rel attributes), RDFa (by adding property, rel, and about 
+      attributes), and microdata (by adding itemscope, itemtype, itemprop, 
+      itemid, and itemref attributes).
+      </p>
+    </div>
+
+    <div id="html-4.01-errata" class="informative section">
+      <h3><span class="secno">2.6 </span>HTML 4.01 Errata</h3><p><em>This section is non-normative.</em></p>
+      <p>
+      The HTML4 recommendation is inconsistent in its description of the 
+      profile attribute:
+      </p>
+
+      <p>
+      The DTD specifies <code>%URI;</code>, which just expands to 
+      <code>CDATA</code>. On the other hand, the prose explains that
+      </p><blockquote>This attribute specifies the location of one or more meta data 
+      profiles, separated by white space. For future extensions, user agents 
+      should consider the value to be a list even though this specification 
+      only considers the first URI to be significant. Profiles are discussed 
+      below in the section on meta data.</blockquote>
+      
+      
+      <p>
+      Since the publication of HTML 4.01, a number of meta data profiles have 
+      been defined, and many of them can be used in the same document. While 
+      the profile attribute does not help in discovering which profile applies 
+      to which part of the document, it does allow declaring which profiles are 
+      in use, potentially triggering extended behavior in recipients.
+      </p>
+
+      <p>
+      This erratum restores consistency in HTML 4.01, explicitly allowing 
+      multiple URIs in a single profile attribute.
+      </p>
+
+      <p class="issue">
+      Do we need to include XMDP interpretations of HTML 4.01 / XHTML 1.0.
+      </p>
+
+      <h4 id="section-6.4---uris"><a href="http://www.w3.org/TR/html4/types.html#type-uri">Section 6.4</a> - URIs</h4>
+      <p> 
+        After
+      </p> 
+      <blockquote> 
+        URIs are represented in the DTD by the parameter entity %URI;.
+      </blockquote> 
+      <p> 
+        add
+      </p> 
+      <blockquote> 
+        A set of whitespace-separated URIs are represented by the parameter entity %URIlist;.
+      </blockquote> 
+      
+      <h4 id="section-7.4.1---the-head-element"><a href="http://www.w3.org/TR/html4/struct/global.html#h-7.4.1">Section 7.4.1</a> - The HEAD element</h4>
+      <p> 
+        Replace 
+      </p> 
+      <pre> 
+      <tt>profile</tt> = <em>uri</em> [CT]
+      </pre> 
+      <p> 
+        with
+      </p> 
+      <pre> 
+      <tt>profile</tt> = <em>urilist</em> [CT]
+      </pre> 
+      <p> 
+        (just replacing "uri" by "urilist", but not changing the link target)
+      </p> 
+      
+      <p> 
+        Replace  
+      </p> 
+      <pre> 
+      profile     %URI;          #IMPLIED  -- named dictionary of meta info --
+      </pre> 
+      <p> 
+        with
+      </p> 
+      <pre> 
+      profile     %URIlist;      #IMPLIED  -- list of named meta info dictionaries, whitespace separated --
+      </pre> 
+      <p> 
+        Update the <a href="http://www.w3.org/TR/html4/index/attributes.html">attribute index</a> accordingly.
+      </p> 
+      
+      <p> 
+        Replace
+      </p> 
+      <blockquote> 
+      This attribute specifies the location of one or more meta data profiles,
+      separated by white space. For future extensions, user agents should consider
+      the value to be a list even though this specification only considers the
+      first URI to be significant. Profiles are discussed below in the section on
+      meta data.
+      </blockquote> 
+      <p> 
+        with
+      </p> 
+      <blockquote> 
+      This attribute specifies the location of one or more meta data profiles,
+      separated by white space. In case of ambiguities, profiles that appear
+      later in the attribute value should be considered more significant.
+      Profiles are discussed below in the section on meta data.
+      </blockquote> 
+      
+      <h4 id="section-7.4.4---meta-data-profiles"><a href="http://www.w3.org/TR/html4/struct/global.html#profiles">Section 7.4.4</a> - Meta Data Profiles</h4>
+      <p> 
+        Replace
+      </p> 
+      <blockquote> 
+        The profile attribute of the HEAD specifies the location of a meta data
+        profile. The value of the profile attribute is a URI. User agents may use
+        this URI in two ways: 
+      </blockquote> 
+      <p> 
+        with
+      </p> 
+      <blockquote> 
+        The profile attribute of the HEAD specifies a set of locations of meta data
+        profiles. The value of the profile attribute is a whitespace-separated list
+        of URIs. User agents may use these URIs in two ways: 
+      </blockquote> 
+     
+      <h4 id="section-21---document-type-definition"><a href="http://www.w3.org/TR/html4/sgml/dtd.html">Section 21</a> - Document Type Definition</h4>
+      <p> 
+        Note: the changes below apply both to the copy of the DTD in the HTML 4.01 spec,
+        and the actual DTD files.
+      </p> 
+      <p> 
+        After the definition for <code>URI</code>, insert:
+      </p> 
+      <pre> 
+    &lt;!ENTITY % URIlist "CDATA"
+        -- whitespace-separated list of Uniform Resource Identifiers,
+           see [URI]
+        --&gt;
+      </pre> 
+      <p> 
+        Replace the following definition:
+      </p> 
+      <pre> 
+    &lt;!ATTLIST HEAD
+      %i18n;                               -- lang, dir --
+      profile     %URI;          #IMPLIED  -- named dictionary of meta info --
+      &gt;
+      </pre> 
+      <p> 
+        with
+      </p> 
+      <pre> 
+    &lt;!ATTLIST HEAD
+      %i18n;                               -- lang, dir --
+      profile     %URIlist;      #IMPLIED  -- list of named meta info dictionaries, whitespace separated --
+      &gt;
+      </pre>
+    </div>    
+
+  </div><div class="appendix section" id="references"><!--OddPage--><h2><span class="secno">A. </span>References</h2><div class="section" id="normative-references"><h3><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-HTML5">[HTML5]</dt><dd>Ian Hickson; David Hyatt. <a href="http://www.w3.org/TR/2010/WD-html5-20100304/"><cite>HTML 5.</cite></a> 4 March 2010. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/2010/WD-html5-20100304/">http://www.w3.org/TR/2010/WD-html5-20100304/</a> 
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd>S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> Internet RFC 2119. URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
+</dd></dl></div><div class="section" id="informative-references"><h3><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-GRDDL">[GRDDL]</dt><dd>Dan Connolly. <a href="http://www.w3.org/TR/2007/REC-grddl-20070911"><cite>Gleaning Resource Descriptions from Dialects of Languages (GRDDL).</cite></a> 11 September 2007. W3C Recommendation. URL: <a href="http://www.w3.org/TR/2007/REC-grddl-20070911">http://www.w3.org/TR/2007/REC-grddl-20070911</a> 
+</dd><dt id="bib-HTML401">[HTML401]</dt><dd>David Raggett; Ian Jacobs; Arnaud Le Hors. <a href="http://www.w3.org/TR/1999/REC-html401-19991224"><cite>HTML 4.01 Specification.</cite></a> 24 December 1999. W3C Recommendation. URL: <a href="http://www.w3.org/TR/1999/REC-html401-19991224">http://www.w3.org/TR/1999/REC-html401-19991224</a> 
+</dd><dt id="bib-XHTML11">[XHTML11]</dt><dd>Murray Altheim; Shane McCarron. <a href="http://www.w3.org/TR/2001/REC-xhtml11-20010531"><cite>XHTML™ 1.1 - Module-based XHTML.</cite></a> 31 May 2001. W3C Recommendation. URL: <a href="http://www.w3.org/TR/2001/REC-xhtml11-20010531">http://www.w3.org/TR/2001/REC-xhtml11-20010531</a> 
+</dd></dl></div></div></body></html>
